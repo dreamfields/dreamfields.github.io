@@ -104,6 +104,9 @@ marked:
 $ hexo g -d
 ```
 
+后来的后来，还是想尝试把自动部署弄好，按照官网的步骤来的（[将 Hexo 部署到 GitHub Pages](https://hexo.io/zh-cn/docs/github-pages)）但是卡到这一步：
+![](error.png)
+
 #### 评论功能
 
 **显示设置：**
