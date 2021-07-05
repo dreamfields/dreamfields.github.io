@@ -64,7 +64,7 @@ $ hexo server (可缩写为 hexo s)
 $ hexo deploy
 ```
 
-## ❌ 遇到问题
+## ❌ 问题与解决
 
 #### 图片的添加
 
@@ -76,6 +76,7 @@ marked:
   postAsset: true
 ```
 - 在引用的过程中，直接使用`![图 1](001.png)  `来引用同名资源文件夹下的001.png
+- 其它引用方式可见官方文档：[Hexo文档-资源文件夹](https://hexo.io/zh-cn/docs/asset-folders)
 
 #### Markdown的编辑
 
@@ -103,8 +104,19 @@ marked:
 $ hexo g -d
 ```
 
-#### 评论的显示
-目前评论系统还没做好，待优化
+#### 评论功能
+
+**显示设置：**
+去官网按照文档设置即可：[valine官方文档-快速开始](https://valine.js.org/quickstart.html)，接着在主题的配置文件下修改应用的id和key。
+
+**评论管理：**
+- 由于Valine 是无后端评论系统，所以也就没有开发评论数据管理功能，需要自行登录Leancloud应用管理。
+
+- 具体步骤：登录 > 选择你创建的应用 > 存储 > 选择Class > Comment，然后就可以对评论管理。（ [Leancloud网站](https://console.leancloud.cn/apps)）
+ ![测试评论](comments.png)
+
+ ![管理评论](comment-admin.png)
+
 
 ## 🎈 标签和分类
 博客的标签是随缘添加，格式如下：
@@ -122,7 +134,8 @@ categories:
 ```
 
 ## 🔵 展望
-- [ ] 评论系统完善
+- [x] 评论系统完善
+- [ ] 自动部署travis-ci
 - [ ] 首页图片加载过慢优化
 - [ ] 在线.md文件编辑功能
 - [ ] “about关于我”界面，使用模板打造个人简历
