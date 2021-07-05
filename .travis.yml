@@ -5,19 +5,16 @@ node_js:
 cache: npm
 install:
   - yarn
-  - npm install  #安装hexo及插件
 branches:
   only:
     - master # build master branch only
 script:
   - hexo generate # generate static files
-  - hexo clean
-  - hexo deploy
-# deploy:
-#   provider: pages
-#   skip-cleanup: true
-#   github-token: $GH_TOKEN
-#   keep-history: true
-#   on:
-#     branch: master
-#   local-dir: public
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GH_TOKEN
+  keep-history: true
+  on:
+    branch: master
+  local-dir: public
