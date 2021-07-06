@@ -107,6 +107,38 @@ $ hexo g -d
 后来的后来，还是想尝试把自动部署弄好，按照官网的步骤来的（[将 Hexo 部署到 GitHub Pages](https://hexo.io/zh-cn/docs/github-pages)）但是卡到这一步：
 ![](error.png)
 
+发现是yarn和npm包的问题，查了一些博客后，修改`.travis.yml`文件如下：
+```bash
+language: node_js
+node_js: stable
+
+install:
+  - npm install
+
+script:
+  - hexo g
+
+after_script:
+  - cd ./public
+  - git init
+  - git config user.name "xxx"
+  - git config user.email "xxx"
+  - git add .
+  - git commit -m "Update docs"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master  # 自动引用之前在travis官网设置的GH_TOKEN
+
+branches:
+  only:
+    - master
+env:
+ global:
+   - GH_REF: github.com/DreamFields/dreamfields.github.io.git # 我的仓库地址
+```
+
+于是乎，每次写完博客，就可以直接push到master分支（这个过程可以用SourceTree软件实现，方便一些），接着travis便会自动部署到gh-pages分支上：
+![自动部署完毕](result.png)
+
+
 #### 评论功能
 
 **显示设置：**
