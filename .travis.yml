@@ -10,7 +10,9 @@ install:
  # - npm install -g gulp
 
 script:
-  - npm install hexo-deployer-git -g
+  # - npm install hexo-deployer-git -g
+  - hexo clean
+  - hexo g 
 
 after_script:
 #   - cd ./public
@@ -20,11 +22,8 @@ after_script:
   - git add .
   - git commit -m "Update docs"
   - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master  
-  - hexo clean
-  - hexo g    
-  - git config user.name "DreamFields"
-  - git config user.email "1339611623@qq.com"
-  - hexo deploy
+    
+  # - hexo deploy
 # E: Build LifeCycle
 
 branches:
@@ -34,11 +33,11 @@ env:
  global:
    - GH_REF: github.com/DreamFields/dreamfields.github.io.git
 
-# deploy:
-#   provider: pages
-#   skip-cleanup: true
-#   github-token: $GH_TOKEN
-#   keep-history: true
-#   on:
-#     branch: main
-#   local-dir: public
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GH_TOKEN
+  keep-history: true
+  on:
+    branch: master
+  local-dir: public
