@@ -1,38 +1,15 @@
+sudo: false
 language: node_js
-node_js: stable
-
-# S: Build Lifecycle
+node_js:
+  - 14 # use nodejs v10 LTS
+cache: npm
 install:
-  - npm install
-
-
-#before_script:
- # - npm install -g gulp
-
-script:
-  # - npm install hexo-deployer-git -g
-  - hexo clean
-  - hexo g 
-
-after_script:
-#   - cd ./public
-#   - git init
-  - git config user.name "DreamFields"
-  - git config user.email "1339611623@qq.com"
-  - git add .
-  - git commit -m "Update docs"
-  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master  
-    
-  # - hexo deploy
-# E: Build LifeCycle
-
+  - yarn
 branches:
   only:
-    - master
-env:
- global:
-   - GH_REF: github.com/DreamFields/dreamfields.github.io.git
-
+    - master # build master branch only
+script:
+  - hexo generate # generate static files
 deploy:
   provider: pages
   skip-cleanup: true
