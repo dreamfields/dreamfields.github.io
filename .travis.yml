@@ -26,3 +26,8 @@ branches:
 env:
  global:
    - GH_REF: github.com/DreamFields/dreamfields.github.io.git
+   
+deploy:
+  type: 'git'
+  repository: https://github.com/DreamFields/dreamfields.github.io.git
+  branch: gh-pages
