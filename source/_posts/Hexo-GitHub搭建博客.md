@@ -117,10 +117,9 @@ install:
 
 script:
   - hexo g
+  - hexo d
 
 after_script:
-  - cd ./public
-  - git init
   - git config user.name "xxx"
   - git config user.email "xxx"
   - git add .
