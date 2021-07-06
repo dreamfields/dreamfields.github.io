@@ -29,7 +29,7 @@ env:
    
 deploy:
   provider: pages
-  skip-cleanup: true
+  # skip-cleanup: true
   github-token: $GH_TOKEN
   # keep-history: true
   type: 'git'
