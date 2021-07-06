@@ -138,6 +138,9 @@ env:
 于是乎，每次写完博客，就可以直接push到master分支（这个过程可以用SourceTree软件实现，方便一些），接着travis便会自动部署到gh-pages分支上：
 ![自动部署完毕](result.png)
 
+但是修改完博客之后，push的时候发现：
+![拒绝合并不相关的历史](refuse.png)
+
 
 #### 评论功能
 
