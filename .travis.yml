@@ -11,7 +11,8 @@ install:
 
 script:
   - hexo g
-  - hexo d
+  - npm install hexo-deployer-git --save
+  - hexo deploy
 
 after_script:
 #   - cd ./public
