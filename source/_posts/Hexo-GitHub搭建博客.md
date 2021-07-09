@@ -1,11 +1,8 @@
 ---
 title: Hexo + GitHub 搭建我的个人博客记录
 tags:
-- test
-- Games
 categories:
-- [Diary, PlayStation]
-- [Diary, Games]
+- [过程记录]
 reward: true
 ---
 ## 💙 搭建教程
@@ -143,6 +140,7 @@ env:
 即配置的时候只将public文件夹提交到master分支，导致远程和本地代码冲突...接着用命令行`git push -f`强制提交，让master恢复，再修改配置文件。
 
 之后对博客更新，更新内容不能同步，继续更改配置。
+
 #### 评论功能
 
 **显示设置：**
