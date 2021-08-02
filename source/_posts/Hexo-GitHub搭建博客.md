@@ -1,8 +1,9 @@
 ---
 title: Hexo + GitHub 搭建我的个人博客记录
 tags:
+- GitHub Pages
 categories:
-- [过程记录]
+- [Configuration]
 reward: true
 ---
 ## 💙 搭建教程
