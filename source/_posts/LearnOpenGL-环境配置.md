@@ -4,6 +4,8 @@ tags:
   - OpenGL
 categories:
   - - Configuration
+  - - CG
+    - OpenGL
 date: 2021-08-02 11:50:58
 ---
 # Step1：获取GLFW与GLAD依赖库
