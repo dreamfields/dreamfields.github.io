@@ -1,5 +1,5 @@
 ---
-title: GAMES101重要公式推导补充
+title: GAMES101重要公式推导与算法补充
 tags:
   - 旋转矩阵
   - 视图变换
@@ -70,3 +70,25 @@ date: 2021-08-06 11:26:28
 ![](2021-08-08-10-45-40.png)
 
 最终得到g(z0)始终<0，即新坐标小于初始坐标，由于视角方向是-z方向，可以得到中间点是向远处平面靠近的。
+
+# 蒙特卡洛路径追踪算法
+![示意图](2021-08-30-18-47-31.png)
+```cpp
+// 着色算法
+shade(p, wo)
+	// Contribution from the light source.
+	L_dir = 0.0
+	Uniformly sample the light at x’ (pdf_light = 1 / A)
+	Shoot a ray from p to x’
+	If the ray is not blocked in the middle
+		L_dir = L_i * f_r * cos θ * cos θ’ / |x’ - p|^2 / pdf_light
+
+	// Contribution from other reflectors.
+	L_indir = 0.0
+	Test Russian Roulette with probability P_RR
+	Uniformly sample the hemisphere toward wi (pdf_hemi = 1 / 2pi)
+	Trace a ray r(p, wi)
+	If ray r hit a non-emitting object at q
+		L_indir = shade(q, -wi) * f_r * cos θ / pdf_hemi / P_RR
+Return L_dir + L_indir
+```
