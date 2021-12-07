@@ -6,5 +6,5 @@
 hexo g
 hexo d
 git add .
-git commit -m '切换主题-基础功能finish'
+git commit -m 'update doc'
 git push
