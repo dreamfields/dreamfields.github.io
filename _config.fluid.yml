@@ -87,7 +87,7 @@ fun_features:
 
     # 游标字符
     # Cursor character
-    cursorChar: "_"
+    cursorChar: "♥"
 
     # 是否循环播放效果
     # If true, loop animation
@@ -431,7 +431,7 @@ index:
   # 头图高度，屏幕百分比
   # Height ratio of banner image
   # Available: 0 - 100
-  banner_img_height: 100
+  banner_img_height: 60
 
   # 头图黑色蒙版的不透明度，available: 0 - 1.0， 1 是完全不透明
   # Opacity of the banner mask, 1.0 is completely opaque
@@ -469,6 +469,9 @@ index:
       # The value field of the string obtained from the response. For example, the response content is {"data": {"author": "fluid", "content": "An elegant theme"}}, the expected `keys: ['data','content']`; if the return is a list, the first item is automatically selected
       keys: []
 
+  # hitokoto:  # 非post页面显示一言
+  #   enable: true  # slogan 和 hitokoto 不能同时启用，优先显示hitokoto
+  
   # 自动截取文章摘要
   # Auto extract post
   auto_excerpt:
@@ -498,8 +501,8 @@ index:
 # Post Page
 #---------------------------
 post:
-  banner_img: /img/default.png
-  banner_img_height: 70
+  banner_img: /img/blog.png
+  banner_img_height: 60
   banner_mask_alpha: 0.3
 
   # 文章在首页的默认封面图，当没有指定 index_img 时会使用该图片，若两者都为空则不显示任何图片

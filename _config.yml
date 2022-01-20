@@ -1,3 +1,4 @@
+
 # Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
@@ -126,6 +127,6 @@ search:
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: 'git'
-  repository: https://github.com/DreamFields/dreamfields.github.io.git
+  repository: git@github.com:DreamFields/dreamfields.github.io.git
   branch: gh-pages
 
