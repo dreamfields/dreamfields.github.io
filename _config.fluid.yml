@@ -426,12 +426,12 @@ footer:
 index:
   # 首页 Banner 头图，可以是相对路径或绝对路径，以下相同
   # Path of Banner image, can be a relative path or an absolute path, the same on other pages
-  banner_img: /img/default.png
+  banner_img: /img/index.png
 
   # 头图高度，屏幕百分比
   # Height ratio of banner image
   # Available: 0 - 100
-  banner_img_height: 60
+  banner_img_height: 80
 
   # 头图黑色蒙版的不透明度，available: 0 - 1.0， 1 是完全不透明
   # Opacity of the banner mask, 1.0 is completely opaque
@@ -502,7 +502,7 @@ index:
 #---------------------------
 post:
   banner_img: /img/blog.png
-  banner_img_height: 60
+  banner_img_height: 70
   banner_mask_alpha: 0.3
 
   # 文章在首页的默认封面图，当没有指定 index_img 时会使用该图片，若两者都为空则不显示任何图片
@@ -795,7 +795,7 @@ cusdis:
 # Archive Page
 #---------------------------
 archive:
-  banner_img: /img/default.png
+  banner_img: /img/other.png
   banner_img_height: 60
   banner_mask_alpha: 0.3
   subtitle:
@@ -807,7 +807,7 @@ archive:
 #---------------------------
 category:
   enable: true
-  banner_img: /img/default.png
+  banner_img: /img/other.png
   banner_img_height: 60
   banner_mask_alpha: 0.3
   subtitle:
@@ -837,8 +837,8 @@ category:
 #---------------------------
 tag:
   enable: true
-  banner_img: /img/default.png
-  banner_img_height: 80
+  banner_img: /img/other.png
+  banner_img_height: 60
   banner_mask_alpha: 0.3
   subtitle:
   tagcloud:
