@@ -1,6 +1,6 @@
 ---
 title: 
-type: plain-page
-layout: "plain-page"
+type: about
+layout: "about"
 ---
 <h1>敬请期待</h1>
