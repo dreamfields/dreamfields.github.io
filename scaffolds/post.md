@@ -2,9 +2,8 @@
 title: {{ title }}
 date: {{ date }}
 tags:
-- 1
-- 2
+- CG
 categories:
-- [1,1.1]
-- [2]
+- [CG,GAMES101]
+- [Theory]
 ---
