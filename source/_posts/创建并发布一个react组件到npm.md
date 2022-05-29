@@ -41,12 +41,12 @@ reward: true
 
 #### 2.启动本地服务的问题
 运行`npm run start`命令之后，会出现这个错误：
-![启动服务出错](找不到文件.png)
+![启动服务出错](创建并发布一个react组件到npm/找不到文件.png)
 
 但是浏览器中输入**localhost:3001**依旧可以正常访问，说明打包和启动服务过程没有问题，看上去应该是环境变量的问题，并且跟脚本中命令里的`"start": "webpack-dev-server --open development"`有关，查看**webpack-dev-server**文档后，是直接使用了`webpack-dev-server`命令。
 
 `--open`命令是告诉 dev-server 在服务器启动后打开浏览器；对于`development`，对比**webpack中文文档**后，发现这个`development`是用在**mode**中：
-![文档内容](mode.png)
+![文档内容](创建并发布一个react组件到npm/mode.png)
 
 而**webpack-dev-server**其实是webpack在开发环境中使用的一个包，提供实时重新加载功能，应该代码编辑完之后进行增量编译的意思。
 
@@ -60,7 +60,7 @@ devServer: {
 
 #### 3.部署到GitHub Page
 按照参考链接1的步骤对组件开发完毕后，部署时发现报错：
-![Error：gh-pages](gh-pages-error.png)
+![Error：gh-pages](创建并发布一个react组件到npm/gh-pages-error.png)
 
 在仓库中也没有发现gh-pages这个分支，卸载重装gh-pages包依旧报错。其实应该先在GitHub上的仓库中手动创建gh-pages分支，再运行部署的命令。
 
@@ -70,24 +70,24 @@ devServer: {
 原因是，之前使用的淘宝镜像改变了原本的地址，需要通过:`npm config set registry https://registry.npmjs.org/`命令换成原本的镜像地址。
 
 #### 4.无法发布
-![发布报错](publish-error.png)
+![发布报错](创建并发布一个react组件到npm/publish-error.png)
 
 原因在于新注册的账号没有验证邮箱，如果手机端无法验证，就在网页端，或者去npm登录之后再发一次验证的邮件。
 
 #### 5.git push出现的问题
 **Error1：**
-![](gitpush.png)
+![](创建并发布一个react组件到npm/gitpush.png)
 原因是没有将本地的分支与远程仓库的分支进行关联，解决方法是使用命令：
 ```bash
 $ git remote add origin git@github.com:github—name/repository-name.git
 ```
 
 **Error2：**
-![](push-error.png)
+![](创建并发布一个react组件到npm/push-error.png)
 出现这个错误的原因是git本地仓库的当前版本低于远程仓库的版本，需要通过git pull来更新，将远程仓库的内容拉取到本地代码。
 
 **Error3：**
-![](pull-error.png)
+![](创建并发布一个react组件到npm/pull-error.png)
 原因是两个分支是两个不同的版本，具有不同的提交历史，需要使用下面的命令，可以允许不相关历史，强制合并：
 ```
 $git pull origin master --allow-unrelated-histories
