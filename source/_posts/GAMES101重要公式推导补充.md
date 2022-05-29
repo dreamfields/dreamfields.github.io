@@ -1,8 +1,3 @@
-<!--
- * @Author: Meng Tian
- * @Date: 2022-05-03 21:09:43
- * @Descripttion: Do not edit
--->
 ---
 title: GAMES101重要公式推导与算法补充
 tags:
