@@ -1,9 +1,15 @@
+<!--
+ * @Author: Meng Tian
+ * @Date: 2022-05-03 21:09:43
+ * @Descripttion: Do not edit
+-->
 ---
 title: {{ title }}
 date: {{ date }}
 tags:
-- CG
+- 1
+- 2
 categories:
-- [CG,GAMES101]
-- [Theory]
+- [1,1.1]
+- [2]
 ---

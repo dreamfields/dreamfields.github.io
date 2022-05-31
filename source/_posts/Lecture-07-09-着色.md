@@ -6,7 +6,7 @@ categories:
   - - CG
     - GAMES101
   - - Theory
-date: 2022-05-24 22:05:54
+date: 2022-01-06 22:05:54
 ---
 
 # [深度缓冲与着色](https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_07.pdf)
