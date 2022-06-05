@@ -11,6 +11,8 @@ date: 2022-02-12 21:56:41
 
 # Lecture 18 [高级光线传播和材质](https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_18.pdf)
 
+---
+
 # 复习
 
 - 无偏（Unbiased ）——估计量的期望等于真实值的期望；有偏则相反。
