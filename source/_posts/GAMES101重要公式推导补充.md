@@ -1,14 +1,12 @@
 ---
-
 title: GAMES101 重要公式推导与算法补充
 tags:
-
--   旋转矩阵
--   视图变换
-    categories:
--   -   CG - GAMES101
-        date: 2021-08-06 11:26:28
-
+    - 旋转矩阵
+    - 视图变换
+categories:
+    - - CG
+      - GAMES101
+date: 2021-08-06 11:26:28
 ---
 
 # Rodrigues 旋转公式

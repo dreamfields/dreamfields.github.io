@@ -1,8 +1,12 @@
 ---
 
 title: "Lecture 02-03 [线性代数基础&线性变换]"
-tags: - CG
-categories: - - CG - GAMES101 - - Theory
+tags: 
+- CG
+categories: 
+- - CG 
+  - GAMES101
+- - Theory
 date: 2021-12-24 20:43:09
 
 ---
