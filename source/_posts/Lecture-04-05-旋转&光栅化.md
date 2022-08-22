@@ -1,10 +1,12 @@
 ---
-
 title: "Lecture 04-05 [旋转&光栅化]"
-tags: - CG
-categories: - - CG - GAMES101 - - Theory
+tags:
+    - CG
+categories:
+    - - CG
+      - GAMES101
+    - - Theory
 date: 2021-12-26 21:07:25
-
 ---
 
 # 旋转
