@@ -66,7 +66,7 @@ date: 2021-08-06 11:26:28
     $$
 -   透视变换到正交（压缩远平面的矩阵）
     $$
-    M_{\text {persp } \rightarrow \text { ortho }}\begin{pmatrix}
+    M_{\text {persp } \rightarrow \text { ortho }}=\begin{pmatrix}
     n & 0 & 0 & 0\\
     0 & 0 & n+f & -n f \\
     0 & 0 & 1 & 0
@@ -98,7 +98,10 @@ date: 2021-08-06 11:26:28
 
 ## 透视投影变换坐标变化证明
 
-将远处的平面压缩的过程规定：近处的平面的大小和位置永远不变；远处平面的大小会被压缩，但远近（z 值不变）；远处平面的中心点在压缩后也不变。那么对于近处和远处平面中间的点，其坐标是向远处平面靠近的，下面给出证明。
+### 结论
+
+![](GAMES101重要公式推导补充/20220824161104.png)  
+将远处的平面压缩的过程（即经过$ M\_{\text {persp } \rightarrow \text { ortho }}$ 变换）规定：近处的平面的大小和位置永远不变；远处平面的大小会被压缩，但远近（z 值不变）；远处平面的中心点在压缩后也不变。那么对于近处和远处平面中间的点，其坐标的变化是——**向远处平面靠近的**，下面给出证明。
 
 ### 证明过程
 
@@ -106,21 +109,62 @@ date: 2021-08-06 11:26:28
 
 该矩阵的推导过程见[课程 PPT](https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_04.pdf)，下面直接给出其形式：
 
-![](GAMES101重要公式推导补充/2021-08-08-10-42-08.png)
+$$
+M_{\text {persp } \rightarrow \text { ortho }}=\begin{pmatrix}
+n & 0 & 0 & 0\\
+0 & 0 & n+f & -n f \\
+0 & 0 & 1 & 0
+\end{pmatrix}
+$$
 
 #### Step2
 
-初始点经过变换后得到新坐标，其中 z 方向的新坐标为`f(z0)/z0`
+初始点经过变换后得到新坐标，其中 z 方向的新坐标为$f(z0)/z0$
 
-![](GAMES101重要公式推导补充/2021-08-08-10-43-57.png)
+$$
+M \cdot\left(\begin{array}{c}
+x_{0} \\
+y_{0} \\
+z_{0} \\
+1
+\end{array}\right)=\left(\begin{array}{c}
+n x_{0} \\
+n y_{0} \\
+f\left(z_{0}\right) \\
+z_{0}
+\end{array}\right) \stackrel{/z_{0}}{\longrightarrow}\left(\begin{array}{c}
+n x_{0} / z_{0} \\
+n y_{0} / z_{0} \\
+f\left(z_{0}\right) / z_{0} \\
+1
+\end{array}\right)
+$$
 
 #### Step3
 
-判断新坐标与初始坐标的 z 方向的大小，记为函数`g(z0)`
+判断新坐标与初始坐标的 $z$ 方向上的大小，记为函数$g(z0)$
 
-![](GAMES101重要公式推导补充/2021-08-08-10-45-40.png)
+$$
+\begin{aligned}
+g\left(z_{0}\right) &=\frac{f(z_{0})}{z_{0}}-z_{0}  \\
+&=n+f-\frac{n f}{z_{0}}-z_{0} \\
+& \stackrel{?}= 0
+\end{aligned}
+$$
 
-最终得到 g(z0)始终<0，即新坐标小于初始坐标，由于视角方向是-z 方向，可以得到中间点是向远处平面靠近的。
+$$
+g^{\prime}=\frac{n f-z_{0}^{2}}{z_{0}^{2}}, z_{0} \in[f, n]
+$$
+
+$$
+\begin{aligned}
+&  g^{\prime \prime}<0且 g^{\prime}(f)<0, g^{\prime}(n)>0\\
+& \Rightarrow  g(f)=g(n)=0 \\
+& \Rightarrow  g(z_0)<0
+\end{aligned}
+$$
+
+最终得到 $g(z0)<0$ 恒成立，即新坐标小于初始坐标，由于视角方向是 $-z$ 方向，可以得到中间点是向远处平面靠近的。
 
 # 重心坐标插值——透视投影矫正
 
