@@ -321,7 +321,7 @@ $$
 
 - 折射光线位于入射光线和界面法线所决定的平面内；
 - 折射光线和入射光线分别在法线两侧；
-- 入射角 $\theta_i$ 和折射角 $\theta_t$ 的正弦之比是一个与入射角无关的常数，等于相对折射率，即 $\eta*{i}\sin \theta*{i}=\eta*{t} \sin \theta*{t}$，其中 $\eta_{i}$ 和 $\eta_{t}$ 分别是入射侧和折射侧介质的绝对折射率， 是相对折射率；
+- 入射角 $\theta_i$ 和折射角 $\theta_t$ 的正弦之比是一个与入射角无关的常数，等于相对折射率，即 $\eta_{i}\sin \theta_{i}=\eta_{t} \sin \theta_{t}$，其中 $\eta_{i}$ 和 $\eta_{t}$ 分别是入射侧和折射侧介质的绝对折射率， 是相对折射率；
 
 ## 推导过程
 
@@ -384,7 +384,7 @@ $$
 
 $$
 \begin{aligned}
-{\overrightarrow{\omega_t }}_{\|} 
+{\overrightarrow{\omega_t }}_{\|}
 &=\sqrt{1- ({\overrightarrow{\omega_t }}_{\perp})^2}(-\overrightarrow{n })\\
 &= \sqrt{1- \left(\frac{\eta_{i}}{\eta_{t}} \right)^{2}(1-(\overrightarrow{\omega_i } \cdot \overrightarrow{n })^2)}(-\overrightarrow{n }) \\
 \end{aligned}
