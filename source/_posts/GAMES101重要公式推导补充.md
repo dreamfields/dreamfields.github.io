@@ -321,11 +321,11 @@ $$
 
 - 折射光线位于入射光线和界面法线所决定的平面内；
 - 折射光线和入射光线分别在法线两侧；
-- 入射角 $\theta_i$ 和折射角 $\theta_t$ 的正弦之比是一个与入射角无关的常数，等于相对折射率，即 $ \eta*{i} \sin \theta*{i}=\eta*{t} \sin \theta*{t} $，其中 $\eta_{i}$ 和 $\eta_{t}$ 分别是入射侧和折射侧介质的绝对折射率， 是相对折射率；
+- 入射角 $\theta_i$ 和折射角 $\theta_t$ 的正弦之比是一个与入射角无关的常数，等于相对折射率，即 $\eta*{i}\sin \theta*{i}=\eta*{t} \sin \theta*{t}$，其中 $\eta_{i}$ 和 $\eta_{t}$ 分别是入射侧和折射侧介质的绝对折射率， 是相对折射率；
 
 ## 推导过程
 
-假设入射光线 $\overrightarrow{\omega_i } $ 、出射光线 $ \overrightarrow{\omega_i }$ 、法线向量 $\overrightarrow{n } $ 均为单位向量，将出射光线 $\omega_t$ 分成垂直于法线向量和平行于法线向量的两个分量 $\overrightarrow{\omega_t }={\overrightarrow{\omega_t }}_{\perp}+{\overrightarrow{\omega_t }}_{\|}$ ，入射光线也是如此$\overrightarrow{\omega_i }={\overrightarrow{\omega_i }}_{\perp}+{\overrightarrow{\omega_i }}_{\|}$。
+假设入射光线 $\overrightarrow{\omega_i}$ 、出射光线 $\overrightarrow{\omega_i}$、法线向量$\overrightarrow{n}$均为单位向量，将出射光线$\omega_t$分成垂直于法线向量和平行于法线向量的两个分量$\overrightarrow{\omega_t}={\overrightarrow{\omega_t}}_{\perp}+{\overrightarrow{\omega_t}}_{\|}$，入射光线也是如此$\overrightarrow{\omega_i}={\overrightarrow{\omega_i}}_{\perp}+{\overrightarrow{\omega_i}}_{\|}$。
 
 由于：
 
@@ -358,7 +358,7 @@ $$
  \end{array}
 $$
 
-对于上述公式的未知量$\overrightarrow{\omega_i }_{\perp}$有：
+对于上述公式的未知量$\overrightarrow{\omega_i}_{\perp}$有：
 
 $$
 \overrightarrow{\omega_i }_{\perp} = {\overrightarrow{\omega_i }} - {\overrightarrow{\omega_i }}_{\|}
