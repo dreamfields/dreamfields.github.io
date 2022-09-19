@@ -1,11 +1,11 @@
 ---
 title: GAMES101 重要公式推导与算法补充
 tags:
-    - 旋转矩阵
-    - 视图变换
+  - 旋转矩阵
+  - 视图变换
 categories:
-    - - CG
-      - GAMES101
+  - - CG
+    - GAMES101
 date: 2021-08-06 11:26:28
 ---
 
@@ -60,41 +60,41 @@ date: 2021-08-06 11:26:28
 
 ## 求取方法
 
--   总公式
-    $$
-    M_{\text {persp }}=M_{\text {ortho }} M_{\text {persp } \rightarrow \text { ortho }}
-    $$
--   透视变换到正交（压缩远平面的矩阵）
-    $$
-    M_{\text {persp } \rightarrow \text { ortho }}=\begin{pmatrix}
-    n & 0 & 0 & 0\\
-    0 & 0 & n+f & -n f \\
-    0 & 0 & 1 & 0
-    \end{pmatrix}
-    $$
--   正交变换矩阵
-    $$
-    M_{\text {ortho }}=\begin{pmatrix}
-    \frac{2}{r-l} & 0 & 0 & 0 \\
-    0 & \frac{2}{t-b} & 0 & 0 \\
-    0 & 0 & \frac{2}{n-f} & 0 \\
-    0 & 0 & 0 & 1
-    \end{pmatrix}\begin{pmatrix}
-    1 & 0 & 0 & -\frac{r+l}{2} \\
-    0 & 1 & 0 & -\frac{t+b}{2} \\
-    0 & 0 & 1 & -\frac{n+f}{2} \\
-    0 & 0 & 0 & 1
-    \end{pmatrix}
-    $$
--   整理得到 $ (l>0,r=-l,t>0,b=-t) $
-    $$
-    M_{\text {persp }}=\begin{pmatrix}
-    n/r & 0 & 0 & 0 \\
-    0 & n/t & 0 & 0 \\
-    0 & 0 & \frac{n+f}{n-f} & \frac{-2nf}{n-f} \\
-    0 & 0 & 1 & 0
-    \end{pmatrix}
-    $$
+- 总公式
+  $$
+  M_{\text {persp }}=M_{\text {ortho }} M_{\text {persp } \rightarrow \text { ortho }}
+  $$
+- 透视变换到正交（压缩远平面的矩阵）
+  $$
+  M_{\text {persp } \rightarrow \text { ortho }}=\begin{pmatrix}
+  n & 0 & 0 & 0\\
+  0 & 0 & n+f & -n f \\
+  0 & 0 & 1 & 0
+  \end{pmatrix}
+  $$
+- 正交变换矩阵
+  $$
+  M_{\text {ortho }}=\begin{pmatrix}
+  \frac{2}{r-l} & 0 & 0 & 0 \\
+  0 & \frac{2}{t-b} & 0 & 0 \\
+  0 & 0 & \frac{2}{n-f} & 0 \\
+  0 & 0 & 0 & 1
+  \end{pmatrix}\begin{pmatrix}
+  1 & 0 & 0 & -\frac{r+l}{2} \\
+  0 & 1 & 0 & -\frac{t+b}{2} \\
+  0 & 0 & 1 & -\frac{n+f}{2} \\
+  0 & 0 & 0 & 1
+  \end{pmatrix}
+  $$
+- 整理得到 $ (l>0,r=-l,t>0,b=-t) $
+  $$
+  M_{\text {persp }}=\begin{pmatrix}
+  n/r & 0 & 0 & 0 \\
+  0 & n/t & 0 & 0 \\
+  0 & 0 & \frac{n+f}{n-f} & \frac{-2nf}{n-f} \\
+  0 & 0 & 1 & 0
+  \end{pmatrix}
+  $$
 
 ## 透视投影变换坐标变化证明
 
@@ -172,21 +172,21 @@ $$
 
 ## 问题来源
 
--   世界坐标下的三角形 $\triangle{ABC}$ 投影到屏幕空间对应的三角形为$\triangle{A'B'C'}$ 。
--   在光栅化的时候需要知道屏幕空间三角形内某点 $P'$ 的深度值 ，我们目的实际是——获得 $P'$ 对应在世界坐标下的 $P$ 的深度值 。
--   通过重心坐标插值来获得 $P$ 的深度值 ，即(**世界坐标下**)：
+- 世界坐标下的三角形 $\triangle{ABC}$ 投影到屏幕空间对应的三角形为$\triangle{A'B'C'}$ 。
+- 在光栅化的时候需要知道屏幕空间三角形内某点 $P'$ 的深度值 ，我们目的实际是——获得 $P'$ 对应在世界坐标下的 $P$ 的深度值 。
+- 通过重心坐标插值来获得 $P$ 的深度值 ，即(**世界坐标下**)：
 
-    $$
-    	Z_P = \alpha Z_A + \beta Z_B + \gamma Z_C
-    $$
+  $$
+  	Z_P = \alpha Z_A + \beta Z_B + \gamma Z_C
+  $$
 
--   世界坐标下的 $\alpha 、\beta 、\gamma$ 不方便获取，于是直接拿到的是屏幕坐标下的 $\triangle{A'B'C'}$ 坐标，因此可以直接求出 $\alpha '、\beta ' 、\gamma '$ 进行插值，即(**屏幕坐标下**)：
+- 世界坐标下的 $\alpha 、\beta 、\gamma$ 不方便获取，于是直接拿到的是屏幕坐标下的 $\triangle{A'B'C'}$ 坐标，因此可以直接求出 $\alpha '、\beta ' 、\gamma '$ 进行插值，即(**屏幕坐标下**)：
 
-    $$
-    	Z_P = \alpha ' Z_A + \beta ' Z_B + \gamma ' Z_C
-    $$
+  $$
+  	Z_P = \alpha ' Z_A + \beta ' Z_B + \gamma ' Z_C
+  $$
 
--   但是透视实际上是一种近大远小的视觉现象，离视点远的部分会被缩放得更加厉害，所以需要对这个结果进行所谓的插值校正。
+- 但是透视实际上是一种近大远小的视觉现象，离视点远的部分会被缩放得更加厉害，所以需要对这个结果进行所谓的插值校正。
 
 ## 矫正公式推导
 
@@ -310,6 +310,84 @@ $$
 
 $$
 I_{P}=\left(\frac{\alpha^{\prime}}{Z_{A}} I_{A}+\frac{\beta^{\prime}}{Z_{B}} I_{B}+\frac{\gamma^{\prime}}{Z_{C}} I_{C}\right) Z_{P}
+$$
+
+# 折射光线的计算
+
+折射（refraction） 是指光通过非均匀介质或者穿过不同介质的分界面时，由于其传播速度的变化而引起传播方向变化的现象。
+![](GAMES101重要公式推导补充/20220916212421.png)
+
+折射定律（law of refraction） 又称 斯涅耳定律（Snell's law），它描述了光从一种介质进入另一种介质时产生折射现象的规律，内容如下：
+
+- 折射光线位于入射光线和界面法线所决定的平面内；
+- 折射光线和入射光线分别在法线两侧；
+- 入射角 $\theta_i$ 和折射角 $\theta_t$ 的正弦之比是一个与入射角无关的常数，等于相对折射率，即 $ \eta*{i} \sin \theta*{i}=\eta*{t} \sin \theta*{t} $，其中 $\eta_{i}$ 和 $\eta_{t}$ 分别是入射侧和折射侧介质的绝对折射率， 是相对折射率；
+
+## 推导过程
+
+假设入射光线 $\overrightarrow{\omega_i } $ 、出射光线 $ \overrightarrow{\omega_i }$ 、法线向量 $\overrightarrow{n } $ 均为单位向量，将出射光线 $\omega_t$ 分成垂直于法线向量和平行于法线向量的两个分量 $\overrightarrow{\omega_t }={\overrightarrow{\omega_t }}_{\perp}+{\overrightarrow{\omega_t }}_{\|}$ ，入射光线也是如此$\overrightarrow{\omega_i }={\overrightarrow{\omega_i }}_{\perp}+{\overrightarrow{\omega_i }}_{\|}$。
+
+由于：
+
+$$
+\begin{array}{c}
+\sin \theta_{t} = \eta_{i} \sin \theta_{i}/\eta_{t} \\
+ \\
+\Rightarrow  \cos \theta_{t} = \sqrt{1- \left(\frac{\eta_{i}}{\eta_{t}} \sin \theta_{i}\right)^{2}}
+\end{array}
+$$
+
+其中：
+
+$$
+\begin{aligned}
+{\overrightarrow{\omega_t }}_{\|}
+&= \cos \theta_{t} \cdot (-\overrightarrow{n }) \\
+&=(-\overrightarrow{n }) \cdot \sqrt{1- \left(\frac{\eta_{i}}{\eta_{t}} \sin \theta_{i}\right)^{2}} \\
+&= \sqrt{1- \left(\frac{\eta_{i}}{\eta_{t}} \right)^{2}(1-(\overrightarrow{\omega_i } \cdot \overrightarrow{n })^2)}(-\overrightarrow{n })
+\end{aligned}
+$$
+
+由于：
+
+$$
+\begin{array}{c}
+ | \overrightarrow{\omega_t }_{\perp} | / \sin \theta_{t}= | \overrightarrow{\omega_i }_{\perp} | /\sin \theta_{i} =1 \\
+\\
+ \Rightarrow\overrightarrow{\omega_t }_{\perp} = -\overrightarrow{\omega_i }_{\perp} \cdot \sin \theta_{t} /\sin \theta_{i} = -\overrightarrow{\omega_i }_{\perp} \cdot \eta_i / \eta_t
+ \end{array}
+$$
+
+对于上述公式的未知量$\overrightarrow{\omega_i }_{\perp}$有：
+
+$$
+\overrightarrow{\omega_i }_{\perp} = {\overrightarrow{\omega_i }} - {\overrightarrow{\omega_i }}_{\|}
+= {\overrightarrow{\omega_i }} - \cos \theta_{i} \cdot \overrightarrow{n }
+= {\overrightarrow{\omega_i }} - (\overrightarrow{\omega_i } \cdot \overrightarrow{n })  \overrightarrow{n }
+$$
+
+得到
+
+$$
+\begin{aligned}
+\overrightarrow{\omega_t }
+&={\overrightarrow{\omega_t }}_{\perp}+{\overrightarrow{\omega_t }}_{\|} \\
+&= \eta_i / \eta_t(-\overrightarrow{\omega_i }+(\overrightarrow{\omega_i } \cdot \overrightarrow{n }) \overrightarrow{n }) +  \sqrt{1- \left(\frac{\eta_{i}}{\eta_{t}} \sin \theta_{i}\right)^{2}}(-\overrightarrow{n })
+\end{aligned}
+$$
+
+因此，在计算折射光线时，只需要得到：
+
+$$
+{\overrightarrow{\omega_t }}_{\perp} = \eta_i / \eta_t(-\overrightarrow{\omega_i }+(\overrightarrow{\omega_i } \cdot \overrightarrow{n }) \overrightarrow{n })
+$$
+
+$$
+\begin{aligned}
+{\overrightarrow{\omega_t }}_{\|} 
+&=\sqrt{1- ({\overrightarrow{\omega_t }}_{\perp})^2}(-\overrightarrow{n })\\
+&= \sqrt{1- \left(\frac{\eta_{i}}{\eta_{t}} \right)^{2}(1-(\overrightarrow{\omega_i } \cdot \overrightarrow{n })^2)}(-\overrightarrow{n }) \\
+\end{aligned}
 $$
 
 # 蒙特卡洛路径追踪算法
