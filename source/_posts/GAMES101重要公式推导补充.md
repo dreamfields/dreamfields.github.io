@@ -69,6 +69,7 @@ sticky: 100
   $$
   M_{\text {persp } \rightarrow \text { ortho }}=\begin{pmatrix}
   n & 0 & 0 & 0\\
+   0 & n & 0 & 0\\
   0 & 0 & n+f & -n f \\
   0 & 0 & 1 & 0
   \end{pmatrix}
@@ -113,6 +114,7 @@ sticky: 100
 $$
 M_{\text {persp } \rightarrow \text { ortho }}=\begin{pmatrix}
 n & 0 & 0 & 0\\
+   0 & n & 0 & 0\\
 0 & 0 & n+f & -n f \\
 0 & 0 & 1 & 0
 \end{pmatrix}
