@@ -38,7 +38,7 @@ date: 2022-12-19 01:28:47
     
     - **应用程序阶段，几何阶段，光栅化阶段，像素处理阶段（加上”后处理阶段“）**
     - **应用程序阶段：**传统上在CPU上执行的一些任务包括**碰撞检测**[collision detection]、**全局加速算法**[global acceleration algorithms]、**动画**[animation]、**物理模拟**[physics simulation]和许多其他任务，这取决于应用程序的类型。
-    - **几何阶段：**这一阶段涉及**变换**[transforms]、**投影**[projections]和所有其他类型的几何处理。这个阶段计算要绘制的内容、应该怎么画，以及它应该画在哪里。几何阶段通常执行在包含许多可编程核心[programmable cores]以及固定操作硬件[fixed-operation hardware]的图形处理单元[graphics processing unit](**GPU**)。
+    - **几何阶段：**这一阶段涉及**变换**[transforms]、**投影**[projections]和所有其他类型的几何处理。这个阶段计算要绘制的内容、应该怎么画，以及它应该画在哪里。几何阶段通常执行在包含许多可编程核心[programmable cores]以及固定操作硬件[fixed-operation hardware]的图形处理单元[graphics processing unit]。
     - **光栅化[rasterization]阶段：**通常**接受三个顶点作为输入，形成一个三角形，并找到三角形内的所有像素，然后将它们转发到下一阶段**。
     - **像素处理[pixel processing]阶段：**对每个像素执行一个程序，以**确定其颜色**，并可能执行**深度测试**[depth testing]，以确定其是否可见[visible]。还可以执行**逐像素操作**[per-pixel operations]，例如将新计算的颜色与以前的颜色混合[blending]。
 - 除了应用阶段在CPU上执行，其他阶段都在GPU上执行
@@ -132,8 +132,6 @@ date: 2022-12-19 01:28:47
 
 ## 垂直同步与双重缓冲、三重缓冲
 
-[应该开启"垂直同步"吗 ？](https://zhuanlan.zhihu.com/p/127974083?utm_id=0)
-
 开启垂直同步会带来两个问题：
 
 第一，帧数下降。一个显而易见的原因是，如果刷新率是60HZ，那么显卡如果需要等待垂直同步信号才生成下一帧，那么帧数就不会超过60帧/s。但是这还不是问题的全部，如果你的显卡性能并不足以保证每秒60帧是速度呢？那么就会出现在一个垂直同步信号周期内，渲染不出一帧画面的情况，那么显卡就会将上一帧画面输出，而延迟1个周期才输出下一帧画面。如果不开垂直同步你的帧数有50帧的话，开了垂直同步，可能就会只有40帧左右，甚至更少；
@@ -148,9 +146,9 @@ date: 2022-12-19 01:28:47
 
 **三重缓冲的问题：** 显存占用非常大。这很好理解，原本只需要1个的缓冲区，现在变成三个，显存占用率自然也就是三倍。如果你再开个高分辨率，抗锯齿什么的，那显存占用率那是噌噌往上涨的。 
 
-## Multiple render target（MRT）
-
-[简书-OpenGL ES 多目标渲染（MRT）](https://www.jianshu.com/p/da82d3616cca)
 
 # 参考
+- 《Real-Time Render 4th》
 - [GPU Rendering Pipeline——GPU渲染流水线简介 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/61949898)
+- [应该开启"垂直同步"吗 ？](https://zhuanlan.zhihu.com/p/127974083?utm_id=0)
+- [简书-OpenGL ES 多目标渲染（MRT）](https://www.jianshu.com/p/da82d3616cca)
