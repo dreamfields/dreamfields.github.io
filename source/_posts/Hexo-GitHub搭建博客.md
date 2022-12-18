@@ -151,8 +151,8 @@ env:
 2. 设置插件执行映射：设置-扩展-Run Code Configuration-Executor Map-在setting.json中编辑
   ![](Hexo-GitHub搭建博客/2021-08-10-09-55-44.png)
 
-3. 编辑setting.json，添加`"bash":""`即可
-   ![](Hexo-GitHub搭建博客/2021-08-10-10-01-09.png)
+3. 编辑setting.json，添加`"shellscript": "  & \"C:\\Program Files\\Git\\bin\\bash.exe\"",`即可
+   ![](Hexo-GitHub搭建博客/20221219011850.png)  
 
 4. 编写脚本文件`finish.bash`，放到最外层目录
    ![](Hexo-GitHub搭建博客/2021-08-10-10-06-08.png)
