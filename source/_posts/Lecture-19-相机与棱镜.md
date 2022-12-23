@@ -1,5 +1,5 @@
 ---
-title: Lecture_19_相机与棱镜
+title: Lecture 19 相机与棱镜
 tags:
   - CG
 categories:

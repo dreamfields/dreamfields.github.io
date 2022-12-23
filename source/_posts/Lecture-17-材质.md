@@ -1,5 +1,5 @@
 ---
-title: Lecture_17_材质（BRDF）
+title: Lecture 17 材质（微平面理论，Cook-Torrance BRDF）
 tags:
   - CG
 categories:

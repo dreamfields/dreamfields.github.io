@@ -1,6 +1,6 @@
 ---
 
-title: "Lecture 02-03 [线性代数基础&线性变换]"
+title: "Lecture 02-03 线性代数基础与线性变换"
 tags: 
 - CG
 categories: 

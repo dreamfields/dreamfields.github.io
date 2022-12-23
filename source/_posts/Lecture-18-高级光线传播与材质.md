@@ -1,5 +1,5 @@
 ---
-title: Lecture_18_高级光线传播与材质
+title: Lecture 18 高级光线传播与材质
 tags:
   - CG
 categories:

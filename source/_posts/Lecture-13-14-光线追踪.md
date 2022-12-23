@@ -1,5 +1,5 @@
 ---
-title: Lecture_13_14_光线追踪
+title: Lecture 13-14 光线追踪
 tags:
   - CG
 categories:

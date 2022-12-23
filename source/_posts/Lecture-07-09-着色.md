@@ -1,5 +1,5 @@
 ---
-title: "Lecture 07-09 [着色]"
+title: "Lecture 07-09 着色"
 tags:
     - CG
 categories:

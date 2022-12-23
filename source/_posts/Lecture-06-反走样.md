@@ -1,5 +1,5 @@
 ---
-title: "Lecture 06 [反走样]"
+title: "Lecture 06 反走样"
 tags:
   - CG
 categories:

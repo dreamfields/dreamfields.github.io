@@ -5,6 +5,7 @@ tags:
   - 论文综述
 categories:
   - - CG
+    - 论文综述 
   - - Algorithm
   - - Paper reviews
 date: 2022-06-25 10:54:15

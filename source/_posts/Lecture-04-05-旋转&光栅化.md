@@ -1,5 +1,5 @@
 ---
-title: "Lecture 04-05 [旋转&光栅化]"
+title: "Lecture 04-05 旋转、光栅化"
 tags:
     - CG
 categories:

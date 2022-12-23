@@ -1,5 +1,5 @@
 ---
-title: Lecture_10_12_几何
+title: Lecture 10-12 几何（曲面细分、减面）
 tags:
   - CG
 categories:

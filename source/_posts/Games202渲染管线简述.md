@@ -1,5 +1,5 @@
 ---
-title: Games202-渲染管线简述
+title: Games202-02渲染管线简述
 tags: 
 - CG
 categories: 
