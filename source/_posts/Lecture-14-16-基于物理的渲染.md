@@ -8,87 +8,129 @@ categories:
   - - Theory
 date: 2022-01-26 17:28:53
 ---
+# 辐射度量学
+> 由于辐射通量和光通量的关系，以下的辐射相关概念的定义可以直接移植到图形学中对于光线相关概念的定义
 
-# [基础知识](https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_14.pdf)（[参考文章](https://blog.csdn.net/qq_38065509/article/details/106496354)）
+## 基本概念
+### 辐射通量/功率 (Radiant Flux / Power)
+  - 辐射度量学中的辐射通量：指单位时间内通过表面或者空间区域的能量的总量，单位瓦特（Watts），或者焦耳/秒（$J/s$），用符号$\Phi_{e}$表示，定义$\Phi_{e} = \mathrm{d}Q/ \mathrm{d}t$。
+  - **光源**发出的所有功率中，能被人眼感知的那部分功率被称为光通量（luminous flux）单位流明（lumen，符号$lm$），用符号$\Phi_{v}$表示，光通量可用来衡量灯具发光的能力。
+  - 人眼对不同波长的光的灵敏度不同，根据辐射对国际照明委员会（CIE）标准光度观察者的作用，可从辐射通量导出光通量：
+  $$
+  \Phi_{\mathrm{v}}=K_{m} \int_{0}^{\infty} \frac{\mathrm{d} \Phi_{\mathrm{e}}(\lambda)}{\mathrm{d} \lambda} V(\lambda) \mathrm{d} \lambda
+  $$
 
-### 基本概念
+### 辐射强度(Radiant intensity)
 
-![](Lecture-14-16-基于物理的渲染/20221021204201.png)  
-![](Lecture-14-16-基于物理的渲染/20221021204541.png)
-
-- 辐射强度(Radiant intensity)
-
-  - 从光源发出的每单位立体角上的 power（这里的 power 指单位时间的能量，相当于辐射功率，可以理解为亮度）。其大小不会随着 r 的增加而衰减，因为 r 变大的同时，立体角不变，辐射面积会以 r 平方的比例增加。
+  - 辐射度量学中的辐射强度：在给定方向上单位立体角内的辐射通量，符号$I$，单位$W/sr$。其大小不会随着 r 的增加而衰减，因为 r 变大的同时，立体角不变，辐射面积会以 r 平方的比例增加。
+  - 相应地，发光强度（luminous intensity）是从光源发出的给定方向上单位立体角上的光通量，单位坎德拉（candela，符号$cd$ ），$1 cd = 1lm/sr$。
 
     ![](Lecture-14-16-基于物理的渲染/bee9f66a-a901-4a99-b9ce-1638c030985b-11709514.jpg)
 
-- irradiance
+### 辐射照度(irradiance)
 
-  - 指每单位照射面积所接收到的(入射的）power
+  - 辐射度量学中的辐射照度：是入射到表面一点处单位面积上的辐射通量，符号$E$，单位$W/m^2$
+  - 相应地，光照度（illuminance）是入射到表面一点处单位面积上的光通量，单位勒克斯（lux，符号$lx$），$1lx = 1 lm/m^2$。
 
     ![](Lecture-14-16-基于物理的渲染/7be45c81-184e-45d9-b30e-f232bfe564e4-11709514.jpg)
 
-- radiance
+### 辐射亮度(radiance)
 
-  - 发射的、反射的、折射的、接收的光线在每单位立体角、每单位垂直面积上的 power，同时指定了光的方向与照射到的表面所接受到的亮度。
+  - 辐射度量学中的辐射亮度：是辐射源在给定方向的单位投影面积在单位立体角内的辐射通量，符号 $L$，单位$W/(sr \cdot m^2)$
+  - 相应地，光亮度（luminance）是发射的、反射的、折射的、接收的光线在每单位立体角、每单位垂直面积上的 光通量。单位尼特（nit），$1nit = 1 cd/m^2 = 1 lx/sr$。**光亮度可用来衡量光源的亮度**。
 
     ![](Lecture-14-16-基于物理的渲染/14e4b53a-59e9-47f6-9787-d005ad130dc9-11709514.jpg)
 
-- 辨析
+## 总结
+  
+![](Lecture-14-16-基于物理的渲染/20221021204201.png)  
+![](Lecture-14-16-基于物理的渲染/20221021204541.png)
+![](Lecture-14-16-基于物理的渲染/20221223165002.png)  
 
-  - 由公式可以看出，radiance 可认为是：每单位立体角上的 irradiance；每单位投影面积上的 intensity。
-  - radiance 可以分为入射的和出射的
+## 辨析
 
-    - 入射 radiance：每单位立体角上的接收的 irradiance
+- 由公式可以看出，radiance 可认为是：每单位立体角上的 irradiance；每单位投影面积上的 intensity。
+- radiance 可以分为入射的和出射的
 
-      ![](Lecture-14-16-基于物理的渲染/14c77d6a-bc94-4767-899b-a4f51f603727-11709514.jpg)
+  - 入射 radiance：每单位立体角上的接收的 irradiance
 
-    - 出射 radiance：每单位投影面积发射的 intensity
+    ![](Lecture-14-16-基于物理的渲染/14c77d6a-bc94-4767-899b-a4f51f603727-11709514.jpg)
 
-      ![](Lecture-14-16-基于物理的渲染/f4fb15f9-3c35-4094-89be-51867b54cff4-11709514.jpg)
+  - 出射 radiance：每单位投影面积发射的 intensity
 
-  - 讨论比较重要的 radiance 和 irradiance 的关联
+    ![](Lecture-14-16-基于物理的渲染/f4fb15f9-3c35-4094-89be-51867b54cff4-11709514.jpg)
 
-    - 整理
+- 讨论比较重要的 radiance 和 irradiance 的关联
 
-      ![](Lecture-14-16-基于物理的渲染/9911c752-ea4f-449e-bfab-78178e42d848-11709514.jpg)
+  - 整理
 
-    - E ( p ) 就是点 p 的 irradiance，其物理含义是点 p 上每单位照射面积的 power，而 L (p,ω)指入射光每立体角，每垂直面积的 power。因此积分式子右边的 cosθ 解释了面积上定义的差异，而对 dω 积分，则是相当于对所有不同角度的入射光线做一个求和（这里的 H 平方是指的点 p 对应的整个半球面方向），那么该积分式子的物理含义便是：一个点(微分面积元)所接收到的亮度（irradiance)，由所有不同方向的入射光线亮度(radiance)共同贡献得到。
+    ![](Lecture-14-16-基于物理的渲染/9911c752-ea4f-449e-bfab-78178e42d848-11709514.jpg)
 
-### BRDF
+  - E ( p ) 就是点 p 的 irradiance，其物理含义是点 p 上每单位照射面积的 power，而 L (p,ω)指入射光每立体角，每垂直面积的 power。因此积分式子右边的 cosθ 解释了面积上定义的差异，而对 dω 积分，则是相当于对所有不同角度的入射光线做一个求和（这里的 H 平方是指的点 p 对应的整个半球面方向），那么该积分式子的物理含义便是：一个点(微分面积元)所接收到的亮度（irradiance)，由所有不同方向的入射光线亮度(radiance)共同贡献得到。
 
-- 参考文章：[基于物理着色：BRDF](https://zhuanlan.zhihu.com/p/21376124)
-- 光线反射的理解角度：一个点(微分面积元)在接受到一定方向上的亮度(dE(ωi ))之后，再向不同方向把能量辐射出去(dLr(ωr))。
-- Bidirectional Reflectance Distribution Function 双向反射分布函数，定义了从单位面积上，吸收了某个方向的入射光线后，向某个方向射出的光线的比例。
+# BRDF（Bidirectional Reflectance Distribution Function）
+
+## 定义
+**BEDF 双向反射分布函数**，定义了物体表面某一点处接受来自方向$w_i$入射的irradiance的微分$\mathrm{d}E_i(w_i)$ 向方向$w_r$反射radiance的微分$\mathrm{d}L_r(w_r)$的比例关系。
+换句话说，就是定义了**从单位面积上，吸收了某个方向的入射光线后，向某个方向射出的光线的比例**。
 
   ![](Lecture-14-16-基于物理的渲染/5c3b82bd-4e2f-4b79-9a9a-06fc28c486eb-11709514.jpg)
 
-- 不同物体表面材质自然会把一定方向上的入射亮度反射到不同的方向的光线上，如理想光滑表面会把入射光线完全反射到镜面反射方向，其它方向则完全没有。如理想粗糙表面会把入射光线均匀的反射到所有方向。因此所谓 BRDF 就是描述这样一个从不同方向入射之后，反射光线分布情况的函数。
-- 性质
+## 参数解释
+  - $\mathrm{d}L_r(w_r)$：特指从$w_i$方向过来的贡献，经过表面反射到$w_r$方向的反射光的radiance
+  - $L_r(w_r)$：来自于表面上半球所有方向的入射光线的贡献，经过表面反射到$w_r$方向的反射光的radiance
+  - $\mathrm{d}E_i(w_i)$：某点p处的单位面积，接收到的从表面上半球所有方向的入射光线的irradiance
+  - $E_i(w_i)$：某点p处的单位面积，接收到的从$w_i$方向的入射光线的irradiance
+  - BRDF单位是 $1/sr$，1/立体角度
 
-  - 非负性。线性：表面上某一点的全部反射辐射度可以简单地表示为各 BRDF 反射辐射度之和。
+## 理解
 
-    ![](Lecture-14-16-基于物理的渲染/1ae5d3d2-febe-4957-99c0-879e0f810411-11709514.jpg)
+光线反射的理解角度来看：一个点(微分面积元)在接受到$w_i$方向上的亮度$\mathrm{d}E_i(w_i)$之后，再向不同方向把能量辐射出去$\mathrm{d}L_r(w_r)$。
 
-  - 可逆性：交换入射光和反射光的角色，并不会改变 BRDF 的值。能量守恒：入射光的能量与出射光的总能量应该相等。
+不同物体表面材质自然会把一定方向上的入射亮度反射到不同的方向的光线上，如理想光滑表面会把入射光线完全反射到镜面反射方向，其它方向则完全没有。如理想粗糙表面会把入射光线均匀的反射到所有方向。因此所谓 BRDF 就是描述这样一个从不同方向入射之后，反射光线分布情况的函数。
+## 性质
 
-    ![](Lecture-14-16-基于物理的渲染/10c6a83f-98c9-4905-9b4d-2c8de8d8f077-11709514.jpg)
+- 非负性。线性：表面上某一点的全部反射辐射度可以简单地表示为各 BRDF 反射辐射度之和。
 
-  - 各向同性与各向异性。如果是前者，其结果只与相对的方位角有关
+  ![](Lecture-14-16-基于物理的渲染/1ae5d3d2-febe-4957-99c0-879e0f810411-11709514.jpg)
 
-    ![](Lecture-14-16-基于物理的渲染/4563ba9e-4f72-4449-93ab-4aaac53e6046-11709514.jpg)
+- 可逆性：交换入射光和反射光的角色，并不会改变 BRDF 的值。能量守恒：入射光的能量与出射光的总能量应该相等。
+
+  ![](Lecture-14-16-基于物理的渲染/10c6a83f-98c9-4905-9b4d-2c8de8d8f077-11709514.jpg)
+
+- 各向同性与各向异性。如果是前者，其结果只与相对的方位角有关
+
+  ![](Lecture-14-16-基于物理的渲染/4563ba9e-4f72-4449-93ab-4aaac53e6046-11709514.jpg)
 
 - Measuring BRDFs
 
-### 渲染方程
-
-- 由 BRDF 得到反射方程，描述的含义是：某个方向的反射光线，取决于从该点对应的半球面的所有方向（立体角）吸收的亮度 radiance。
+# 渲染方程（Rendering Equation）
+## 推导
+首先考虑来自方向$w_i$的入射光的radiance，由定义可得：
+$$
+L_{i}(w_i)=\frac{\mathrm{d} \Phi}{\mathrm{d} \omega_{i} \mathrm{d} A^{\perp}}=\frac{\mathrm{d} \Phi}{\mathrm{d} \omega_{i} \mathrm{d} A \cos \theta_{i}}=\frac{\mathrm{d} E_i(w_i)}{\mathrm{d} \omega_{i} \cos \theta_{i}}
+$$
+则某点p处的单位面积，接收到的从$w_i$方向的入射光线的irradiance的微分：
+$$
+\mathrm{d} E_i(w_i)= L_{i}(w_i) \mathrm{d} \omega_{i} \cos \theta_{i}
+$$
+将BRDF代入，可以得到某点p，从$w_i$方向过来的贡献，经过表面反射到$w_r$方向的反射光的radiance：
+$$
+\mathrm{d}L_{r}(w_r) = f_{r}\left(\omega_{i} \rightarrow \omega_{r}\right) \cdot \mathrm{d} E_i(w_i)=f_{r}\left(\omega_{i} \rightarrow \omega_{r}\right) \cdot L_{i}(w_i) \mathrm{d} \omega_{i} \cos \theta_{i}
+$$
+来自于表面上半球所有方向的入射光线的贡献，经过表面反射到$w_r$方向的反射光的radiance，将上式对半球所有方向的光线进行积分：
+$$
+L_{r}(w_r) = \int_{H^2}f_{r}\left(\omega_{i} \rightarrow \omega_{r}\right) \cdot L_{i}(w_i)  \cos \theta_{i} \mathrm{d} \omega_{i}
+于是得到的就是反射方程，也可以叫做渲染方程。
+$$
+## 理解
+- 由 BRDF 得到反射方程，描述的含义是：某个方向的反射光线的radiance，取决于从该点对应的半球面的所有方向（立体角）吸收的亮度 radiance。
 
   ![](Lecture-14-16-基于物理的渲染/c717f6bc-0008-425c-98d7-08fe187503e0-11709514.jpg)
 
 - 当然实际情况中可能不会考虑整个半球面方向的入射光线，如只有若干个点光源或面光源，则只把光源进行求和或积分（此时暂时不考虑非光源的光线，如其他反射光等）即可。
 
-# [蒙特卡洛路径追踪](https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_16.pdf)（[参考文章](https://blog.csdn.net/qq_38065509/article/details/106619170)）
+# 蒙特卡洛路径追踪
 
 ## (Whitted-Style) 光线追踪的问题
 
@@ -106,7 +148,6 @@ date: 2022-01-26 17:28:53
 
 总结：路径追踪 = 光线追踪+ 蒙特卡洛方法
 
-- [蒙特卡洛积分推导和性质](https://www.zhihu.com/topic/19675767/hot)
 
 ### 实现过程
 
@@ -326,7 +367,14 @@ shade(p, wo)
 ```
 
 其它：点光源在路径追踪中并不好计算，建议做成很小的面积光源
-# 笔记参考
-
+# 参考
+- [Games101 lecture14 pdf](https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_14.pdf)
+- [计算机图形学十四：基于物理渲染的基础知识(辐射度量学，BRDF和渲染方程)](https://blog.csdn.net/qq_38065509/article/details/106496354)
 - [Lecture 14-15：基于物理渲染的基础知识(辐射度量学，BRDF 和渲染方程)](https://zhuanlan.zhihu.com/p/145410416)
 - [Lecture 16：全局光照(蒙特卡洛路径追踪)](https://zhuanlan.zhihu.com/p/146714484)
+- [光的能量与颜色——辐射度量学，光度学，色度学](https://zhuanlan.zhihu.com/p/459101196)
+- [基于物理着色：BRDF](https://zhuanlan.zhihu.com/p/21376124)
+- [Games101 lecture16 pdf](https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_16.pdf)
+- [计算机图形学十五：基于物理的渲染(蒙特卡洛路径追踪)](https://blog.csdn.net/qq_38065509/article/details/106619170)
+
+- [蒙特卡洛积分推导和性质](https://www.zhihu.com/topic/19675767/hot)
