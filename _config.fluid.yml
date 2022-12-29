@@ -660,8 +660,8 @@ post:
 #---------------------------
 valine: 
  enable: true
- appid: 6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz  #Leancloud应用的AppID
- appkey: 86QJklER4kphwsPLL8tnbFs4  #Leancloud应用的AppKey
+ app_id: 6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz  #Leancloud应用的AppID
+ app_key: 86QJklER4kphwsPLL8tnbFs4  #Leancloud应用的AppKey
  verify: false #验证码
  notify: false #评论回复提醒
  avatar: robohash #评论列表头像样式：''/mm/identicon/monsterid/wavatar/retro/hide
@@ -950,11 +950,11 @@ links:
   # 评论插件
   # Comment plugin
   comments:
-    enable: false
+    enable: true
     # 指定的插件，需要同时设置对应插件的必要参数
     # The specified plugin needs to set the necessary parameters at the same time
     # Options: utterances | disqus | gitalk | valine | waline | changyan | livere | remark42 | twikoo | cusdis
-    type: disqus
+    type: valine
 
 
 #---------------------------
