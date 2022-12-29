@@ -644,11 +644,11 @@ post:
   # 评论插件
   # Comment plugin
   comments:
-    enable: false
+    enable: true
     # 指定的插件，需要同时设置对应插件的必要参数
     # The specified plugin needs to set the necessary parameters at the same time
     # Options: utterances | disqus | gitalk | valine | waline | changyan | livere | remark42 | twikoo | cusdis
-    type: disqus
+    type: valine
 
 
 #---------------------------
@@ -658,6 +658,16 @@ post:
 # 开启评论需要先设置上方 `post: comments: enable: true`，然后根据 `type` 设置下方对应的评论插件参数
 # Enable comments need to be set `post: comments: enable: true`, then set the corresponding comment plugin parameters below according to `type`
 #---------------------------
+valine: 
+ enable: true
+ appid: 6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz  #Leancloud应用的AppID
+ appkey: 86QJklER4kphwsPLL8tnbFs4  #Leancloud应用的AppKey
+ verify: false #验证码
+ notify: false #评论回复提醒
+ avatar: robohash #评论列表头像样式：''/mm/identicon/monsterid/wavatar/retro/hide
+ #头像类型可见： https://valine.js.org/avatar.html
+ placeholder: 留下你来过的痕迹~ #评论框占位符
+ lang: zh-CN
 
 # Utterances
 # 基于 GitHub Issues

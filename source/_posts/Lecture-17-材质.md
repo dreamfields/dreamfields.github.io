@@ -82,7 +82,7 @@ BRDF基于我们之前所探讨过的微平面理论来近似的求得材质的�
 Cook-Torrance模型作为图形学中最早的基于物理的BRDF模型，由Cook和Torrance提出，是Torrance-Sparrow模型的一个应用版本。现今，Cook-Torrance模型已经成为基于物理着色的标准模型之一。Cook-Torrance模型将物理学中的菲涅尔反射引入了图形学，实现了比较逼真的效果。
 
 ![](Lecture-17-材质/20221022155445.png)  
-其中 $K_d,K_s $分别指**入射光线中被折射部分的能量所占的比率**与**被反射部分的比率(一般由菲涅尔项决定)**，而 $f_{lambert}$指漫反射的 BRDF，$f_{cook-torrance}$指镜面反射的 BRDF。两部分结合得到最终的 BRDF。
+其中 $K_d,K_s$分别指**入射光线中被折射部分的能量所占的比率**与**被反射部分的比率(一般由菲涅尔项决定)**，而 $f_{lambert}$指漫反射的 BRDF，$f_{cook-torrance}$指镜面反射的 BRDF。两部分结合得到最终的 BRDF。
 
 # Cook-Torrance BRDF 推导
 
