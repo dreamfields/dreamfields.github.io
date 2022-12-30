@@ -7,7 +7,7 @@ categories:
   - - CG
     - GAMES101
 date: 2021-08-06 11:26:28
-sticky: 100
+# sticky: 100
 ---
 
 # Rodrigues 旋转公式
