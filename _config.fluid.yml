@@ -715,7 +715,7 @@ valine:
   appKey: 86QJklER4kphwsPLL8tnbFs4
   path: window.location.pathname
   placeholder: 留下你的足迹
-  avatar: 'retro'
+  avatar: 'monsterid'
   meta: ['nick', 'mail', 'link']
   requiredFields: []
   pageSize: 10

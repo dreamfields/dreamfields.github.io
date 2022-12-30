@@ -163,6 +163,7 @@ env:
    ![](Hexo-GitHub搭建博客/2021-08-10-10-09-17.png)
   
 #### 评论功能
+> 参考：https://zhuanlan.zhihu.com/p/581640626
 
 **显示设置：**
 去官网按照文档设置即可：[valine官方文档-快速开始](https://valine.js.org/quickstart.html)，接着在主题的配置文件下修改应用的id和key。
