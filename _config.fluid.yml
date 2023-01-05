@@ -715,6 +715,7 @@ valine:
   appKey: 86QJklER4kphwsPLL8tnbFs4
   path: window.location.pathname
   placeholder: 留下你的足迹
+  visitor: true // 阅读量统计
   avatar: 'monsterid'
   meta: ['nick', 'mail', 'link']
   requiredFields: []
