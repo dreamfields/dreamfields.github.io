@@ -60,7 +60,7 @@ RTX其本质上只是硬件的提升，并不涉及任何算法部分，其本�
 
 **假设：整个看的场景的运动是连续的，就是camera以某种轨迹看向不同的物体，帧与帧之间有大量的连续性。**
 
-M**otion vector：它是用来告诉我们物体在帧与帧之间是如何运动的，也就是图中的A点在motion vector下可以知道在上一帧里A点对应的位置B点，它是在Image Sapce中的2D向量。**
+**Motion vector：它是用来告诉我们物体在帧与帧之间是如何运动的，也就是图中的A点在motion vector下可以知道在上一帧里A点对应的位置B点，它是在Image Sapce中的2D向量。**
 
 ![](Games202实时光追降噪/Untitled%203.png)
 
@@ -124,15 +124,13 @@ $$
 定义:
 
 - **~** ：unfiltered 表示没有filter，具有噪声的内容
-- - ：filtered 表示没有噪声或者噪声比较小的内容
+- -：filtered 表示没有噪声或者噪声比较小的内容
 
 ![](Games202实时光追降噪/Untitled%207.png)
 
 时间上的降噪：在得到了motion vector之后，我们就可以把当前帧(noisy的图)和上一帧(没有noisy的图)结合在一起，最简单的方法就是线性blending在一起，比如上一帧的结果 * 0.8 + 这一帧的结果 * 0.2得到新的结果。$\alpha$平衡系数表示当前帧的贡献，在0.1-0.2之间。
 
 ![图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)](Games202实时光追降噪/Untitled%208.png)
-
-图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)
 
 ## 小结
 
@@ -171,8 +169,6 @@ $$
 
 ![图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)](Games202实时光追降噪/Untitled%2012.png)
 
-图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)
-
 当求箱子后遮挡部分的两帧屏幕对应位置会发现，上一帧中找不到在当前帧中新出现的被遮挡的背景，找到的却是前面的遮挡物箱子，这就是disocclusion(不遮挡)问题。
 
 ### 其它失败情况
@@ -181,13 +177,9 @@ $$
 
 ![图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)](Games202实时光追降噪/Untitled%2013.png)
 
-图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)
-
 - **反射滞后**：在产生了反射现象的场景中移动物体，反射面静止。下图对于这种地板上反射出场景的情况来说，由于**地板是不动的**，因此其上面的每一个像素点的motion vector为0，当我们移动物体时，其地板需要一定的时间适应，之后再在地板上反射出当今场景中的物体，也就是反射滞后。
 
 ![图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)](Games202实时光追降噪/Untitled%2014.png)
-
-图源：[sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4](http://sites.cs.ucsb.edu/~lingqi/publications/presentation_trmv.mp4)
 
 以上问题是在着色的过程中发生的错误现象，因为在着色时需要追踪的是着色现象的变换，而不是几何的变换，此时motion vector为0，因此无法复用。
 
@@ -294,9 +286,6 @@ $$
 w(i, j, k, l)=\exp \left(-\frac{(i-k)^{2}+(j-l)^{2}}{2 \sigma_{d}^{2}}-\frac{\|I(i, j)-I(k, l)\|^{2}}{2 \sigma_{r}^{2}}\right)
 $$
 
-> 公式：[https://www.mathworks.com/help/images/ref/imgaussfilt.html](https://www.mathworks.com/help/images/ref/imgaussfilt.html)
-> 
-
 ![](Games202实时光追降噪/Untitled%2022.png)
 
 - 在这里$(i,j)$代表一个像素坐标，$(k,l)$代表另一个像素坐标，在公式的指数第一项中的高斯滤波核中用到。
@@ -306,7 +295,6 @@ $$
 
 ![[https://en.wikipedia.org/wiki/Bilateral_filter](https://en.wikipedia.org/wiki/Bilateral_filter)](Games202实时光追降噪/Untitled%2023.png)
 
-[https://en.wikipedia.org/wiki/Bilateral_filter](https://en.wikipedia.org/wiki/Bilateral_filter)
 
 ### 联合双边滤波 ****Joint Bilateral filtering****
 
@@ -380,13 +368,13 @@ $$
 因为2D的高斯函数有一个好的性质，在数学上就是拆开定义的，**其本身就是可拆分的**
 
 $$
- ⁍
+ G_{2D}(x，y)=G_{1D}(x)\cdot G_{1D}(y)
 $$
 
 另外，**滤波 == 卷积（filtering == convolution）**
 
 $$
-⁍
+\int\int F(x_0，y_0)G_{2D}(x_0-x，y_0-y)dxdy=\int(\int F(x_0，y_0)G_{1D}(x_0-x)dx)G_{1D}(y_0-y)dy
 $$
 
 我们想要求一个像素周围一圈像素对自己的加权贡献，就相当于我们对2D函数$F$和高斯核在2D上进行一个卷积，由于2D高斯核可以拆分为两个1D的高斯核相乘。
@@ -427,8 +415,6 @@ A-trous wavelet是一种滤波方法，它的思路是：
 回顾101学习的关于采样的过程：
 
 ![[https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095](https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095)](Games202实时光追降噪/Untitled%2029.png)
-
-[https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095](https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095)
 
 （a）是时域上的某个信号，到了频域上（b）是一个连续的频谱（Tips：频谱是左右对称的，即使不存在负的频率）
 
@@ -493,7 +479,7 @@ $$
 
 正常的范围在”均值+-若干方差“内，超过这个范围的认为该颜色值是outlier。
 
-1. **Clamping(outlier removal)**
+2. **Clamping(outlier removal)**
 
 如果我们找到了outlier的点，就把这个点的值给clamp到接近正常范围的值，该操作称为outlier removal。这种操作并不是把outlier的值给舍弃，而是把它限定到正常范围，而且该操作在filter之前进行，从而能得到正确的filter结果。
 
@@ -593,8 +579,6 @@ $$
 **计算流程**
 
 ![图源：[Spatiotemporal Variance-Guided Filtering: Real-Time Reconstruction for Path-Traced Global Illumination (behindthepixels.io)](http://behindthepixels.io/assets/files/hpg17_svgf.pdf)](Games202实时光追降噪/Untitled%2039.png)
-
-图源：[Spatiotemporal Variance-Guided Filtering: Real-Time Reconstruction for Path-Traced Global Illumination (behindthepixels.io)](http://behindthepixels.io/assets/files/hpg17_svgf.pdf)
 
 由于variance是一个统计学的量，不可能只看B点本身，假设当前帧渲染出来之后的结果是很noisy的，会做如下操作来得到B点的variance：
 

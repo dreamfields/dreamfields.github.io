@@ -8,14 +8,11 @@ categories:
 - - Theory
 date: 2023-01-25 17:28:10
 ---
-# 工业界的实时渲染
-
 # Temporal Anti-Aliasing（TAA）
 
 最早temporal的思路是用来解决Anti-Aliasing的，先有TAA的巨大成功才会有RTRT里的应用。
 
 > 参考：[Temporal Anti-Aliasing - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/20786650)
-> 
 
 ## 为什么出现走样？
 
@@ -23,7 +20,6 @@ date: 2023-01-25 17:28:10
 
 ![[https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095](https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095)](Games202工业界的实时渲染/Untitled.png)
 
-[https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095](https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095)
 
 （a）是时域上的某个信号，到了频域上（b）是一个连续的频谱（Tips：频谱是左右对称的，即使不存在负的频率）
 
@@ -57,8 +53,6 @@ TAA的思路也是需要用更多的sample，只不过是当前帧会复用上�
 Temporal AA尝试用在避免性能损失的情况近似Super Sampling AA的结果。它的做法一句话总结就是，把样本分布到过去的N帧中去，然后每一帧从过去的N帧中取得样本信息然后Filter，达到N倍Super Sampling的效果，如下图：
 
 ![[Temporal Anti-Aliasing - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/20786650)](Games202工业界的实时渲染/Untitled%202.png)
-
-[Temporal Anti-Aliasing - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/20786650)
 
 ### **静止场景**
 
@@ -109,15 +103,11 @@ MSAA则是在SSAA的基础上做了一个近似从而使得其效率提升开销
 - 第一次，粉色三角形覆盖到了0，3，2号样本点，更新缓冲区，在像素中心做shading。
 - 第二次，蓝色三角形覆盖到了1号样本点，更新缓冲区，在像素中心做shading。
 
-另外，MSAA还允许进行空间上的sample　reuse：
+另外，MSAA还允许进行空间上的sample reuse：
 
 ![[https://www.sapphirenation.net/](https://www.sapphirenation.net/)](Games202工业界的实时渲染/Untitled%205.png)
 
-[https://www.sapphirenation.net/](https://www.sapphirenation.net/)
-
 如图，在1和2两个像素内，在两个像素的连接处有两个采样点，这两个采样点既可以贡献给像素1也可以贡献给像素2，因此实际上等于通过reuse在6个采样点的情况下得到了8个采样点的结果，减少了采样点的数量，提升了效率。
-
-## 拓展：****延迟渲染能不能用MSAA？****
 
 ## 拓展：基于图像的反走样
 
@@ -225,7 +215,7 @@ DLSS 2.0则摒弃了通过神经网络猜测的结果，而是更希望去利用
 
 如果DLSS每一帧需要消耗30ms，那DLSS就太慢了，因此训练出这个网络之后去提升inference性能，针对Nvidia的硬件进行优化，但具体如何做的就是Nvidia内部的事情了。
 
-**其他公司的”DLSS“算法**
+**其他公司的“DLSS”算法**
 
 - By AMD：FidelityFX Super Resolution
 - By Facebook：Neural Supersampling for Real-time Rendering [Xiao et al.]
