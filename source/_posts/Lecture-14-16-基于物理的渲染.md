@@ -6,7 +6,7 @@ categories:
   - - CG
     - GAMES101
   - - Theory
-date: 2022-01-26 17:28:53
+\mathrm{d}Ate: 2022-01-26 17:28:53
 ---
 # 辐射度量学
 > 由于辐射通量和光通量的关系，以下的辐射相关概念的定义可以直接移植到图形学中对于光线相关概念的定义
@@ -17,7 +17,7 @@ date: 2022-01-26 17:28:53
   - **光源**发出的所有功率中，能被人眼感知的那部分功率被称为光通量（luminous flux）单位流明（lumen，符号$lm$），用符号$\Phi_{v}$表示，光通量可用来衡量灯具发光的能力。
   - 人眼对不同波长的光的灵敏度不同，根据辐射对国际照明委员会（CIE）标准光度观察者的作用，可从辐射通量导出光通量：
   $$
-  \Phi_{\mathrm{v}}=K_{m} \int_{0}^{\infty} \frac{\mathrm{d} \Phi_{\mathrm{e}}(\lambda)}{\mathrm{d} \lambda} V(\lambda) \mathrm{d} \lambda
+  \Phi_{\mathrm{v}}=K_{m} \int_{0}^{\infty} \frac{\mathrm{d} \Phi_{\mathrm{e}}(\lamb\mathrm{d}A)}{\mathrm{d} \lamb\mathrm{d}A} V(\lamb\mathrm{d}A) \mathrm{d} \lamb\mathrm{d}A
   $$
 
 ### 辐射强度(Radiant intensity)
@@ -60,7 +60,7 @@ date: 2022-01-26 17:28:53
 
     ![](Lecture-14-16-基于物理的渲染/9911c752-ea4f-449e-bfab-78178e42d848-11709514.jpg)
 
-  - E ( p ) 就是点 p 的 irradiance，其物理含义是点 p 上每单位照射面积的 power，而 L (p,ω)指入射光每立体角，每垂直面积的 power。因此积分式子右边的 cosθ 解释了面积上定义的差异，而对 dω 积分，则是相当于对所有不同角度的入射光线做一个求和（这里的 H 平方是指的点 p 对应的整个半球面方向），那么该积分式子的物理含义便是：一个点(微分面积元)所接收到的亮度（irradiance)，由所有不同方向的入射光线亮度(radiance)共同贡献得到。
+  - E ( p ) 就是点 p 的 irradiance，其物理含义是点 p 上每单位照射面积的 power，而 L (p,ω)指入射光每立体角，每垂直面积的 power。因此积分式子右边的 cosθ 解释了面积上定义的差异，而对 \mathrm{d}\omega 积分，则是相当于对所有不同角度的入射光线做一个求和（这里的 H 平方是指的点 p 对应的整个半球面方向），那么该积分式子的物理含义便是：一个点(微分面积元)所接收到的亮度（irradiance)，由所有不同方向的入射光线亮度(radiance)共同贡献得到。
 
 ## 总结
   
@@ -77,10 +77,10 @@ date: 2022-01-26 17:28:53
   ![](Lecture-14-16-基于物理的渲染/5c3b82bd-4e2f-4b79-9a9a-06fc28c486eb-11709514.jpg)
 
 ## 参数解释
-  - $\mathrm{d}L_r(w_r)$：特指从$w_i$方向过来的贡献，经过表面反射到$w_r$方向的反射光的radiance
+  - $\mathrm{d}L_r(w_r)$：特指从$w_i$方向过来的贡献，经过表面反射到$w_r$方向的反射光的radiance的微分
   - $L_r(w_r)$：来自于表面上半球所有方向的入射光线的贡献，经过表面反射到$w_r$方向的反射光的radiance
-  - $\mathrm{d}E_i(w_i)$：某点p处的单位面积，接收到的从表面上半球所有方向的入射光线的irradiance
-  - $E_i(w_i)$：某点p处的单位面积，接收到的从$w_i$方向的入射光线的irradiance
+  - $E_i(w_i)$：某点p处的单位面积，接收到的从表面上半球所有方向的入射光线的irradiance
+  - $\mathrm{d}E_i(w_i)$：某点p处的单位面积，接收到的从$w_i$方向的入射光线的irradiance的微分
   - BRDF单位是 $1/sr$，1/立体角度
 
 ## 理解
@@ -199,12 +199,12 @@ shade(p, wo)
   Lo = 0.0
   # 对于每个采样的立体角wi
   For each wi
-    # 追踪入射光线，打到光源即计算积分
+    # 追踪入射光线
     Trace a ray r(p, wi)
-    # 每条打在物体上的光线都取平均（1/N）
+    # 如果打到光源即计算积分，每条打在物体上的光线都取平均（1/N）
     If ray r hit the light
       Lo += (1 / N) * L_i * f_r * cosine / pdf(wi)
-    # 开始递归
+    # 如果打到物体，开始递归
     Else If ray r hit an object at q
       Lo += (1 / N) * shade(q, -wi) * f_r * cosine / pdf(wi)
 Return Lo
@@ -222,12 +222,12 @@ shade(p, wo)
   # 初始化出射光线Lo
   Lo = 0.0
   
-  # 追踪入射光线，打到光源即计算积分
+  # 追踪入射光线
   Trace a ray r(p, wi)
-  # 每条打在物体上的光线都直接返回该光线的贡献
+  # 如果打到光源即计算积分，直接返回该光线的贡献
   If ray r hit the light
     Return L_i * f_r * cosine / pdf(wi)
-  # 开始递归
+  # 如果打到物体，开始递归
   Else If ray r hit an object at q
     Return shade(q, -wi) * f_r * cosine / pdf(wi)
 ```
@@ -270,12 +270,12 @@ shade(p, wo)
   # 初始化出射光线Lo
   Lo = 0.0
   
-  # 追踪入射光线，打到光源即计算积分
+  # 追踪入射光线
   Trace a ray r(p, wi)
-  # 每条打在物体上的光线都直接返回该光线的贡献/P_RR
+  # 如果打到光源即计算积分，直接返回该光线的贡献/P_RR
   If ray r hit the light
     Return L_i * f_r * cosine / pdf(wi) / P_RR
-  # 开始递归
+  # 如果打到物体，开始递归
   Else If ray r hit an object at q
     Return shade(q, -wi) * f_r * cosine / pdf(wi) / P_RR
 ```
@@ -290,14 +290,14 @@ shade(p, wo)
 因此在计算直接光照的时候，取一个 pdf 能够直接采样光源，即改进为 **直接对光源进行采样** ，这样所有采样的光线都一定会击中光源(如果中间没有别的物体)，没有光线再会被浪费了。
 
 ![](Lecture-14-16-基于物理的渲染/20221022112626.png)  
-如上图所示，如果只对光源（右上角的 luminaire）进行均匀采样，$pdf=1/A$(because $∫pdf dA = 1$);
+如上图所示，如果只对光源（右上角的 luminaire）进行均匀采样，$pdf=1/A$(because $∫pdf \cdot\mathrm{d}A = 1$)。
 
-那么对于渲染方程$Lo = ∫Li \cdot fr \cdot cos \theta dω$，如果想要对光源进行采样的并依然使用蒙特卡洛的方法，那么一定要将其修改为对光源面积 dA 的积分，就等价于只对光源对应的面积投影到半球立体角的那部分积分（左下角的积分域），换言之就是需要找到 dA 与 dω 的关系即可；
+那么对于渲染方程$Lo = ∫Li \cdot fr \cdot cos \theta \mathrm{d}\omega$，如果想要对光源进行采样的并依然使用蒙特卡洛的方法，那么一定要将其修改为对光源面积 \mathrm{d}A 的积分，就等价于只对光源对应的面积投影到半球立体角的那部分积分（左下角的灰色的积分域），换言之就是需要找到 $\mathrm{d}A $ 与 $\mathrm{d}\omega $ 的关系即可。
 
 于是写出对应的关系式：
 ![](Lecture-14-16-基于物理的渲染/20221022113846.png)  
 
-关系式中的 $cos \theta'$是为了计算出光源上微分面积元正对半球的面积，之后再按照立体角的定义 $dω=dA/r^2$，除以着色点x与光源采样点x'距离的平方。
+关系式中的 $cos \theta'$是为了计算出光源上微分面积元正对半球的面积，之后再按照立体角的定义 $\mathrm{d}\omega=\mathrm{d}A/r^2$，除以着色点x与光源采样点x'距离的平方。
 
 ![](Lecture-14-16-基于物理的渲染/20221022114222.png)  
 
