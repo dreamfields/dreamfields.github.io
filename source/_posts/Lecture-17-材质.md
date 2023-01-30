@@ -84,6 +84,8 @@ Cook-Torrance模型作为图形学中最早的基于物理的BRDF模型，由Coo
 ![](Lecture-17-材质/20221022155445.png)  
 其中 $K_d,K_s$分别指**入射光线中被折射部分的能量所占的比率**与**被反射部分的比率(一般由菲涅尔项决定)**，而 $f_{lambert}$指漫反射的 BRDF，$f_{cook-torrance}$指镜面反射的 BRDF。两部分结合得到最终的 BRDF。
 
+**但请注意**：$f_{cook-torrance}$已经采用了微表面模型，就不能在与宏观表面模型Diffuse的假设一同采用，同样在物理上也是错误的，能量不能保证守恒，可能会出现发光的BRDF的情况。由于不同角度、不同粗糙度损失的能量是完全不同的，因此直接加一个Diffuse是完全错误的。而由于可以近似一些效果，因此仍然使用。
+
 # Cook-Torrance BRDF 推导
 
 关键：**Material == BRDF**，以下讨论皆为Cook-Torrance BRDF。

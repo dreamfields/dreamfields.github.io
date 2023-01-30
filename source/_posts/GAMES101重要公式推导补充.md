@@ -88,7 +88,7 @@ date: 2021-08-06 11:26:28
   0 & 0 & 0 & 1
   \end{pmatrix}
   $$
-- 整理得到 $ (l>0,r=-l,t>0,b=-t) $
+- 整理得到 $(l>0,r=-l,t>0,b=-t)$
   $$
   M_{\text {persp }}=\begin{pmatrix}
   n/r & 0 & 0 & 0 \\
