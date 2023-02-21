@@ -72,7 +72,7 @@ date: 2022-01-20 22:24:52
 2. 光线反射
 3. 光线折射
 
-以上实现细节参看：[Lecture17 材质（BRDF）](https://dreamfields.github.io/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/)
+以上实现细节参看：[Lecture17 材质（微平面理论，Cook-Torrance BRDF）](https://dreamfields.github.io/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/)
 
 # 笔记参考
 

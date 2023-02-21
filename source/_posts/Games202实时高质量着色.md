@@ -109,10 +109,15 @@ $$
 **GGX法线分布函数**
 
 又称 Trowbridge-Reitz 法线分布函数，它的公式如下：
-
 $$
 D_{\mathrm{GGX}}(h)=\frac{\alpha^{2}}{\pi \cos ^{4} \theta_{h}\left(\alpha^{2}+\tan ^{2} \theta_{h}\right)^{2}}
 $$
+化简后的公式如下：
+$$
+D_{\mathrm{GGX}}(h)=\frac{\alpha^{2}}{\pi ((n \cdot h)^2(\alpha^{2}-1)+1)^2}
+$$
+
+其中：$ \alpha = roughness^2 $，$h$是半程向量
 
 和 Beckmann 法线分布函数相比，GGX 法线分布函数更“长尾”（long tail），也就是说，当随机变量的取值偏离其数学期望时，相应的概率下降得更慢一些，如下图：
 
@@ -159,7 +164,7 @@ $$
 引入G项的理论分析：
 
 $$
-⁍
+f_{\mathrm{r}}\left(\omega_{i}, \omega_{o}\right)=\frac{F\left(\omega_{i}, h\right) G\left(\omega_{i}, \omega_{o}, h\right) D(h)}{4\left|\omega_{i} \cdot n\right|\left|\omega_{o} \cdot n\right|}
 $$
 
 对于整个BRDF，如果从grazing angle看，不考虑G项时，分子为正常函数，没有很大的值。对于分母，当在grazing angle时入射方向、出射方向与法线角度接近90°，因此点乘结果接近0，分子除以一个接近于0的值会导致结果变的巨大，就会导致我们看到的这张图整个外圈是白的。
@@ -169,7 +174,15 @@ $$
 **G项和法线分布函数有关，可由其进行预测**，在 Smith shadowing-masking term 的假设下，双向的阴影遮蔽项被拆解成了Shadowing阴影项和Masking遮蔽项：
 
 $$
-G\left(\omega_{i}, \omega_{o}, h\right)=G_{1}\left(\omega_{i}, h\right) G_{1}\left(\omega_{o}, h\right)
+G_{Smith}\left(\omega_{i}, \omega_{o}, n\right)=G_{Schlick}\left(\omega_{i}, n\right) G_{Schlick}\left(\omega_{o}, n\right)
+$$
+
+$$
+G_{Schlick}(v,n)=\frac{n\cdot v}{n\cdot v(1-k)+k}
+$$
+
+$$
+k=\frac{(roughness+1)^2}{8}
 $$
 
 下图是绿线是GGX，红线是Beckmann所预测的G项结果（右图），在grazing angle下G项接近0，除以BRDF中接近0的分母会得到一个正常值，解决了外圈发白的问题。
