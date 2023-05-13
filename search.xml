@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>01-现代游戏引擎导论</title>
+    <url>/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/</url>
+    <content><![CDATA[<h1 id="为什么要学游戏引擎"><a class="markdownIt-Anchor" href="#为什么要学游戏引擎"></a> 为什么要学游戏引擎？</h1>
+<p>应用领域——虚拟数字人、影视动画、军事模拟、数字孪生</p>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled.png" alt="Untitled"></p>
+<p><a href="https://zhuanlan.zhihu.com/p/468194499">元宇宙-虚拟数字人概述</a></p>
+<h1 id="游戏引擎历史"><a class="markdownIt-Anchor" href="#游戏引擎历史"></a> 游戏引擎历史</h1>
+<h2 id="早期游戏时代"><a class="markdownIt-Anchor" href="#早期游戏时代"></a> 早期游戏时代</h2>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%201.png" alt="Untitled"></p>
+<p>早期时候的游戏非常简单，常见的游戏机包括任天堂的“红白机”，彼时做游戏面临的最大问题是<strong>如何把复杂元素放入非常小的存储空间中</strong>，常见做法包括复用贴图，比如将云彩贴图变化颜色后复用成草丛贴图等。在这期间，也涌现了《魂斗罗》、《马里奥》、《坦克大战》等知名 IP。</p>
+<h2 id="第一个游戏引擎"><a class="markdownIt-Anchor" href="#第一个游戏引擎"></a> <strong>第一个游戏引擎</strong></h2>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/20220722143642.png" alt></p>
+<p>提到游戏引擎，就不得不提到游戏引擎之父**John D. Carmack，**他与另一个游戏软件天才 John Romero 共同开发出了全球首款第一人称射击游戏《德军总部 3D》<em>（Wolfenstein 3D，1992）</em>，他将游戏中能够复用的核心功能分离出来，产生了游戏引擎雏形。</p>
+<p>John Carmack 开发的第二款游戏——《毁灭战士》<em>（Doom）</em>，将该游戏分离的功能制作成为游戏引擎，才有了另一款游戏《魅影术士》<em>（Shadow Caster）</em>。但真正的游戏引擎还没到来，直到《雷神之锤》*（Quake）*问世。</p>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%204.png" alt="Untitled"></p>
+<p>《雷神之锤》由 id Software 开发的第一人称射击游戏，是<strong>第一个系统研究联网对战下如何进行网络同步的游戏</strong>，最早的版本发布于 1996 年 5 月 31 日。雷神之锤引擎*（Quake engine，又称 Q1 引擎）*是《雷神之锤》一代游戏的核心，也被用来制作其他的第一人称射击游戏，比如《半条命》（<em>Half-life</em><br>
+）和《荣誉勋章》（<em>Medal of Honor）。Quake engine</em>是第一个实现即时 3D 的游戏引擎，该引擎提供了实时 3D 渲染，并通过 OpenGL 支持 3D 加速，给游戏画面带来了质的飞跃。</p>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%205.png" alt="Untitled"></p>
+<p>早期计算机硬件中没有显卡，但图形运算涉及大量矩阵、向量运算，非常适合并行计算，此时就来到了游戏发展的转折点——<strong>显卡</strong>诞生。游戏引擎的发展非常依赖于硬件的发展，例如从<strong>PlayStation 1</strong><br>
+到<strong>PlayStation 5</strong>其算力提升 20 万倍，算力的增长导致游戏质量急速提升。</p>
+<h2 id="现代游戏引擎"><a class="markdownIt-Anchor" href="#现代游戏引擎"></a> 现代游戏引擎</h2>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%206.png" alt="Untitled"></p>
+<p>目前市面上的游戏引擎可分为三种：商业引擎*（Commercial Engine）<em>、自研引擎</em>（In-house Engine）<em>以及免费引擎</em>（Free Engine）<em>。商业引擎主要包括 UE、Unity 等引擎，自研引擎为各大游戏公司内部使用的引擎，包括大名鼎鼎的寒霜引擎</em>（Frostbite Engine）*，大多数免费引擎通常只适用于轻量级作品，与商业和自研引擎差距较大。</p>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%207.png" alt="Untitled"></p>
+<p>除此以外，针对特定功能模块还产生了细分功能的各类引擎。随着游戏行业的不断发展，开发者意识到物理计算等比较复杂，早期游戏都会自行实现物理碰撞等，但计算越来越复杂时，为了减少开发中不必要消耗，出现了专门用于处理物理计算的模块。在此基础上，出现了各种各样的中间件供游戏开发者使用。例如 SpeedTree，可为动画、建筑以及视频游戏和要求实时模拟的实时生成虚拟植物。</p>
+<h3 id="什么是游戏引擎"><a class="markdownIt-Anchor" href="#什么是游戏引擎"></a> 什么是游戏引擎？</h3>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%208.png" alt="Untitled"></p>
+<ul>
+<li>构建“黑客帝国”的技术基础</li>
+<li>创造力工具</li>
+<li>复杂性的艺术</li>
+</ul>
+<p>游戏引擎作为<strong>构建虚拟世界的底层框架</strong>，对于创作者（艺术家、设计师），游戏引擎需要提供工具链，使其成为<strong>人类创意或者想象力的生产力工具</strong>。对于编程者，可扩展 API 接口无需修改核心即可定义游戏可玩性*（gameplay）*。对于工作室，游戏引擎需要提供可协作性，使得开发者能够合作完成不同工作。游戏引擎体量非常复杂、庞大，很好地展现了<strong>复杂性系统的艺术-系统复杂之美</strong>，但也带来了版本迭代兼容性问题。</p>
+<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%209.png" alt="Untitled"></p>
+]]></content>
+      <categories>
+        <category>CG</category>
+        <category>GAMES104</category>
+      </categories>
+      <tags>
+        <tag>CG</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>02-引擎架构分层</title>
     <url>/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/</url>
     <content><![CDATA[<h1 id="为什么需要分层架构"><a class="markdownIt-Anchor" href="#为什么需要分层架构"></a> <strong>为什么需要分层架构？</strong></h1>
@@ -88,50 +132,6 @@
 <li>在引擎的分层结构中，越往上，越灵活；越往下，越稳定</li>
 <li>虚拟世界由一系列 tick 时间组成</li>
 </ol>
-]]></content>
-      <categories>
-        <category>CG</category>
-        <category>GAMES104</category>
-      </categories>
-      <tags>
-        <tag>CG</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>01-现代游戏引擎导论</title>
-    <url>/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/</url>
-    <content><![CDATA[<h1 id="为什么要学游戏引擎"><a class="markdownIt-Anchor" href="#为什么要学游戏引擎"></a> 为什么要学游戏引擎？</h1>
-<p>应用领域——虚拟数字人、影视动画、军事模拟、数字孪生</p>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled.png" alt="Untitled"></p>
-<p><a href="https://zhuanlan.zhihu.com/p/468194499">元宇宙-虚拟数字人概述</a></p>
-<h1 id="游戏引擎历史"><a class="markdownIt-Anchor" href="#游戏引擎历史"></a> 游戏引擎历史</h1>
-<h2 id="早期游戏时代"><a class="markdownIt-Anchor" href="#早期游戏时代"></a> 早期游戏时代</h2>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%201.png" alt="Untitled"></p>
-<p>早期时候的游戏非常简单，常见的游戏机包括任天堂的“红白机”，彼时做游戏面临的最大问题是<strong>如何把复杂元素放入非常小的存储空间中</strong>，常见做法包括复用贴图，比如将云彩贴图变化颜色后复用成草丛贴图等。在这期间，也涌现了《魂斗罗》、《马里奥》、《坦克大战》等知名 IP。</p>
-<h2 id="第一个游戏引擎"><a class="markdownIt-Anchor" href="#第一个游戏引擎"></a> <strong>第一个游戏引擎</strong></h2>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/20220722143642.png" alt></p>
-<p>提到游戏引擎，就不得不提到游戏引擎之父**John D. Carmack，**他与另一个游戏软件天才 John Romero 共同开发出了全球首款第一人称射击游戏《德军总部 3D》<em>（Wolfenstein 3D，1992）</em>，他将游戏中能够复用的核心功能分离出来，产生了游戏引擎雏形。</p>
-<p>John Carmack 开发的第二款游戏——《毁灭战士》<em>（Doom）</em>，将该游戏分离的功能制作成为游戏引擎，才有了另一款游戏《魅影术士》<em>（Shadow Caster）</em>。但真正的游戏引擎还没到来，直到《雷神之锤》*（Quake）*问世。</p>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%204.png" alt="Untitled"></p>
-<p>《雷神之锤》由 id Software 开发的第一人称射击游戏，是<strong>第一个系统研究联网对战下如何进行网络同步的游戏</strong>，最早的版本发布于 1996 年 5 月 31 日。雷神之锤引擎*（Quake engine，又称 Q1 引擎）*是《雷神之锤》一代游戏的核心，也被用来制作其他的第一人称射击游戏，比如《半条命》（<em>Half-life</em><br>
-）和《荣誉勋章》（<em>Medal of Honor）。Quake engine</em>是第一个实现即时 3D 的游戏引擎，该引擎提供了实时 3D 渲染，并通过 OpenGL 支持 3D 加速，给游戏画面带来了质的飞跃。</p>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%205.png" alt="Untitled"></p>
-<p>早期计算机硬件中没有显卡，但图形运算涉及大量矩阵、向量运算，非常适合并行计算，此时就来到了游戏发展的转折点——<strong>显卡</strong>诞生。游戏引擎的发展非常依赖于硬件的发展，例如从<strong>PlayStation 1</strong><br>
-到<strong>PlayStation 5</strong>其算力提升 20 万倍，算力的增长导致游戏质量急速提升。</p>
-<h2 id="现代游戏引擎"><a class="markdownIt-Anchor" href="#现代游戏引擎"></a> 现代游戏引擎</h2>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%206.png" alt="Untitled"></p>
-<p>目前市面上的游戏引擎可分为三种：商业引擎*（Commercial Engine）<em>、自研引擎</em>（In-house Engine）<em>以及免费引擎</em>（Free Engine）<em>。商业引擎主要包括 UE、Unity 等引擎，自研引擎为各大游戏公司内部使用的引擎，包括大名鼎鼎的寒霜引擎</em>（Frostbite Engine）*，大多数免费引擎通常只适用于轻量级作品，与商业和自研引擎差距较大。</p>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%207.png" alt="Untitled"></p>
-<p>除此以外，针对特定功能模块还产生了细分功能的各类引擎。随着游戏行业的不断发展，开发者意识到物理计算等比较复杂，早期游戏都会自行实现物理碰撞等，但计算越来越复杂时，为了减少开发中不必要消耗，出现了专门用于处理物理计算的模块。在此基础上，出现了各种各样的中间件供游戏开发者使用。例如 SpeedTree，可为动画、建筑以及视频游戏和要求实时模拟的实时生成虚拟植物。</p>
-<h3 id="什么是游戏引擎"><a class="markdownIt-Anchor" href="#什么是游戏引擎"></a> 什么是游戏引擎？</h3>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%208.png" alt="Untitled"></p>
-<ul>
-<li>构建“黑客帝国”的技术基础</li>
-<li>创造力工具</li>
-<li>复杂性的艺术</li>
-</ul>
-<p>游戏引擎作为<strong>构建虚拟世界的底层框架</strong>，对于创作者（艺术家、设计师），游戏引擎需要提供工具链，使其成为<strong>人类创意或者想象力的生产力工具</strong>。对于编程者，可扩展 API 接口无需修改核心即可定义游戏可玩性*（gameplay）*。对于工作室，游戏引擎需要提供可协作性，使得开发者能够合作完成不同工作。游戏引擎体量非常复杂、庞大，很好地展现了<strong>复杂性系统的艺术-系统复杂之美</strong>，但也带来了版本迭代兼容性问题。</p>
-<p><img src="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/Untitled%209.png" alt="Untitled"></p>
 ]]></content>
       <categories>
         <category>CG</category>
@@ -482,6 +482,28 @@
       <tags>
         <tag>Algorithm</tag>
         <tag>论文综述</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games101中的C++知识</title>
+    <url>/2022/10/23/Games101%E4%B8%AD%E7%9A%84C-%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<h1 id="stdoptionalc17"><a class="markdownIt-Anchor" href="#stdoptionalc17"></a> std::optional（C++17）</h1>
+<h4 id="框架代码"><a class="markdownIt-Anchor" href="#框架代码"></a> 框架代码：</h4>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// games101/homework5/Renderer.cpp</span><br><span class="hljs-function">std::optional&lt;hit_payload&gt; <span class="hljs-title">trace</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">const</span> Vector3f &amp;orig,</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">const</span> Vector3f &amp;dir,</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">const</span> std::vector&lt;std::unique_ptr&lt;Object&gt; &gt; &amp;objects)</span></span>&#123;...&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="用途"><a class="markdownIt-Anchor" href="#用途"></a> 用途：</h4>
+<p><strong>使 C++ 的函数返回多个值</strong></p>
+<h4 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例：</h4>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;optional&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Out</span> &#123;</span><br>    string out1 &#123; <span class="hljs-string">&quot;&quot;</span> &#125;;<br>    string out2 &#123; <span class="hljs-string">&quot;&quot;</span> &#125;;<br>&#125;;<br><br><span class="hljs-function">optional&lt;Out&gt; <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">const</span> string&amp; in)</span> </span>&#123;<br>    Out o;<br>    <span class="hljs-keyword">if</span> (in.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>)<br>    <span class="hljs-comment">// std::nullopt 是 C++ 17 中提供的没有值的 optional 的表达形式，等同于 &#123; &#125; 。</span><br>        <span class="hljs-keyword">return</span> nullopt;<br>    o.out1 = <span class="hljs-string">&quot;hello&quot;</span>;<br>    o.out2 = <span class="hljs-string">&quot;world&quot;</span>;<br>    <span class="hljs-keyword">return</span> &#123; o &#125;;<br>&#125;<br><br><span class="hljs-comment">// 等价于如下函数</span><br><span class="hljs-comment">// 这种做法可以做到让返回值更富有语意，并且可以很方便的扩展，如果要增加一个新的返回值，只需要扩展现有的结构体就可以了。</span><br><span class="hljs-function">pair&lt;<span class="hljs-keyword">bool</span>, Out&gt; <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">const</span> string&amp; in)</span> </span>&#123;<br>    Out o;<br>    <span class="hljs-keyword">if</span> (in.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> &#123; <span class="hljs-literal">false</span>, o &#125;;<br>    o.out1 = <span class="hljs-string">&quot;hello&quot;</span>;<br>    o.out2 = <span class="hljs-string">&quot;world&quot;</span>;<br>    <span class="hljs-keyword">return</span> &#123; <span class="hljs-literal">true</span>, o &#125;;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">auto</span> ret = <span class="hljs-built_in">func</span>(<span class="hljs-string">&quot;hi&quot;</span>); ret.<span class="hljs-built_in">has_value</span>()) &#123;<br>        cout &lt;&lt; ret-&gt;out1 &lt;&lt; endl;<br>        cout &lt;&lt; ret-&gt;out2 &lt;&lt; endl;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="创建-optional"><a class="markdownIt-Anchor" href="#创建-optional"></a> 创建 optional</h4>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 空 optiolal</span><br>optional&lt;<span class="hljs-keyword">int</span>&gt; oEmpty;<br>optional&lt;<span class="hljs-keyword">float</span>&gt; oFloat = nullopt;<br><br><span class="hljs-function">optional&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">oInt</span><span class="hljs-params">(<span class="hljs-number">10</span>)</span></span>;<br><span class="hljs-function">optional <span class="hljs-title">oIntDeduced</span><span class="hljs-params">(<span class="hljs-number">10</span>)</span></span>;  <span class="hljs-comment">// type deduction</span><br><br><span class="hljs-comment">// make_optional</span><br><span class="hljs-keyword">auto</span> oDouble = std::<span class="hljs-built_in">make_optional</span>(<span class="hljs-number">3.0</span>);<br><span class="hljs-keyword">auto</span> oComplex = make_optional&lt;complex&lt;<span class="hljs-keyword">double</span>&gt;&gt;(<span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>);<br><br><span class="hljs-comment">// in_place</span><br>optional&lt;complex&lt;<span class="hljs-keyword">double</span>&gt;&gt; o7&#123;in_place, <span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>&#125;;<br><br><span class="hljs-comment">// initializer list</span><br>optional&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">oVec</span>(in_place, &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;);<br><br><span class="hljs-comment">// 拷贝赋值</span><br><span class="hljs-keyword">auto</span> oIntCopy = oInt;<br></code></pre></td></tr></table></figure>
+<h4 id="访问-optional-对象"><a class="markdownIt-Anchor" href="#访问-optional-对象"></a> 访问 optional 对象</h4>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 跟迭代器的使用类似，访问没有 value 的 optional 的行为是未定义的</span><br>cout &lt;&lt; (*ret).out1 &lt;&lt; endl;<br>cout &lt;&lt; ret-&gt;out1 &lt;&lt; endl;<br><br><span class="hljs-comment">// 当没有 value 时调用该方法将 throws std::bad_optional_access 异常</span><br>cout &lt;&lt; ret.<span class="hljs-built_in">value</span>().out1 &lt;&lt; endl;<br><br><span class="hljs-comment">// 当没有 value 调用该方法时将使用传入的默认值</span><br>Out defaultVal;<br>cout &lt;&lt; ret.<span class="hljs-built_in">value_or</span>(defaultVal).out1 &lt;&lt; endl;<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
   <entry>
@@ -1126,28 +1148,6 @@ M1001 80H400000v40H1017z"/></svg></span></span></span><span class="vlist-s">​<
       </tags>
   </entry>
   <entry>
-    <title>Games101中的C++知识</title>
-    <url>/2022/10/23/Games101%E4%B8%AD%E7%9A%84C-%E7%9F%A5%E8%AF%86/</url>
-    <content><![CDATA[<h1 id="stdoptionalc17"><a class="markdownIt-Anchor" href="#stdoptionalc17"></a> std::optional（C++17）</h1>
-<h4 id="框架代码"><a class="markdownIt-Anchor" href="#框架代码"></a> 框架代码：</h4>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// games101/homework5/Renderer.cpp</span><br><span class="hljs-function">std::optional&lt;hit_payload&gt; <span class="hljs-title">trace</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">const</span> Vector3f &amp;orig,</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">const</span> Vector3f &amp;dir,</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">const</span> std::vector&lt;std::unique_ptr&lt;Object&gt; &gt; &amp;objects)</span></span>&#123;...&#125;<br></code></pre></td></tr></table></figure>
-<h4 id="用途"><a class="markdownIt-Anchor" href="#用途"></a> 用途：</h4>
-<p><strong>使 C++ 的函数返回多个值</strong></p>
-<h4 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例：</h4>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;optional&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Out</span> &#123;</span><br>    string out1 &#123; <span class="hljs-string">&quot;&quot;</span> &#125;;<br>    string out2 &#123; <span class="hljs-string">&quot;&quot;</span> &#125;;<br>&#125;;<br><br><span class="hljs-function">optional&lt;Out&gt; <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">const</span> string&amp; in)</span> </span>&#123;<br>    Out o;<br>    <span class="hljs-keyword">if</span> (in.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>)<br>    <span class="hljs-comment">// std::nullopt 是 C++ 17 中提供的没有值的 optional 的表达形式，等同于 &#123; &#125; 。</span><br>        <span class="hljs-keyword">return</span> nullopt;<br>    o.out1 = <span class="hljs-string">&quot;hello&quot;</span>;<br>    o.out2 = <span class="hljs-string">&quot;world&quot;</span>;<br>    <span class="hljs-keyword">return</span> &#123; o &#125;;<br>&#125;<br><br><span class="hljs-comment">// 等价于如下函数</span><br><span class="hljs-comment">// 这种做法可以做到让返回值更富有语意，并且可以很方便的扩展，如果要增加一个新的返回值，只需要扩展现有的结构体就可以了。</span><br><span class="hljs-function">pair&lt;<span class="hljs-keyword">bool</span>, Out&gt; <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">const</span> string&amp; in)</span> </span>&#123;<br>    Out o;<br>    <span class="hljs-keyword">if</span> (in.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> &#123; <span class="hljs-literal">false</span>, o &#125;;<br>    o.out1 = <span class="hljs-string">&quot;hello&quot;</span>;<br>    o.out2 = <span class="hljs-string">&quot;world&quot;</span>;<br>    <span class="hljs-keyword">return</span> &#123; <span class="hljs-literal">true</span>, o &#125;;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">auto</span> ret = <span class="hljs-built_in">func</span>(<span class="hljs-string">&quot;hi&quot;</span>); ret.<span class="hljs-built_in">has_value</span>()) &#123;<br>        cout &lt;&lt; ret-&gt;out1 &lt;&lt; endl;<br>        cout &lt;&lt; ret-&gt;out2 &lt;&lt; endl;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h4 id="创建-optional"><a class="markdownIt-Anchor" href="#创建-optional"></a> 创建 optional</h4>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 空 optiolal</span><br>optional&lt;<span class="hljs-keyword">int</span>&gt; oEmpty;<br>optional&lt;<span class="hljs-keyword">float</span>&gt; oFloat = nullopt;<br><br><span class="hljs-function">optional&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">oInt</span><span class="hljs-params">(<span class="hljs-number">10</span>)</span></span>;<br><span class="hljs-function">optional <span class="hljs-title">oIntDeduced</span><span class="hljs-params">(<span class="hljs-number">10</span>)</span></span>;  <span class="hljs-comment">// type deduction</span><br><br><span class="hljs-comment">// make_optional</span><br><span class="hljs-keyword">auto</span> oDouble = std::<span class="hljs-built_in">make_optional</span>(<span class="hljs-number">3.0</span>);<br><span class="hljs-keyword">auto</span> oComplex = make_optional&lt;complex&lt;<span class="hljs-keyword">double</span>&gt;&gt;(<span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>);<br><br><span class="hljs-comment">// in_place</span><br>optional&lt;complex&lt;<span class="hljs-keyword">double</span>&gt;&gt; o7&#123;in_place, <span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>&#125;;<br><br><span class="hljs-comment">// initializer list</span><br>optional&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">oVec</span>(in_place, &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;);<br><br><span class="hljs-comment">// 拷贝赋值</span><br><span class="hljs-keyword">auto</span> oIntCopy = oInt;<br></code></pre></td></tr></table></figure>
-<h4 id="访问-optional-对象"><a class="markdownIt-Anchor" href="#访问-optional-对象"></a> 访问 optional 对象</h4>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 跟迭代器的使用类似，访问没有 value 的 optional 的行为是未定义的</span><br>cout &lt;&lt; (*ret).out1 &lt;&lt; endl;<br>cout &lt;&lt; ret-&gt;out1 &lt;&lt; endl;<br><br><span class="hljs-comment">// 当没有 value 时调用该方法将 throws std::bad_optional_access 异常</span><br>cout &lt;&lt; ret.<span class="hljs-built_in">value</span>().out1 &lt;&lt; endl;<br><br><span class="hljs-comment">// 当没有 value 调用该方法时将使用传入的默认值</span><br>Out defaultVal;<br>cout &lt;&lt; ret.<span class="hljs-built_in">value_or</span>(defaultVal).out1 &lt;&lt; endl;<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Games202-01前言</title>
     <url>/2022/11/01/Games202%E5%89%8D%E8%A8%80/</url>
     <content><![CDATA[<h1 id="课程内容总览"><a class="markdownIt-Anchor" href="#课程内容总览"></a> 课程内容总览</h1>
@@ -1647,448 +1647,6 @@ s76,-59,76,-59s76,-60,76,-60z M1001 80H40000v40H1012z"/></svg></span></span></sp
 <h1 id="论文参考"><a class="markdownIt-Anchor" href="#论文参考"></a> 论文参考</h1>
 <p>【A-Trous Wavelet滤波方法】Holger Dammertz, Daniel Sewtz, Johannes Hanika, and Hendrik Lensch. 2010. Edge-Avoiding ` A-TrousWavelet Transform for fast Global Illumination Filtering. In High Performance Graphics. 67–75.</p>
 <p>【SVGF】Schied C , Salvi M , Kaplanyan A , et al. Spatiotemporal variance-guided filtering: real-time reconstruction for path-traced global illumination[C]// High Performance Graphics. ACM, 2017.</p>
-]]></content>
-      <categories>
-        <category>CG</category>
-        <category>GAMES202</category>
-        <category>Theory</category>
-      </categories>
-      <tags>
-        <tag>CG</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games202-04实时环境映射</title>
-    <url>/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/</url>
-    <content><![CDATA[<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
-<blockquote>
-<p>《Real-Time Rendering 3rd 提炼总结》第五章纹理贴图及相关技术</p>
-</blockquote>
-<p>作为纹理管线的第一步，投影函数的功能就是将空间中的三维点转化为纹理坐标，也就是获取表面的位置并将其投影到参数空间中。</p>
-<p>在常规情况下，投影函数通常在美术建模阶段使用，并将投影结果存储于顶点数据中。也就是说，在软件开发过程中，我们一般不会去用投影函数去计算得到投影结果，而是直接使用在美术建模过程中，已经存储在模型顶点数据中的投影结果。但有一些特殊情况，例如：</p>
-<p>1、OpenGL的glTexGen函数提供了一些不同的投影函数，包括球形函数和平面函数。利用空闲时间可以让图形加速器来执行投影过程，而这样做的优点是不需要将纹理坐标送往图形加速器，从而可以节省带宽。</p>
-<p>2、更一般的情况， 可以在顶点或者像素着色器中使用投影函数，这可以实现各种效果，包括一些动画和一些渲染方法（比如如环境贴图，environment mapping，有自身特定的投影函数，可以针对每个顶点或者每个像素进行计算）。</p>
-<p>通常在建模中使用的投影函数有球形、圆柱、以及平面投影，也可以选其他一些输入作为投影函数。</p>
-<h1 id="环境光照"><a class="markdownIt-Anchor" href="#环境光照"></a> 环境光照</h1>
-<p><strong>环境贴图</strong>：在场景中任意一点往四周看去可看到的光照,将其记录在一张图上这就是环境光照,或者也可以叫做<strong>IBL(image-based lighing)</strong>.这里我们认为看到的光照来自于无限远处,这也就是为什么用环境光照去渲染物体时会产生一种漂浮在空中的感觉,因为光照来自于无限远处.</p>
-<p><strong>存储：用spherical map和cube map</strong>来存储环境光照。</p>
-<p>下面详述在实时渲染领域求环境光照的过程。</p>
-<h1 id="情况一已知环境光照不考虑遮挡求任何物体任何一点shading值"><a class="markdownIt-Anchor" href="#情况一已知环境光照不考虑遮挡求任何物体任何一点shading值"></a> 情况一：已知环境光照，不考虑遮挡，求任何物体任何一点shading值</h1>
-<h2 id="问题引入"><a class="markdownIt-Anchor" href="#问题引入"></a> 问题引入</h2>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled.png" alt></p>
-<p>通用解法：对上面的渲染方程使用蒙特卡洛积分，缺点是需要采集大量样本，时间消耗多</p>
-<p><strong>解决思路：避免采样</strong></p>
-<h2 id="基本思路"><a class="markdownIt-Anchor" href="#基本思路"></a> 基本思路</h2>
-<p>根据以上渲染方程，不考虑遮挡（Visibility项），只需要将BRDF与Lighting项相乘再进行半球积分即可。</p>
-<h3 id="brdf又分为两种情况"><a class="markdownIt-Anchor" href="#brdf又分为两种情况"></a> <strong>BRDF又分为两种情况:</strong></h3>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%201.png" alt></p>
-<ol>
-<li><strong>BRDF为glossy时</strong>,覆盖在球面上的范围很小,也就是small support(积分域).</li>
-<li><strong>BRDF为diffuse时</strong>,它会覆盖整个半球的区域,但是是smooth的,也就是值的变化不大,就算加上cos也是相对平滑的.</li>
-</ol>
-<p>这两种情况均满足下面的近似公式的相等条件</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%202.png" alt></p>
-<h3 id="the-spilt-sum-1st-stage不采样计算lighting"><a class="markdownIt-Anchor" href="#the-spilt-sum-1st-stage不采样计算lighting"></a> <strong>The spilt sum: 1st stage——不采样计算Lighting</strong></h3>
-<p>将渲染方程中的lighting项拆出，同样对于Visibility项也可以这样拆出：</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%203.png" alt></p>
-<p>上图的橙色区域含义：将brdf范围内的lighting积分起来并进行normalize，<strong>等价于将IBL这张图给模糊</strong>了，<strong>等价于在任何一点上取周围一片范围求出范围内的平均值并将平均值写回这个点上</strong></p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%204.png" alt></p>
-<p><strong>Pre-filtering：在rendering之前</strong>把滤波环境光生成，提前将不同卷积核的滤波核的环境光生成一系列模糊过的图（和mipmap相似），当我们需要时进行查询即可,其他尺寸的图则可以经过这些已生成的通过三线性插值得到。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%205.png" alt></p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%206.png" alt></p>
-<p>接着在BRDF部分求shading point值，需要以一定立体角的范围内进行采样再加权平均从而求出shading point的值，而有了<strong>Pre-filtering后的环境光之后，就可以等价于从镜面反射方向望去在pre-filtering的图上的一点进行查询，因此省去了采样的操作。</strong></p>
-<h3 id="the-spilt-sum-2nd-stage不采样计算brdf"><a class="markdownIt-Anchor" href="#the-spilt-sum-2nd-stage不采样计算brdf"></a> <strong>The spilt sum: 2nd stage——不采样计算BRDF</strong></h3>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%207.png" alt></p>
-<p>回到渲染方程的另一个部分——BRDF，如果使用预计算的方法，需要将参数的所有可能性均考虑进去,但是比较多，包括roughness、color等。考虑所有参数的话我们需要打印出一张五维或者更高的表格,这样会拥有爆炸的存储量,因此我们需要想办法降低维度,也就是减少参数量从而实现预计算.</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%208.png" alt></p>
-<p>上图回顾了微表面模型的BRDF，由于此时暂时不考虑阴影，此处需要关注的是Fresnel term和distribution of normals。</p>
-<p><strong>处理过程</strong></p>
-<ul>
-<li>
-<p>Fresnel term：利用Schlick的近似方法可以近似成一个参数为<strong>基础反射率R0</strong>和<strong>入射角度</strong>的指数函数</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%209.png" alt></p>
-</li>
-<li>
-<p>distribution of normals：是一个一维的分布，其中有两个变量，一个变量粗糙程度定义是diffuse还是gloosy，另一个 是half vector和法线的夹角<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>θ</mi><mi>h</mi></msub></mrow><annotation encoding="application/x-tex">\theta_h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，可以近似成入射角度相关的数</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2010.png" alt></p>
-</li>
-<li>
-<p>至此我们有了三个变量:基础反射率r0,roughness α 和角度 θ ,三维的预计算仍然是一个存储量爆炸的结果,因此我们还要想办法减少参数量.(PS:在这里我们认为反射角,入射角,half vector可以用一个角 θ 代替).于是将Schlick近似代入后半部分积分，基础反射R0被拆出积分式，需要预计算的两个量就只有roughness α 和角度 θ</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2011.png" alt></p>
-</li>
-<li>
-<p>可以将预计算结果绘制成一张纹理，在使用时进行查询即可。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2012.png" alt></p>
-</li>
-</ul>
-<p>另外补充一点工业界对于积分的做法：将积分写成求和，这也是在UE引擎里面所使用的环境光技术</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2013.png" alt></p>
-<h1 id="情况二已知环境光照考虑遮挡求任何物体任何一点shading值带阴影"><a class="markdownIt-Anchor" href="#情况二已知环境光照考虑遮挡求任何物体任何一点shading值带阴影"></a> 情况二：已知环境光照，考虑遮挡，求任何物体任何一点shading值（带阴影）</h1>
-<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
-<p>严格意义上来讲,这是不可能完成的事,因为以目前的技术来说是很难实现的,要从两个考虑角度来说:</p>
-<ol>
-<li><strong>many light问题</strong>：我们把环境光理解为很多个小的光源,这种情况下去生成阴影的话,需要在每个小光源下生成shadow map,因此会生成线性于光源数量的shadow map,这是十分高昂的代价。</li>
-<li><strong>sampling问题</strong>：在任何一个Shading point上已知来自正半球方向的光照去解rendering equation,最简单的方法是采样空间中各方向上的不同光照,可以做重要性采样,虽然做了重要性采样但仍需要大量的样本,因为最困难的是visibility term。由于Shading point不同方向上的遮挡是不相同的,我们可以对环境光照进行重要性采样,但一个Shading point周围的visibility项是未知的,因此我们只能盲目的去采样，无法提取出visibility项。因为如果是glossy brdf，他是一个高频的，Lighting项的积分域是整个半球,因此并不满足smooth或small support，因此无法利用近似公式来提取出visibility项.</li>
-</ol>
-<ul>
-<li>在工业界：通常以环境光中最亮的那个作为主要光源,也就是太阳,只生成太阳为光源的shadow。</li>
-<li>学术界
-<ul>
-<li>Imperfect shadow maps：做的是全局光照部分产生的shadow</li>
-<li>Light cuts：解决的是离线渲染中的many lights的问题,核心思想是把反射物当成小光源,把所有的小光源做一下归类并近似出照射的结果</li>
-<li>RTRT (might be the ultimate solution)：Real Time Ray Tracing,可能是最终解决方案</li>
-<li><strong>Precomputed radiance transfer：PRT，可以十分准确的得到来自环境光中的阴影</strong></li>
-</ul>
-</li>
-</ul>
-<p>接下来就使用<strong>PRT</strong>的方法来求环境光照下考虑阴影的shading值，<strong>其主要思想是</strong>：</p>
-<ul>
-<li>PRT 通过一种预计算方法，该方法在离线渲染的 Path Tracing 工具链中预计算 lighting 以及 light transport 并将它们用球谐函数拟合后储存，这样就将时间开销转移到了离线中。</li>
-<li>最后通过使用这些预计算好的数据，我们可以轻松达到实时渲染严苛的时间要求，同时渲染结果可以呈现出全局光照的效果。</li>
-</ul>
-<h2 id="数学基础"><a class="markdownIt-Anchor" href="#数学基础"></a> 数学基础</h2>
-<p><strong>基函数</strong>：把一个函数可以描绘成其他函数的线性组合,如<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>可以描绘成一系列的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">Bi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">i</span></span></span></span>函数乘以各自对应的系数最终再相加在一起,这一系列的函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">Bi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">i</span></span></span></span>就是基函数.</p>
-<p><strong><strong>Spherical Harmonics(球谐函数)：SH是一系列基函数,系列中的每个函数都是2维函数,并且每个二维函数都是定义在球面上的。下图是SH的可视化</strong>：</strong></p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2014.png" alt></p>
-<p>与一维的傅里叶一样,SH也存在不同频率的函数，但不同频率的函数个数也不同,频率越高所含有的基函数越多。</p>
-<p>其中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>表示的是阶数，通常第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>阶有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mi>l</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2l+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>个基函数，前<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>阶有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>个基函数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span>表示的是在某一个频率下基函数的序号，分别从从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mi>l</mi></mrow><annotation encoding="application/x-tex">-l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>。每个基函数都有一个比较复杂的数学表示，对应一个legendre多项式，我们不用去了解legendre多项式,我们只需要知道基函数长这样,可以被某些数学公式来定义不同方向的值是多少就可以了.</p>
-<p><strong>投影</strong>：由于一个函数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(w)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span> 可以由一系列基函数和系数的线性组合表示，那么怎么确定基函数前面的系数，这就需要通过投影操作：</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2015.png" alt></p>
-<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(w)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span>通过对应的基函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">B(i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mclose">)</span></span></span></span>进行投影操作,从而求出各基函数对应的系数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">Ci</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault">i</span></span></span></span>。</p>
-<p>如何理解投影：在空间中想描述一个向量，可以xyz三个坐标来表达，把xyz轴当做三个基函数，把向量投影到xyz轴上，得到三个系数就是三个坐标。</p>
-<p><strong>重建</strong>：知道基函数对应的系数，就能用系数和基函数恢复原来的函数。</p>
-<p>由于基函数的阶可以是无限个的，越高的阶可恢复的细节就越好,但一方面是因为更多的系数会带来更大的存储压力、计算压力，而<strong>一般描述变化比较平滑的环境漫反射部分，用3阶SH就足够。</strong></p>
-<h2 id="prt过程"><a class="markdownIt-Anchor" href="#prt过程"></a> PRT过程</h2>
-<p>在实时渲染中,考虑阴影的情况下我们把rendering equation写成由三部分组成的积分:</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2016.png" alt></p>
-<p>如果不进行预计算，就是遍历每个像素去解这个方程，假设环境光是6∗64∗64的map，对于每个shading point来说，计算shading需要计算6∗64∗64次。</p>
-<p>而利用SH就可以将一些内容预计算，以节省时间开销，基本思想是：将rendering equation分为两部分,lighting 和 light transport。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2017.png" alt></p>
-<ul>
-<li><strong>lighting</strong>：假设在渲染时场景中只有lighting项会发生变化(旋转,更换光照等),由于lighting是一个球面函数,因此可以用基函数来表示,在预计算阶段计算出lighting.</li>
-<li><strong>light transport(visibility和brdf)</strong>：相当于对任一shading point来说,light transport项固定的,可以认为是shading point自己的性质,light transport总体来说还是一个球面函数,因此也可以写成基函数形式,是可以预计算出的.</li>
-</ul>
-<h3 id="diffuse-prt计算"><a class="markdownIt-Anchor" href="#diffuse-prt计算"></a> Diffuse PRT计算</h3>
-<p><strong>第一种理解方式</strong>：</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2018.png" alt></p>
-<ul>
-<li>
-<p>BRDF几乎为常数，可以提取到积分之外</p>
-</li>
-<li>
-<p>Lighting项写为基函数形式（黄色部分），每个基函数前的系数（Lighting投影到某个基函数）为常数，可以提取到积分之外，这里的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 是入射方向</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2019.png" alt></p>
-</li>
-<li>
-<p>积分中只剩下基函数和visibility项，相乘之后得到的也是常数，相当于visibility项投影到基函数得到常数系数，最终的效果是把visibility项分解成了多个常数项（组成向量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>）</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2020.png" alt></p>
-</li>
-<li>
-<p>最终计算任何一个shading point，只需要计算光照系数和visibility系数分别相乘，相当于两个向量点乘</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2021.png" alt></p>
-</li>
-</ul>
-<p><strong>第二种理解方式</strong>：</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2022.png" alt></p>
-<ul>
-<li>
-<p>将Lighting与light transport独立开来，分别投影到各自的SH基函数上，也就是说两者使用了两套SH，分开投影。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2023.png" alt></p>
-</li>
-<li>
-<p>结果得到了<strong>Lighting与light transport各自的基函数系数*各自的基函数相乘的积分， 只有p和q下标相等的基函数相乘为1，其余为0（SH的正交性），与第一种理解方式是一样的结果。</strong></p>
-</li>
-</ul>
-<p><strong>PRT方法的主要限制</strong></p>
-<ul>
-<li><strong>光源</strong>：预计算的光源我们把它投影到SH上，如果旋转，可以通过SH的旋转不变性解决，但是不能计算随机动态场景的全局光照</li>
-<li><strong>场景</strong>：light transport做了预计算,因此visibility相当于常量,因此场景不能动,因此只能对静止物体进行计算.</li>
-</ul>
-<h3 id="glossy-prt计算"><a class="markdownIt-Anchor" href="#glossy-prt计算"></a> Glossy PRT计算</h3>
-<p>Diffuse和glossy的区别：</p>
-<ul>
-<li><strong>diffuse的brdf是一个常数，<strong>而</strong>glossy的brdf是一个4维的brdf</strong>(2维的输入方向，2维的输出方向，而<strong>SH中所表示的i或者o表示二维的输入方向或者二维的输出方向，只是在形式上只些了一个字母作为函数的变量</strong>)。</li>
-<li>直观一点来说,glossy物体有一个很重要的性质,它是和视点有关的，不同的视角得到的shading result也是不一样的。diffuse的物体不管视角如何旋转改变,看到的Shading point的result是不会改变的,因为整个Diffuse shading和视角是无关的。</li>
-</ul>
-<p>因此，在计算Glossy材质的PRT时，需要考虑视点方向，也就是光线的出射方向。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2024.png" alt></p>
-<ul>
-<li>Lighting项投影到SH上，得到一系列常数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>l</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">l_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
-<li>剩余的BRDF、visibility项继续投影到SH，会得到关于出射方向的函数，每个出射方向都对应了一系列常数（每个出射方向的投影结果相当于Diffuse PRT得到的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>）</li>
-<li><strong>最终的BRDF、visibility项的结果会是一个矩阵（所有的入射方向到所有的出射方向的预计算结果，矩阵维度取决于SH的阶数，而不是有多少入射方向和出射方向）</strong></li>
-</ul>
-<p>效果：</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2025.png" alt></p>
-<p><strong>Glossy下使用PRT产生的问题</strong>：</p>
-<ul>
-<li>存储巨大，四阶的SH得到16个基函数，每个点需要16阶向量与16*16的矩阵相乘。</li>
-<li>Diffuse情况下一般三阶SH就足够，但是当Glossy非常高频时，也就是接近镜面反射的情况的时候， PRT就没有那么好用，我们虽然可以采用更高阶的SH来描述高频信息，但是使用SH甚至远不如直接采样方便。</li>
-</ul>
-<h1 id="情况三考虑多次bounce"><a class="markdownIt-Anchor" href="#情况三考虑多次bounce"></a> 情况三：考虑多次bounce</h1>
-<p>我们可以用一系列的表达式来描述不同光线传播的路径都是一种什么类。区分材质区分为三种：</p>
-<ol>
-<li>Diffuse</li>
-<li>Specular镜面反射</li>
-<li>Glossy 介于两者之间</li>
-</ol>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2026.png" alt></p>
-<p>传播路径的区分：</p>
-<ol>
-<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">LE</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：Light直接到眼Eye</li>
-<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>G</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">LGE</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">G</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：Light打到Glossy物体然后到眼Eye</li>
-<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>G</mi><mi>G</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">LGGE</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">G</span><span class="mord mathdefault">G</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：多bounce一次,就是Light先打到壶嘴,在bounce到壶身,最后到眼。(L-&gt;Glossy-&gt;Glossy-&gt;Eye)</li>
-<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>D</mi><mi mathvariant="normal">∣</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>∗</mo></msup><mi>E</mi></mrow><annotation encoding="application/x-tex">L(D|G)^*E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord">∣</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：Light从光源出发,打到一个物体,可能是Diffuse也可能是Glossy,*表示bounce次数,最后到达眼Eye</li>
-<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>S</mi><mo stretchy="false">(</mo><mi>D</mi><mi mathvariant="normal">∣</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>∗</mo></msup><mi>E</mi></mrow><annotation encoding="application/x-tex">LS(D|G)^*E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord">∣</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：打到Specular面上，然后聚焦到Diffuse物体上,最后被眼睛看到，也就是caustics材质</li>
-</ol>
-<p>结论：</p>
-<ul>
-<li><strong>所有路径开始都是L最后都是E，因此我们在运用PRT时候，把L和E中间所有的东西都看作是Light transport。</strong></li>
-<li>拆分为light和light transport之后,不管中间boucne几次,我们只需要预计算出Light transport就行，不论多么复杂的bounce,我们只需要计算出light transport就能得出最后的shading result。</li>
-</ul>
-<p><strong>计算方式</strong>：</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2027.png" alt></p>
-<p>理解方式1：把light transport（图上红色下划线部分）投影到SH基函数（做了一个<strong>Product Integral）</strong></p>
-<p>理解方式2：把light transport的预计算看作是基函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>B</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">B_i(i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mclose">)</span></span></span></span>照亮了场景的渲染过程。换句话说，把基函数看为lighting项，那么light transport就是rendering equation，我们把light transport投影到basis上，相当于用basis这个Lighting照亮物体，每个basis得到一个渲染图，最后我们进行重建从而得出最后的shading值。而解这部分的过程依旧和解渲染方程一样。</p>
-<p>渲染效果：</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2028.png" alt></p>
-<h1 id="prt方法总结"><a class="markdownIt-Anchor" href="#prt方法总结"></a> PRT方法总结</h1>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2029.png" alt></p>
-<p>Sloan在02年提出的这个方法（即PRT），使用球谐函数估计光照和光线传输，将光照变成光照系数，将光线传输变成系数或者矩阵的形式，通过预计算和存储光线传输将渲染问题变为每个vertex/shading point：点乘（diffuse表面）、向量矩阵乘法（glossy表面）。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2030.png" alt></p>
-<p>由于球谐函数的性质，该方法比较适合使用于低频的情况（可用于高频但不合适,如图即使使用了26*26阶的sh仍然得不到比较好的效果）；当改变场景或者材质时需要重新预计算light transport，此外预计算的数据比较大。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2031.png" alt></p>
-<p>基于Sloan依旧有许多后续的研究…</p>
-<h1 id="其它基函数"><a class="markdownIt-Anchor" href="#其它基函数"></a> 其它基函数</h1>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2032.png" alt></p>
-<p>此外，基函数除了可以使用球谐函数外，还有很多选择，比如Wavelet、Zonal Harmonics、Spherical Gaussian、Piecewise Constant等。</p>
-<h2 id="wavelet小波函数"><a class="markdownIt-Anchor" href="#wavelet小波函数"></a> Wavelet小波函数</h2>
-<p>小波变换的过程就是投影过程，相比于球谐函数对低频内容友好（球谐函数使用少量的基去表示），小波变换可以全频率表示，但是只有很少的系数是非零的.</p>
-<p>由于小波是平面上的函数，为了防止变换后在球面上出现缝隙，所以采用了<strong>Cubemap</strong>来作为环境光而不是Sphereical map。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2033.png" alt></p>
-<p>从图中可以看到,小波变化是把每张图的高频信息留在这张图的左下,右上和右下三部分,而把剩余的低频信息放在左上角,左上角的信息可以继续进行小波变换,我们会发现高频的东西很少,对于绝大部分来说是0,不断地进行小波变换可以得到一个很不错的既保留了低频又保留了高频的压缩.</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2034.png" alt></p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2035.png" alt></p>
-<p>但是小波也有自己的缺陷：不支持旋转（使用球谐函数进行表示时，由于球谐函数具有<strong>simple rotation</strong>的性质，所以支持光源的旋转）。</p>
-<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2036.png" alt></p>
-<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
-<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=5">Lecture5 Real-time Environment Mapping_哔哩哔哩_bilibili</a></p>
-<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=6">Lecture6 Real-time Environment Mapping_哔哩哔哩_bilibili</a></p>
-<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY/?p=7">Lecture7 Real-time GLobal Illumination (in 3D)_哔哩哔哩_bilibili</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/371112302">Games202 高质量实时渲染笔记lecture 05 Real-Time Environment Mapping - 知乎 (zhihu.com)</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/373697912">Games202 高质量实时渲染笔记lecture 06 Real-Time Environment Mapping 02 - 知乎 (zhihu.com)</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/377104538">GAMES202 高质量实时渲染笔记Lecture07：Real-Time Global Illumination (In 3D) - 知乎 (zhihu.com)</a></p>
-]]></content>
-      <categories>
-        <category>CG</category>
-        <category>GAMES202</category>
-        <category>Theory</category>
-      </categories>
-      <tags>
-        <tag>CG</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Games202-03实时阴影</title>
-    <url>/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/</url>
-    <content><![CDATA[<h1 id="shadow-mapping"><a class="markdownIt-Anchor" href="#shadow-mapping"></a> Shadow Mapping</h1>
-<p><strong>概述</strong>：是一个完全在图像空间中的算法，将深度信息渲染到深度图上，并在运行时通过深度对比检测物体是否在阴影中的算法。Shadow map是一个2-pass的算法</p>
-<p><strong>优点</strong>：一旦shadow Map已经生成,就可以利用shadow map来获取场景中的几何表示而不是场景中的几何</p>
-<p><strong>缺点</strong>：会产生自遮挡和走样现象</p>
-<h2 id="步骤"><a class="markdownIt-Anchor" href="#步骤"></a> 步骤</h2>
-<ol>
-<li>
-<p>从light处出发看向场景生成一张记录每个像素中最近物体深度的一张图，图中有很多像素,我们记录下每个像素中他们各自看到的最浅的深度或是最近的物体他们的位置在哪,存下来从而得到一张texture。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled.png" alt></p>
-</li>
-<li>
-<p>从Camera(眼睛)出发，再渲染一遍场景。看渲染中的每个像素中都要来判断是否能被light照到,如果被照到则不在阴影中,反之,则存在于阴影中</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%201.png" alt></p>
-</li>
-</ol>
-<p>在Opengl中,1-pass就是在light处放置一个相机,然后往某一方向看去,定义framebuffer写到某个texture上,然后在fragment shader中定义写的是一个深度而非shading的结果,在2-pass中则只需要用1-pass得到的texture即可。</p>
-<h2 id="存在的问题"><a class="markdownIt-Anchor" href="#存在的问题"></a> 存在的问题</h2>
-<ol>
-<li><strong>自遮挡</strong>
-<ul>
-<li>
-<p>在使用 Shadow Map 的时候，如果不做任何处理，就会出现下图这种现象，被称为 Shadow Acne 或者 Self-Shadowing。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%202.png" alt></p>
-</li>
-<li>
-<p>成因：物体的实际深度，与自己的采样深度，相比较不相等（实际深度大于采样深度）导致的，所以可谓是自己（采样的副本）遮挡了自己（实际的物体），所以被称为 self shadowing。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%203.png" alt></p>
-</li>
-<li>
-<p>解决方法：Shadow Bias。在判断前先每个 shading point 深度往光照方向挪一挪，让由于自遮挡被判断处于阴影的点挪到有光照的地方，就能很大程度改善这一点。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%204.png" alt></p>
-</li>
-<li>
-<p>但是存在另一个问题：这个现象只有在加入了 shadow bias 的时候才会出现，如下图，会看到影子脱离了物体（像飞起来的小飞侠一样），被称为 peter-panning。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%205.png" alt></p>
-</li>
-<li>
-<p>解决 peter-panning 的方法</p>
-<ul>
-<li>
-<p>可以看到，bias 加小了没用，依旧会有自遮挡；加多了又会导致 peter panning。所以要怎么加，是有一定技巧的，最终的目标是要找到一个刚好能够消除 shadow acne 的 bias 值。</p>
-</li>
-<li>
-<p>现在常用的 shadow bias 的计算方法，是基于物体斜度的，称为 <strong>slope scale based depth bias</strong>。<strong>原理：当斜度大的时候，shadow map 上的一个点，所对应的实际物体的一小块面，其深度变化就会更大。</strong></p>
-</li>
-<li>
-<p>基于斜度的偏移可以根据表面的斜度，更改深度的偏差值。当表面与灯光的夹角越小，那么阴影贴图中一个像素对应的表面区域越大，其深度变化也就越大，就需要添加更大的 bias。表面与灯光的夹角可以通过法线与灯光方向的夹角余弦值来计算（dot(normal,lightDir)），所以 bias 要和夹角余弦值成反比。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%206.png" alt></p>
-</li>
-<li>
-<p>最终公式是：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mi>i</mi><mi>a</mi><mi>s</mi><mo>=</mo><mi>f</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>S</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi><mo>∗</mo><mi>s</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi><mo>+</mo><mi>c</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi><mi>B</mi><mi>i</mi><mi>a</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">bias = factorSlope * slope + constantBias</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">i</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">a</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">i</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span></span></span></span></p>
-</li>
-<li>
-<p>factorSlope 是斜度偏差范围的系数，表示斜度偏差的程度，slope 是根据夹角余弦值计算，constantBias 是基础的阴影偏差。由此可知，factorSlope 与 constantBias 都是需要手动给出的，通过调试才能得到最优的效果。</p>
-</li>
-<li>
-<p>举例来说，一个 x 方向的斜坡，同样是在 x 方向上差 0.01，如果坡角是 45 度，那么深度差就是 0.01，如果坡角是 60 度，那么深度差就是 0.017.</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%207.png" alt></p>
-<p>如果采样点都是在 x=0.005 处，那么对坡角 60 的情况，就需要 bias 至少为 0.0085，才可以保证不会产生 shadow acne，而 45 度的情况，bias 只要 0.005 就可以了</p>
-<p>对于这个公式，需要做一些说明：</p>
-<p>1）坡度如何确定？当然是用顶点的 normal，但是需要注意的是，我们是在灯光坐标系下观察物体的，所以 normal 需要转换到 light space 中。</p>
-<p>2）里面的两个参数 factorSlope 和 constantBias 如何确定？只能通过不断调整才能得到。</p>
-</li>
-<li>
-<p>解决 peter-panning 的另一种方法：<strong>Second-depth shadow mapping</strong>，此时我们就舍弃biasd的概念,而是在渲染时不仅存最小的深度,我们还要存第二小的深度,然后我们用最小深度和第二小深度中间的深度来作比较。但实际中并没有人去使用这个技术,因为场景内的物体必须都是watertight（非面片），还有就是计算复杂，开销太大</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>走样</strong>
-<ul>
-<li>
-<p>shadow map本身就存在分辨率，当分辨率不够大自然会看到锯齿,因为shadow map上每一个像素都可以看为小片,那么投出来的阴影自然会存在锯齿。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%208.png" alt></p>
-</li>
-<li>
-<p>解决的方法是下面提到的PCF</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="pcfpercentage-closer-filtering"><a class="markdownIt-Anchor" href="#pcfpercentage-closer-filtering"></a> <strong>PCF(percentage Closer Filtering)</strong></h1>
-<p>概述：PCF能解决shadow map的锯齿块和硬边问题，产生柔和软阴影。</p>
-<p>核心思想：从深度贴图中多次采样，每一次采样的纹理坐标都稍有不同（比如采样像素周围一圈范围）。每个独立的样本可能在也可能不再阴影中。所有的次生结果接着结合在一起，最终通过样本的总数目将深度结果平均化，得到的可见性变为0~1之间的数。</p>
-<p>步骤：在<strong>第二个pass中</strong>，对于这个shading point我们仍要判断是否在阴影内,但是我们把其投影到light之后不再只找其对应的单个像素,而是<strong>找其周围一圈的像素</strong>（<strong>采样方式可以是均匀采样、泊松圆盘采样等，采样的范围称为Filter Size</strong>）,把周围像素深度比较的结果<strong>加起来平均一下</strong>，就得到一个0-1之间的数，就得到了一个模糊的结果。</p>
-<figure class="highlight glsl"><table><tr><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">float</span> PCF(<span class="hljs-type">sampler2D</span> shadowMap,<span class="hljs-type">vec4</span> coords)&#123;<br>  poissonDiskSamples(coords.xy);<br>  <span class="hljs-comment">// uniformDiskSamples(coords.xy); // 均匀圆盘采样时阴影边缘不够自然</span><br>  <span class="hljs-type">float</span> blocker=<span class="hljs-number">0.</span>;<br>  <span class="hljs-type">float</span> filterSize=<span class="hljs-number">25.</span>;<br>  <span class="hljs-comment">// 上面生成的采样点处于单位圆内，因此可以使用一个 filterSize 来控制整体的采样范围。由于作业框架 Shadowmap 的大小为 2048 x 2048，每个像素的长度可以近似为 1 / 2048。</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;NUM_SAMPLES;i++)&#123;<br>    <span class="hljs-type">vec2</span> uv_bias=poissonDisk[i]/<span class="hljs-number">2048.</span>*filterSize;<br>    <span class="hljs-type">float</span> shadowDepth=unpack(<span class="hljs-built_in">texture2D</span>(shadowMap,coords.xy+uv_bias));<br>    <span class="hljs-keyword">if</span>(coords.z-Bias3()&gt;shadowDepth)&#123;<br>      blocker++;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1.</span>-blocker/<span class="hljs-type">float</span>(NUM_SAMPLES);<br>&#125;<br></code></pre></td></tr></table></figure>
-<h1 id="pcsspercentage-closer-soft-shadows"><a class="markdownIt-Anchor" href="#pcsspercentage-closer-soft-shadows"></a> <strong>PCSS（Percentage Closer Soft Shadows）</strong></h1>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%209.png" alt></p>
-<p>PCSS为了实现更真实的软阴影，达到离遮挡物距离近的时候硬，远的时候软的效果：<strong>阴影接受物与阴影投射物的距离越小,阴影越锐利。因此,我们要解决的一个问题是我们如何决定一个软阴影的半影区。换句话说，就是filter size 有多大的问题。</strong></p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2010.png" alt></p>
-<ol>
-<li>算每个区块深度（shadow map上，<strong>只算被遮挡点的平均深度，而不是区块内所有点的平均深度</strong>）</li>
-<li>利用相似三角形的原理计算新的半影直径</li>
-<li>PCF。在shadow map上采样，范围由第二步确定。</li>
-</ol>
-<p><strong>本质</strong>：求出了阴影中需要做PCF的半影部分后再进行PCF的计算，这样动态调节了半影范围，也就是动态设置了PCF的搜索范围，这样我们的硬阴影部分清晰，软阴影部分模糊，动态的实现了不错的软阴影效果。</p>
-<figure class="highlight glsl"><table><tr><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">float</span> PCSS(<span class="hljs-type">sampler2D</span> shadowMap,<span class="hljs-type">vec4</span> coords)&#123;<br>  <br>  <span class="hljs-comment">// STEP 1: avgblocker depth</span><br>  <span class="hljs-type">float</span> d_Blocker = findBlocker(shadowMap,coords.xy,coords.z);<br>  <span class="hljs-type">float</span> w_Light = <span class="hljs-number">1.</span>;<br>  <span class="hljs-type">float</span> d_Receiver = coords.z;<br>  <br>  <span class="hljs-comment">// STEP 2: penumbra size</span><br>  <span class="hljs-type">float</span> w_penumbra = w_Light*(d_Receiver-d_Blocker)/d_Blocker;<br>  <span class="hljs-comment">// return w_penumbra;</span><br>  <span class="hljs-comment">// STEP 3: filtering</span><br>  <span class="hljs-type">float</span> blocker=<span class="hljs-number">0.</span>;<br>  <span class="hljs-type">float</span> filterSize=<span class="hljs-number">25.</span>;<br>  <span class="hljs-comment">// 上面生成的采样点处于单位圆内，因此可以使用一个 filterSize 来控制整体的采样范围。由于作业框架 Shadowmap 的大小为 2048 x 2048，每个像素的长度可以近似为 1 / 2048。</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;NUM_SAMPLES;i++)&#123;<br>    <span class="hljs-type">vec2</span> uv_bias=poissonDisk[i]/<span class="hljs-number">2048.</span>*filterSize*w_penumbra;<span class="hljs-comment">// !这里与PCF不同</span><br>    <span class="hljs-type">float</span> shadowDepth=unpack(<span class="hljs-built_in">texture2D</span>(shadowMap,coords.xy+uv_bias));<br>    <span class="hljs-keyword">if</span>(coords.z-Bias3()&gt;shadowDepth)&#123;<br>      blocker++;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1.</span>-blocker/<span class="hljs-type">float</span>(NUM_SAMPLES);<br>  <br>&#125;<br></code></pre></td></tr></table></figure>
-<p>步骤1和步骤3需要对整个区域的<strong>各个shading point与点x的深度进行比较</strong>，所以会导致很慢。由于需要在一个范围内进行比较，那么步骤1和3的时间开销会决定整个算法的时间开销，此外为了得到越“软”的阴影意味着需要使用更大的filtering size，会导致速度越慢。为了解决这两步慢的问题,就有人提出了Variance Soft Shadow Mapping。</p>
-<h1 id="vssm-variance-soft-shadow-mapping"><a class="markdownIt-Anchor" href="#vssm-variance-soft-shadow-mapping"></a> <strong>VSSM (Variance Soft Shadow Mapping)</strong></h1>
-<p>解决PCSS第一步和第三步慢的问题，优化了第三步范围查询shadow map得到平均深度值，直接使用切比雪夫进行猜测。</p>
-<h2 id="第一步的优化如何更快地求遮挡物的平均深度"><a class="markdownIt-Anchor" href="#第一步的优化如何更快地求遮挡物的平均深度"></a> 第一步的优化：如何更快地求遮挡物的平均深度</h2>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2011.png" alt></p>
-<ul>
-<li>
-<p>将其分为两个区域，<strong>蓝色</strong>是深度小于shading point的遮挡区域,其平均深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{occ}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。<strong>红色</strong>是深度大于shading point的非遮挡区域，其平均深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>u</mi><mi>n</mi><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{unocc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。并且我们认为区域内的像素总数为<strong>N，<strong>非遮挡的像素为</strong>N1</strong>个，遮挡的像素为<strong>N2</strong>个</p>
-</li>
-<li>
-<p>重要公式**：非遮挡像素占的比例 * 非遮挡物的平均深度 + 遮挡像素占的比例 * 遮挡物的平均深度 = 总区域内的平均深度**</p>
-</li>
-<li>
-<p><strong>VSSM核心思想</strong></p>
-<ul>
-<li>
-<p>求范围内有百分之多少的像素比shading point浅，于是就可以把范围内所有的深度做一个直方图，根据直方图可以判断shaing point的深度排名。而<strong>VSSM假设这个直方图的分布是正态分布，而该分布最重要的是得到均值和方差。而求”有百分之多少的像素比shading point浅”这个问题就转化为”给定shading point值，PDF（概论密度函数）下的阴影面积是多少，或者是CDF在shading poingt处的函数值是多少“</strong>（对于一个通用的高斯的PDF，对于这类PDF，可以直接把CDF结果，输出为一个表，叫误差函数Error Fuction，误差函数有数值解，但是没有解析解，在C++ 中的函数ERF(lower_limit,[upper_limit])函数可以计算CDF。）</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2012.png" alt></p>
-</li>
-<li>
-<p>但是计算PDF的面积又过于麻烦，于是找到了一个不等式来近似计算。那么就可以通过均值和方差获得图中红色面积的值。因此就可以不用计算CDF了，而是通过1 - 求出的x&gt;t的面积值得到CDF.但是<strong>切比雪夫不等式有一个苛刻的条件：t 必须在均值右边，也就是t大于均值。</strong></p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2013.png" alt></p>
-</li>
-</ul>
-</li>
-<li>
-<p>总区域内的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>A</mi><mi>v</mi><mi>g</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{Avg}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>我们用<strong>mipmap</strong>或者<strong>SAT(Summed Area Tables)<strong>去求,也就是得到了正态分布的</strong>均值。<strong>然后用shadow map（存储的是深度值）和square-depth map(存储的是深度值的平方）来计算</strong>方差</strong>：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false">(</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>−</mo><msup><mi>E</mi><mn>2</mn></msup><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Var(X) = E(X^2)-E^2(X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span></p>
-</li>
-<li>
-<p>根据切比雪夫不等式近似求出两个比例<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>N</mi><mn>1</mn></msub><mi mathvariant="normal">/</mi><mi>N</mi><mi mathvariant="normal">、</mi><msub><mi>N</mi><mn>2</mn></msub><mi mathvariant="normal">/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">N_1/N、N_2/N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord cjk_fallback">、</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></p>
-</li>
-<li>
-<p>最后一个假设：认为非遮挡物的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>u</mi><mi>n</mi><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{unocc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> = shading point的深度</p>
-</li>
-<li>
-<p>将所有值代入可求出遮挡物的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{occ}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>p</p>
-</li>
-<li>
-<p>ps：接受平面是曲面或者与光源不平行的时候就会出问题</p>
-</li>
-</ul>
-<h2 id="第三步的优化"><a class="markdownIt-Anchor" href="#第三步的优化"></a> 第三步的优化</h2>
-<ul>
-<li>我们通过生成shadow map和square-depth map得到期望值的平方和平方值的期望再根据公式得到方差：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false">(</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>−</mo><msup><mi>E</mi><mn>2</mn></msup><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Var(X) = E(X^2)-E^2(X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span></li>
-<li>通过mipmap或者SAT得到期望</li>
-<li>得到期望和方差之后，根据切比雪夫不等式近似得到一个depth大于shading point点深度的面积，也就是求出了未遮挡Shading point的概率，从而可以求出一个在1-0之间的visilibity</li>
-<li>ps：省去了在这个范围内进行<strong>采样</strong>或者<strong>循环</strong>的操作,大大加速了第三步。如果场景/光源出现移动 就需要更新MIPMAP，本身还是有一定的开销，但是生成MIPMAP硬件GPU支持的非常到位，生成非常快（几乎不花时间），而是SAT会慢一点。</li>
-</ul>
-<h1 id="moment-shadow-mapping"><a class="markdownIt-Anchor" href="#moment-shadow-mapping"></a> <strong><strong>Moment shadow mapping</strong></strong></h1>
-<p>为了避免VSSM中不是正态分布情况下的问题,就引入了更高阶的<strong>moments</strong>来得到更加准确的深度分布情况.想要描述的更准确，就要使用更高阶的<strong>moment(矩)</strong>，矩的定义有很多，最简单的矩就是记录一个数的次方，<strong>VSSM 就等于用了前两阶的矩</strong>。这样多记录几阶矩就能得到更准确的结果。</p>
-<p>如果保留前M阶的矩，就能描述一个阶跃函数，阶数等2/M,就等于某种展开。越多的阶数就和原本的分布越拟合。一般来说4阶就够用。</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2014.png" alt></p>
-<h1 id="sdfdisatance-field-soft-shadows"><a class="markdownIt-Anchor" href="#sdfdisatance-field-soft-shadows"></a> <strong>SDF(Disatance field soft shadows)</strong></h1>
-<p><strong>有向距离场SDF</strong>：记录了空间中任何一点到定义该场的物体之间的最小距离。</p>
-<p><strong>背后的理论</strong>：optimal transport最优传输。</p>
-<h2 id="应用1ray-marching"><a class="markdownIt-Anchor" href="#应用1ray-marching"></a> 应用1：Ray Marching</h2>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2015.png" alt></p>
-<p>简述：将SDF距离作为安全距离，判断光线是否与物体相交，可以加速光线步进。</p>
-<p>详述：</p>
-<p>任意一点的SDF我们是已知的,因此在P0 点时,我们以它的SDF(P0)为半径做一个圆(此处假设在2D内,如果在3D内则是一个球),在这个圆内无论是哪个方向前进,只要不超过半径距离,都不会碰见物体,是安全的.</p>
-<p>因此我们可以利用这个特性不断的朝一个方向前进,以P0开始朝一方向走SDF(P0)到达 P1 点,若仍与物体表面相距甚远,则以P1点为新起点继续走SDF(P1)到达 P2 点,假设此处 P2 点的SDF足够小,也就是代表离物体表面足够接近了,则进行求交操作.</p>
-<p>如果在超一方向trace非常远的距离但仍然什么都没trace到,此时就可以舍弃这条光线,也就是停止了.</p>
-<p>虚幻引擎中便使用了这种方法判断静态网格的表面：<a href="https://docs.unrealengine.com/5.1/en-US/mesh-distance-fields-in-unreal-engine/">Mesh Distance Fields in Unreal Engine | Unreal Engine 5.1 Documentation</a></p>
-<h2 id="应用2生成软阴影"><a class="markdownIt-Anchor" href="#应用2生成软阴影"></a> 应用2：生成软阴影</h2>
-<p>将安全距离的概念进行延伸，在任意一点通过sdf可以获得一个safe angle，即取点P为shading point往一方向打出一根光线,光线上的一点a,有一个SDF值SDF(a),也就是在a点以SDF(a)为半径所做的球或圆内是安全的,不会碰到物体.</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2016.png" alt></p>
-<p>把shading point和<strong>面光源</strong>相连，所得到的安全角度越小，被遮蔽的可能越高，就可以认为</p>
-<p><strong>safe angle越小，阴影越黑,越趋近于硬阴影;</strong></p>
-<p><strong>safe angle够大就视为不被遮挡没有阴影,也就越趋近于软阴影。</strong></p>
-<h3 id="具体步骤"><a class="markdownIt-Anchor" href="#具体步骤"></a> 具体步骤</h3>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2017.png" alt></p>
-<ul>
-<li>
-<p>我们以o为起点,沿一个方向推进,仍然是ray marhcing的步骤,在p1点以SDF(p1)进行推进,其余点也是一样,此处主要是为了求safe angle,我们在起点o沿每个点的sdf为半径所形成的圆做切线,从而求出各个点的safe angle,我们最后再<strong>取其中最小的角度作为总的safe angle.</strong></p>
-</li>
-<li>
-<p>求safe angle的公式：以p1点为例,从o点到p1的距离为斜边,sdf(p1)是直角边,因此我们用arcsin就可以求出safe angle了.</p>
-</li>
-<li>
-<p>但是对于反函数计算对于计算机不友好，于是使用比值而不是比值的arcsin来描述safe angle的大小，然后引入一个系数k（k的大小是控制阴影的软硬程度）即可</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2018.png" alt></p>
-</li>
-</ul>
-<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
-<p>SDF是一个快速的高质量的软阴影生成方法(比shadow map快是忽略了SDF生成的时间),但是在存储上的消耗非常大，而且生成SDF的花的时间也要很久，SDF是预计算，在有动态形变的物体的情况就得重新计算SDF。</p>
-<h1 id="概念补充"><a class="markdownIt-Anchor" href="#概念补充"></a> 概念补充</h1>
-<h2 id="sat"><a class="markdownIt-Anchor" href="#sat"></a> SAT</h2>
-<p>SAT是百分百准确的一个数据结构。</p>
-<p>SAT的出现是为了解决范围查询(在区域内快速得到平均值),并且,范围内求平均值是等价于范围内求和的,毕竟总和除以个数=平均值.</p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2019.png" alt></p>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2020.png" alt></p>
-<h2 id="mipmap"><a class="markdownIt-Anchor" href="#mipmap"></a> MIPMAP</h2>
-<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2021.png" alt></p>
-<p>是一个<strong>快速的,近似的,正方形的范围查询</strong>,由于它要做插值,因此即便是方形有时也会不准确.同时当插值的范围不是2的次方时，也就是在两个MIPMAP之间时，还要再进行一次插值，也就是“三线性插值”，这样会让结果更加不准确,因此局限性太大且准确度也不算高.</p>
-<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
-<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=2">Lecture2 Recap of CG Basics_哔哩哔哩_bilibili</a></p>
-<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=3">Lecture3 Real-time Shadows 1_哔哩哔哩_bilibili</a></p>
-<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=4">Lecture4 Real-time Shadows 2_哔哩哔哩_bilibili</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/363355018">GAMES202 高质量实时渲染课程笔记Lecture 2: Recap of CG Basics - 知乎 (zhihu.com)</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/363355909">GAMES202 Real-Time High Quality Rendrting 高质量实时渲染课程笔记Lecture 3: Shadow 01 - 知乎 (zhihu.com)</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/363357318">GAMES202 Real-Time High Quality Rendrting 高质量实时渲染课程笔记Lecture 4: Shadow 02 - 知乎 (zhihu.com)</a></p>
 ]]></content>
       <categories>
         <category>CG</category>
@@ -2628,6 +2186,448 @@ s76,-59,76,-59s76,-60,76,-60z M1001 80H40000v40H1012z"/></svg></span></span></sp
 <p>【HBAO】Max, Nelson L., “Horizon Mapping: Shadows for Bump-Mapped Surfaces,” The Visual Computer,vol. 4, no. 2, pp. 109–117, 1988. Cited on p. 460, 466</p>
 <p>【AO，bent normal的提出】Landis, Hayden, “Production-Ready Global llumination,” SIGGRAPH RenderMan in Production course, July 2002. Cited on p. 446, 448, 465</p>
 <p>【SSR的改进】Ritschel et al., <a href="https://link.zhihu.com/?target=https%3A//www.ea.com/frostbite/news/stochastic-screen-space-reflections">Stochastic Screen-Space Reflections</a>, SIGGRAPH 2015 course</p>
+]]></content>
+      <categories>
+        <category>CG</category>
+        <category>GAMES202</category>
+        <category>Theory</category>
+      </categories>
+      <tags>
+        <tag>CG</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games202-04实时环境映射</title>
+    <url>/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/</url>
+    <content><![CDATA[<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<blockquote>
+<p>《Real-Time Rendering 3rd 提炼总结》第五章纹理贴图及相关技术</p>
+</blockquote>
+<p>作为纹理管线的第一步，投影函数的功能就是将空间中的三维点转化为纹理坐标，也就是获取表面的位置并将其投影到参数空间中。</p>
+<p>在常规情况下，投影函数通常在美术建模阶段使用，并将投影结果存储于顶点数据中。也就是说，在软件开发过程中，我们一般不会去用投影函数去计算得到投影结果，而是直接使用在美术建模过程中，已经存储在模型顶点数据中的投影结果。但有一些特殊情况，例如：</p>
+<p>1、OpenGL的glTexGen函数提供了一些不同的投影函数，包括球形函数和平面函数。利用空闲时间可以让图形加速器来执行投影过程，而这样做的优点是不需要将纹理坐标送往图形加速器，从而可以节省带宽。</p>
+<p>2、更一般的情况， 可以在顶点或者像素着色器中使用投影函数，这可以实现各种效果，包括一些动画和一些渲染方法（比如如环境贴图，environment mapping，有自身特定的投影函数，可以针对每个顶点或者每个像素进行计算）。</p>
+<p>通常在建模中使用的投影函数有球形、圆柱、以及平面投影，也可以选其他一些输入作为投影函数。</p>
+<h1 id="环境光照"><a class="markdownIt-Anchor" href="#环境光照"></a> 环境光照</h1>
+<p><strong>环境贴图</strong>：在场景中任意一点往四周看去可看到的光照,将其记录在一张图上这就是环境光照,或者也可以叫做<strong>IBL(image-based lighing)</strong>.这里我们认为看到的光照来自于无限远处,这也就是为什么用环境光照去渲染物体时会产生一种漂浮在空中的感觉,因为光照来自于无限远处.</p>
+<p><strong>存储：用spherical map和cube map</strong>来存储环境光照。</p>
+<p>下面详述在实时渲染领域求环境光照的过程。</p>
+<h1 id="情况一已知环境光照不考虑遮挡求任何物体任何一点shading值"><a class="markdownIt-Anchor" href="#情况一已知环境光照不考虑遮挡求任何物体任何一点shading值"></a> 情况一：已知环境光照，不考虑遮挡，求任何物体任何一点shading值</h1>
+<h2 id="问题引入"><a class="markdownIt-Anchor" href="#问题引入"></a> 问题引入</h2>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled.png" alt></p>
+<p>通用解法：对上面的渲染方程使用蒙特卡洛积分，缺点是需要采集大量样本，时间消耗多</p>
+<p><strong>解决思路：避免采样</strong></p>
+<h2 id="基本思路"><a class="markdownIt-Anchor" href="#基本思路"></a> 基本思路</h2>
+<p>根据以上渲染方程，不考虑遮挡（Visibility项），只需要将BRDF与Lighting项相乘再进行半球积分即可。</p>
+<h3 id="brdf又分为两种情况"><a class="markdownIt-Anchor" href="#brdf又分为两种情况"></a> <strong>BRDF又分为两种情况:</strong></h3>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%201.png" alt></p>
+<ol>
+<li><strong>BRDF为glossy时</strong>,覆盖在球面上的范围很小,也就是small support(积分域).</li>
+<li><strong>BRDF为diffuse时</strong>,它会覆盖整个半球的区域,但是是smooth的,也就是值的变化不大,就算加上cos也是相对平滑的.</li>
+</ol>
+<p>这两种情况均满足下面的近似公式的相等条件</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%202.png" alt></p>
+<h3 id="the-spilt-sum-1st-stage不采样计算lighting"><a class="markdownIt-Anchor" href="#the-spilt-sum-1st-stage不采样计算lighting"></a> <strong>The spilt sum: 1st stage——不采样计算Lighting</strong></h3>
+<p>将渲染方程中的lighting项拆出，同样对于Visibility项也可以这样拆出：</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%203.png" alt></p>
+<p>上图的橙色区域含义：将brdf范围内的lighting积分起来并进行normalize，<strong>等价于将IBL这张图给模糊</strong>了，<strong>等价于在任何一点上取周围一片范围求出范围内的平均值并将平均值写回这个点上</strong></p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%204.png" alt></p>
+<p><strong>Pre-filtering：在rendering之前</strong>把滤波环境光生成，提前将不同卷积核的滤波核的环境光生成一系列模糊过的图（和mipmap相似），当我们需要时进行查询即可,其他尺寸的图则可以经过这些已生成的通过三线性插值得到。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%205.png" alt></p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%206.png" alt></p>
+<p>接着在BRDF部分求shading point值，需要以一定立体角的范围内进行采样再加权平均从而求出shading point的值，而有了<strong>Pre-filtering后的环境光之后，就可以等价于从镜面反射方向望去在pre-filtering的图上的一点进行查询，因此省去了采样的操作。</strong></p>
+<h3 id="the-spilt-sum-2nd-stage不采样计算brdf"><a class="markdownIt-Anchor" href="#the-spilt-sum-2nd-stage不采样计算brdf"></a> <strong>The spilt sum: 2nd stage——不采样计算BRDF</strong></h3>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%207.png" alt></p>
+<p>回到渲染方程的另一个部分——BRDF，如果使用预计算的方法，需要将参数的所有可能性均考虑进去,但是比较多，包括roughness、color等。考虑所有参数的话我们需要打印出一张五维或者更高的表格,这样会拥有爆炸的存储量,因此我们需要想办法降低维度,也就是减少参数量从而实现预计算.</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%208.png" alt></p>
+<p>上图回顾了微表面模型的BRDF，由于此时暂时不考虑阴影，此处需要关注的是Fresnel term和distribution of normals。</p>
+<p><strong>处理过程</strong></p>
+<ul>
+<li>
+<p>Fresnel term：利用Schlick的近似方法可以近似成一个参数为<strong>基础反射率R0</strong>和<strong>入射角度</strong>的指数函数</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%209.png" alt></p>
+</li>
+<li>
+<p>distribution of normals：是一个一维的分布，其中有两个变量，一个变量粗糙程度定义是diffuse还是gloosy，另一个 是half vector和法线的夹角<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>θ</mi><mi>h</mi></msub></mrow><annotation encoding="application/x-tex">\theta_h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，可以近似成入射角度相关的数</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2010.png" alt></p>
+</li>
+<li>
+<p>至此我们有了三个变量:基础反射率r0,roughness α 和角度 θ ,三维的预计算仍然是一个存储量爆炸的结果,因此我们还要想办法减少参数量.(PS:在这里我们认为反射角,入射角,half vector可以用一个角 θ 代替).于是将Schlick近似代入后半部分积分，基础反射R0被拆出积分式，需要预计算的两个量就只有roughness α 和角度 θ</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2011.png" alt></p>
+</li>
+<li>
+<p>可以将预计算结果绘制成一张纹理，在使用时进行查询即可。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2012.png" alt></p>
+</li>
+</ul>
+<p>另外补充一点工业界对于积分的做法：将积分写成求和，这也是在UE引擎里面所使用的环境光技术</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2013.png" alt></p>
+<h1 id="情况二已知环境光照考虑遮挡求任何物体任何一点shading值带阴影"><a class="markdownIt-Anchor" href="#情况二已知环境光照考虑遮挡求任何物体任何一点shading值带阴影"></a> 情况二：已知环境光照，考虑遮挡，求任何物体任何一点shading值（带阴影）</h1>
+<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
+<p>严格意义上来讲,这是不可能完成的事,因为以目前的技术来说是很难实现的,要从两个考虑角度来说:</p>
+<ol>
+<li><strong>many light问题</strong>：我们把环境光理解为很多个小的光源,这种情况下去生成阴影的话,需要在每个小光源下生成shadow map,因此会生成线性于光源数量的shadow map,这是十分高昂的代价。</li>
+<li><strong>sampling问题</strong>：在任何一个Shading point上已知来自正半球方向的光照去解rendering equation,最简单的方法是采样空间中各方向上的不同光照,可以做重要性采样,虽然做了重要性采样但仍需要大量的样本,因为最困难的是visibility term。由于Shading point不同方向上的遮挡是不相同的,我们可以对环境光照进行重要性采样,但一个Shading point周围的visibility项是未知的,因此我们只能盲目的去采样，无法提取出visibility项。因为如果是glossy brdf，他是一个高频的，Lighting项的积分域是整个半球,因此并不满足smooth或small support，因此无法利用近似公式来提取出visibility项.</li>
+</ol>
+<ul>
+<li>在工业界：通常以环境光中最亮的那个作为主要光源,也就是太阳,只生成太阳为光源的shadow。</li>
+<li>学术界
+<ul>
+<li>Imperfect shadow maps：做的是全局光照部分产生的shadow</li>
+<li>Light cuts：解决的是离线渲染中的many lights的问题,核心思想是把反射物当成小光源,把所有的小光源做一下归类并近似出照射的结果</li>
+<li>RTRT (might be the ultimate solution)：Real Time Ray Tracing,可能是最终解决方案</li>
+<li><strong>Precomputed radiance transfer：PRT，可以十分准确的得到来自环境光中的阴影</strong></li>
+</ul>
+</li>
+</ul>
+<p>接下来就使用<strong>PRT</strong>的方法来求环境光照下考虑阴影的shading值，<strong>其主要思想是</strong>：</p>
+<ul>
+<li>PRT 通过一种预计算方法，该方法在离线渲染的 Path Tracing 工具链中预计算 lighting 以及 light transport 并将它们用球谐函数拟合后储存，这样就将时间开销转移到了离线中。</li>
+<li>最后通过使用这些预计算好的数据，我们可以轻松达到实时渲染严苛的时间要求，同时渲染结果可以呈现出全局光照的效果。</li>
+</ul>
+<h2 id="数学基础"><a class="markdownIt-Anchor" href="#数学基础"></a> 数学基础</h2>
+<p><strong>基函数</strong>：把一个函数可以描绘成其他函数的线性组合,如<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>可以描绘成一系列的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">Bi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">i</span></span></span></span>函数乘以各自对应的系数最终再相加在一起,这一系列的函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">Bi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">i</span></span></span></span>就是基函数.</p>
+<p><strong><strong>Spherical Harmonics(球谐函数)：SH是一系列基函数,系列中的每个函数都是2维函数,并且每个二维函数都是定义在球面上的。下图是SH的可视化</strong>：</strong></p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2014.png" alt></p>
+<p>与一维的傅里叶一样,SH也存在不同频率的函数，但不同频率的函数个数也不同,频率越高所含有的基函数越多。</p>
+<p>其中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>表示的是阶数，通常第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>阶有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mi>l</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2l+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>个基函数，前<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>阶有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>个基函数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span>表示的是在某一个频率下基函数的序号，分别从从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mi>l</mi></mrow><annotation encoding="application/x-tex">-l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>。每个基函数都有一个比较复杂的数学表示，对应一个legendre多项式，我们不用去了解legendre多项式,我们只需要知道基函数长这样,可以被某些数学公式来定义不同方向的值是多少就可以了.</p>
+<p><strong>投影</strong>：由于一个函数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(w)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span> 可以由一系列基函数和系数的线性组合表示，那么怎么确定基函数前面的系数，这就需要通过投影操作：</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2015.png" alt></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(w)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span>通过对应的基函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">B(i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mclose">)</span></span></span></span>进行投影操作,从而求出各基函数对应的系数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">Ci</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault">i</span></span></span></span>。</p>
+<p>如何理解投影：在空间中想描述一个向量，可以xyz三个坐标来表达，把xyz轴当做三个基函数，把向量投影到xyz轴上，得到三个系数就是三个坐标。</p>
+<p><strong>重建</strong>：知道基函数对应的系数，就能用系数和基函数恢复原来的函数。</p>
+<p>由于基函数的阶可以是无限个的，越高的阶可恢复的细节就越好,但一方面是因为更多的系数会带来更大的存储压力、计算压力，而<strong>一般描述变化比较平滑的环境漫反射部分，用3阶SH就足够。</strong></p>
+<h2 id="prt过程"><a class="markdownIt-Anchor" href="#prt过程"></a> PRT过程</h2>
+<p>在实时渲染中,考虑阴影的情况下我们把rendering equation写成由三部分组成的积分:</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2016.png" alt></p>
+<p>如果不进行预计算，就是遍历每个像素去解这个方程，假设环境光是6∗64∗64的map，对于每个shading point来说，计算shading需要计算6∗64∗64次。</p>
+<p>而利用SH就可以将一些内容预计算，以节省时间开销，基本思想是：将rendering equation分为两部分,lighting 和 light transport。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2017.png" alt></p>
+<ul>
+<li><strong>lighting</strong>：假设在渲染时场景中只有lighting项会发生变化(旋转,更换光照等),由于lighting是一个球面函数,因此可以用基函数来表示,在预计算阶段计算出lighting.</li>
+<li><strong>light transport(visibility和brdf)</strong>：相当于对任一shading point来说,light transport项固定的,可以认为是shading point自己的性质,light transport总体来说还是一个球面函数,因此也可以写成基函数形式,是可以预计算出的.</li>
+</ul>
+<h3 id="diffuse-prt计算"><a class="markdownIt-Anchor" href="#diffuse-prt计算"></a> Diffuse PRT计算</h3>
+<p><strong>第一种理解方式</strong>：</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2018.png" alt></p>
+<ul>
+<li>
+<p>BRDF几乎为常数，可以提取到积分之外</p>
+</li>
+<li>
+<p>Lighting项写为基函数形式（黄色部分），每个基函数前的系数（Lighting投影到某个基函数）为常数，可以提取到积分之外，这里的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 是入射方向</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2019.png" alt></p>
+</li>
+<li>
+<p>积分中只剩下基函数和visibility项，相乘之后得到的也是常数，相当于visibility项投影到基函数得到常数系数，最终的效果是把visibility项分解成了多个常数项（组成向量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>）</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2020.png" alt></p>
+</li>
+<li>
+<p>最终计算任何一个shading point，只需要计算光照系数和visibility系数分别相乘，相当于两个向量点乘</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2021.png" alt></p>
+</li>
+</ul>
+<p><strong>第二种理解方式</strong>：</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2022.png" alt></p>
+<ul>
+<li>
+<p>将Lighting与light transport独立开来，分别投影到各自的SH基函数上，也就是说两者使用了两套SH，分开投影。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2023.png" alt></p>
+</li>
+<li>
+<p>结果得到了<strong>Lighting与light transport各自的基函数系数*各自的基函数相乘的积分， 只有p和q下标相等的基函数相乘为1，其余为0（SH的正交性），与第一种理解方式是一样的结果。</strong></p>
+</li>
+</ul>
+<p><strong>PRT方法的主要限制</strong></p>
+<ul>
+<li><strong>光源</strong>：预计算的光源我们把它投影到SH上，如果旋转，可以通过SH的旋转不变性解决，但是不能计算随机动态场景的全局光照</li>
+<li><strong>场景</strong>：light transport做了预计算,因此visibility相当于常量,因此场景不能动,因此只能对静止物体进行计算.</li>
+</ul>
+<h3 id="glossy-prt计算"><a class="markdownIt-Anchor" href="#glossy-prt计算"></a> Glossy PRT计算</h3>
+<p>Diffuse和glossy的区别：</p>
+<ul>
+<li><strong>diffuse的brdf是一个常数，<strong>而</strong>glossy的brdf是一个4维的brdf</strong>(2维的输入方向，2维的输出方向，而<strong>SH中所表示的i或者o表示二维的输入方向或者二维的输出方向，只是在形式上只些了一个字母作为函数的变量</strong>)。</li>
+<li>直观一点来说,glossy物体有一个很重要的性质,它是和视点有关的，不同的视角得到的shading result也是不一样的。diffuse的物体不管视角如何旋转改变,看到的Shading point的result是不会改变的,因为整个Diffuse shading和视角是无关的。</li>
+</ul>
+<p>因此，在计算Glossy材质的PRT时，需要考虑视点方向，也就是光线的出射方向。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2024.png" alt></p>
+<ul>
+<li>Lighting项投影到SH上，得到一系列常数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>l</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">l_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
+<li>剩余的BRDF、visibility项继续投影到SH，会得到关于出射方向的函数，每个出射方向都对应了一系列常数（每个出射方向的投影结果相当于Diffuse PRT得到的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>）</li>
+<li><strong>最终的BRDF、visibility项的结果会是一个矩阵（所有的入射方向到所有的出射方向的预计算结果，矩阵维度取决于SH的阶数，而不是有多少入射方向和出射方向）</strong></li>
+</ul>
+<p>效果：</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2025.png" alt></p>
+<p><strong>Glossy下使用PRT产生的问题</strong>：</p>
+<ul>
+<li>存储巨大，四阶的SH得到16个基函数，每个点需要16阶向量与16*16的矩阵相乘。</li>
+<li>Diffuse情况下一般三阶SH就足够，但是当Glossy非常高频时，也就是接近镜面反射的情况的时候， PRT就没有那么好用，我们虽然可以采用更高阶的SH来描述高频信息，但是使用SH甚至远不如直接采样方便。</li>
+</ul>
+<h1 id="情况三考虑多次bounce"><a class="markdownIt-Anchor" href="#情况三考虑多次bounce"></a> 情况三：考虑多次bounce</h1>
+<p>我们可以用一系列的表达式来描述不同光线传播的路径都是一种什么类。区分材质区分为三种：</p>
+<ol>
+<li>Diffuse</li>
+<li>Specular镜面反射</li>
+<li>Glossy 介于两者之间</li>
+</ol>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2026.png" alt></p>
+<p>传播路径的区分：</p>
+<ol>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">LE</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：Light直接到眼Eye</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>G</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">LGE</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">G</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：Light打到Glossy物体然后到眼Eye</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>G</mi><mi>G</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">LGGE</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">G</span><span class="mord mathdefault">G</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：多bounce一次,就是Light先打到壶嘴,在bounce到壶身,最后到眼。(L-&gt;Glossy-&gt;Glossy-&gt;Eye)</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>D</mi><mi mathvariant="normal">∣</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>∗</mo></msup><mi>E</mi></mrow><annotation encoding="application/x-tex">L(D|G)^*E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord">∣</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：Light从光源出发,打到一个物体,可能是Diffuse也可能是Glossy,*表示bounce次数,最后到达眼Eye</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>S</mi><mo stretchy="false">(</mo><mi>D</mi><mi mathvariant="normal">∣</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>∗</mo></msup><mi>E</mi></mrow><annotation encoding="application/x-tex">LS(D|G)^*E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord">∣</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span>：打到Specular面上，然后聚焦到Diffuse物体上,最后被眼睛看到，也就是caustics材质</li>
+</ol>
+<p>结论：</p>
+<ul>
+<li><strong>所有路径开始都是L最后都是E，因此我们在运用PRT时候，把L和E中间所有的东西都看作是Light transport。</strong></li>
+<li>拆分为light和light transport之后,不管中间boucne几次,我们只需要预计算出Light transport就行，不论多么复杂的bounce,我们只需要计算出light transport就能得出最后的shading result。</li>
+</ul>
+<p><strong>计算方式</strong>：</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2027.png" alt></p>
+<p>理解方式1：把light transport（图上红色下划线部分）投影到SH基函数（做了一个<strong>Product Integral）</strong></p>
+<p>理解方式2：把light transport的预计算看作是基函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>B</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">B_i(i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mclose">)</span></span></span></span>照亮了场景的渲染过程。换句话说，把基函数看为lighting项，那么light transport就是rendering equation，我们把light transport投影到basis上，相当于用basis这个Lighting照亮物体，每个basis得到一个渲染图，最后我们进行重建从而得出最后的shading值。而解这部分的过程依旧和解渲染方程一样。</p>
+<p>渲染效果：</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2028.png" alt></p>
+<h1 id="prt方法总结"><a class="markdownIt-Anchor" href="#prt方法总结"></a> PRT方法总结</h1>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2029.png" alt></p>
+<p>Sloan在02年提出的这个方法（即PRT），使用球谐函数估计光照和光线传输，将光照变成光照系数，将光线传输变成系数或者矩阵的形式，通过预计算和存储光线传输将渲染问题变为每个vertex/shading point：点乘（diffuse表面）、向量矩阵乘法（glossy表面）。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2030.png" alt></p>
+<p>由于球谐函数的性质，该方法比较适合使用于低频的情况（可用于高频但不合适,如图即使使用了26*26阶的sh仍然得不到比较好的效果）；当改变场景或者材质时需要重新预计算light transport，此外预计算的数据比较大。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2031.png" alt></p>
+<p>基于Sloan依旧有许多后续的研究…</p>
+<h1 id="其它基函数"><a class="markdownIt-Anchor" href="#其它基函数"></a> 其它基函数</h1>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2032.png" alt></p>
+<p>此外，基函数除了可以使用球谐函数外，还有很多选择，比如Wavelet、Zonal Harmonics、Spherical Gaussian、Piecewise Constant等。</p>
+<h2 id="wavelet小波函数"><a class="markdownIt-Anchor" href="#wavelet小波函数"></a> Wavelet小波函数</h2>
+<p>小波变换的过程就是投影过程，相比于球谐函数对低频内容友好（球谐函数使用少量的基去表示），小波变换可以全频率表示，但是只有很少的系数是非零的.</p>
+<p>由于小波是平面上的函数，为了防止变换后在球面上出现缝隙，所以采用了<strong>Cubemap</strong>来作为环境光而不是Sphereical map。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2033.png" alt></p>
+<p>从图中可以看到,小波变化是把每张图的高频信息留在这张图的左下,右上和右下三部分,而把剩余的低频信息放在左上角,左上角的信息可以继续进行小波变换,我们会发现高频的东西很少,对于绝大部分来说是0,不断地进行小波变换可以得到一个很不错的既保留了低频又保留了高频的压缩.</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2034.png" alt></p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2035.png" alt></p>
+<p>但是小波也有自己的缺陷：不支持旋转（使用球谐函数进行表示时，由于球谐函数具有<strong>simple rotation</strong>的性质，所以支持光源的旋转）。</p>
+<p><img src="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/Untitled%2036.png" alt></p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=5">Lecture5 Real-time Environment Mapping_哔哩哔哩_bilibili</a></p>
+<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=6">Lecture6 Real-time Environment Mapping_哔哩哔哩_bilibili</a></p>
+<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY/?p=7">Lecture7 Real-time GLobal Illumination (in 3D)_哔哩哔哩_bilibili</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/371112302">Games202 高质量实时渲染笔记lecture 05 Real-Time Environment Mapping - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/373697912">Games202 高质量实时渲染笔记lecture 06 Real-Time Environment Mapping 02 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/377104538">GAMES202 高质量实时渲染笔记Lecture07：Real-Time Global Illumination (In 3D) - 知乎 (zhihu.com)</a></p>
+]]></content>
+      <categories>
+        <category>CG</category>
+        <category>GAMES202</category>
+        <category>Theory</category>
+      </categories>
+      <tags>
+        <tag>CG</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Games202-03实时阴影</title>
+    <url>/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/</url>
+    <content><![CDATA[<h1 id="shadow-mapping"><a class="markdownIt-Anchor" href="#shadow-mapping"></a> Shadow Mapping</h1>
+<p><strong>概述</strong>：是一个完全在图像空间中的算法，将深度信息渲染到深度图上，并在运行时通过深度对比检测物体是否在阴影中的算法。Shadow map是一个2-pass的算法</p>
+<p><strong>优点</strong>：一旦shadow Map已经生成,就可以利用shadow map来获取场景中的几何表示而不是场景中的几何</p>
+<p><strong>缺点</strong>：会产生自遮挡和走样现象</p>
+<h2 id="步骤"><a class="markdownIt-Anchor" href="#步骤"></a> 步骤</h2>
+<ol>
+<li>
+<p>从light处出发看向场景生成一张记录每个像素中最近物体深度的一张图，图中有很多像素,我们记录下每个像素中他们各自看到的最浅的深度或是最近的物体他们的位置在哪,存下来从而得到一张texture。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled.png" alt></p>
+</li>
+<li>
+<p>从Camera(眼睛)出发，再渲染一遍场景。看渲染中的每个像素中都要来判断是否能被light照到,如果被照到则不在阴影中,反之,则存在于阴影中</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%201.png" alt></p>
+</li>
+</ol>
+<p>在Opengl中,1-pass就是在light处放置一个相机,然后往某一方向看去,定义framebuffer写到某个texture上,然后在fragment shader中定义写的是一个深度而非shading的结果,在2-pass中则只需要用1-pass得到的texture即可。</p>
+<h2 id="存在的问题"><a class="markdownIt-Anchor" href="#存在的问题"></a> 存在的问题</h2>
+<ol>
+<li><strong>自遮挡</strong>
+<ul>
+<li>
+<p>在使用 Shadow Map 的时候，如果不做任何处理，就会出现下图这种现象，被称为 Shadow Acne 或者 Self-Shadowing。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%202.png" alt></p>
+</li>
+<li>
+<p>成因：物体的实际深度，与自己的采样深度，相比较不相等（实际深度大于采样深度）导致的，所以可谓是自己（采样的副本）遮挡了自己（实际的物体），所以被称为 self shadowing。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%203.png" alt></p>
+</li>
+<li>
+<p>解决方法：Shadow Bias。在判断前先每个 shading point 深度往光照方向挪一挪，让由于自遮挡被判断处于阴影的点挪到有光照的地方，就能很大程度改善这一点。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%204.png" alt></p>
+</li>
+<li>
+<p>但是存在另一个问题：这个现象只有在加入了 shadow bias 的时候才会出现，如下图，会看到影子脱离了物体（像飞起来的小飞侠一样），被称为 peter-panning。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%205.png" alt></p>
+</li>
+<li>
+<p>解决 peter-panning 的方法</p>
+<ul>
+<li>
+<p>可以看到，bias 加小了没用，依旧会有自遮挡；加多了又会导致 peter panning。所以要怎么加，是有一定技巧的，最终的目标是要找到一个刚好能够消除 shadow acne 的 bias 值。</p>
+</li>
+<li>
+<p>现在常用的 shadow bias 的计算方法，是基于物体斜度的，称为 <strong>slope scale based depth bias</strong>。<strong>原理：当斜度大的时候，shadow map 上的一个点，所对应的实际物体的一小块面，其深度变化就会更大。</strong></p>
+</li>
+<li>
+<p>基于斜度的偏移可以根据表面的斜度，更改深度的偏差值。当表面与灯光的夹角越小，那么阴影贴图中一个像素对应的表面区域越大，其深度变化也就越大，就需要添加更大的 bias。表面与灯光的夹角可以通过法线与灯光方向的夹角余弦值来计算（dot(normal,lightDir)），所以 bias 要和夹角余弦值成反比。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%206.png" alt></p>
+</li>
+<li>
+<p>最终公式是：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mi>i</mi><mi>a</mi><mi>s</mi><mo>=</mo><mi>f</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>S</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi><mo>∗</mo><mi>s</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi><mo>+</mo><mi>c</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi><mi>B</mi><mi>i</mi><mi>a</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">bias = factorSlope * slope + constantBias</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">i</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">a</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">i</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span></span></span></span></p>
+</li>
+<li>
+<p>factorSlope 是斜度偏差范围的系数，表示斜度偏差的程度，slope 是根据夹角余弦值计算，constantBias 是基础的阴影偏差。由此可知，factorSlope 与 constantBias 都是需要手动给出的，通过调试才能得到最优的效果。</p>
+</li>
+<li>
+<p>举例来说，一个 x 方向的斜坡，同样是在 x 方向上差 0.01，如果坡角是 45 度，那么深度差就是 0.01，如果坡角是 60 度，那么深度差就是 0.017.</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%207.png" alt></p>
+<p>如果采样点都是在 x=0.005 处，那么对坡角 60 的情况，就需要 bias 至少为 0.0085，才可以保证不会产生 shadow acne，而 45 度的情况，bias 只要 0.005 就可以了</p>
+<p>对于这个公式，需要做一些说明：</p>
+<p>1）坡度如何确定？当然是用顶点的 normal，但是需要注意的是，我们是在灯光坐标系下观察物体的，所以 normal 需要转换到 light space 中。</p>
+<p>2）里面的两个参数 factorSlope 和 constantBias 如何确定？只能通过不断调整才能得到。</p>
+</li>
+<li>
+<p>解决 peter-panning 的另一种方法：<strong>Second-depth shadow mapping</strong>，此时我们就舍弃biasd的概念,而是在渲染时不仅存最小的深度,我们还要存第二小的深度,然后我们用最小深度和第二小深度中间的深度来作比较。但实际中并没有人去使用这个技术,因为场景内的物体必须都是watertight（非面片），还有就是计算复杂，开销太大</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>走样</strong>
+<ul>
+<li>
+<p>shadow map本身就存在分辨率，当分辨率不够大自然会看到锯齿,因为shadow map上每一个像素都可以看为小片,那么投出来的阴影自然会存在锯齿。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%208.png" alt></p>
+</li>
+<li>
+<p>解决的方法是下面提到的PCF</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="pcfpercentage-closer-filtering"><a class="markdownIt-Anchor" href="#pcfpercentage-closer-filtering"></a> <strong>PCF(percentage Closer Filtering)</strong></h1>
+<p>概述：PCF能解决shadow map的锯齿块和硬边问题，产生柔和软阴影。</p>
+<p>核心思想：从深度贴图中多次采样，每一次采样的纹理坐标都稍有不同（比如采样像素周围一圈范围）。每个独立的样本可能在也可能不再阴影中。所有的次生结果接着结合在一起，最终通过样本的总数目将深度结果平均化，得到的可见性变为0~1之间的数。</p>
+<p>步骤：在<strong>第二个pass中</strong>，对于这个shading point我们仍要判断是否在阴影内,但是我们把其投影到light之后不再只找其对应的单个像素,而是<strong>找其周围一圈的像素</strong>（<strong>采样方式可以是均匀采样、泊松圆盘采样等，采样的范围称为Filter Size</strong>）,把周围像素深度比较的结果<strong>加起来平均一下</strong>，就得到一个0-1之间的数，就得到了一个模糊的结果。</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">float</span> PCF(<span class="hljs-type">sampler2D</span> shadowMap,<span class="hljs-type">vec4</span> coords)&#123;<br>  poissonDiskSamples(coords.xy);<br>  <span class="hljs-comment">// uniformDiskSamples(coords.xy); // 均匀圆盘采样时阴影边缘不够自然</span><br>  <span class="hljs-type">float</span> blocker=<span class="hljs-number">0.</span>;<br>  <span class="hljs-type">float</span> filterSize=<span class="hljs-number">25.</span>;<br>  <span class="hljs-comment">// 上面生成的采样点处于单位圆内，因此可以使用一个 filterSize 来控制整体的采样范围。由于作业框架 Shadowmap 的大小为 2048 x 2048，每个像素的长度可以近似为 1 / 2048。</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;NUM_SAMPLES;i++)&#123;<br>    <span class="hljs-type">vec2</span> uv_bias=poissonDisk[i]/<span class="hljs-number">2048.</span>*filterSize;<br>    <span class="hljs-type">float</span> shadowDepth=unpack(<span class="hljs-built_in">texture2D</span>(shadowMap,coords.xy+uv_bias));<br>    <span class="hljs-keyword">if</span>(coords.z-Bias3()&gt;shadowDepth)&#123;<br>      blocker++;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1.</span>-blocker/<span class="hljs-type">float</span>(NUM_SAMPLES);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="pcsspercentage-closer-soft-shadows"><a class="markdownIt-Anchor" href="#pcsspercentage-closer-soft-shadows"></a> <strong>PCSS（Percentage Closer Soft Shadows）</strong></h1>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%209.png" alt></p>
+<p>PCSS为了实现更真实的软阴影，达到离遮挡物距离近的时候硬，远的时候软的效果：<strong>阴影接受物与阴影投射物的距离越小,阴影越锐利。因此,我们要解决的一个问题是我们如何决定一个软阴影的半影区。换句话说，就是filter size 有多大的问题。</strong></p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2010.png" alt></p>
+<ol>
+<li>算每个区块深度（shadow map上，<strong>只算被遮挡点的平均深度，而不是区块内所有点的平均深度</strong>）</li>
+<li>利用相似三角形的原理计算新的半影直径</li>
+<li>PCF。在shadow map上采样，范围由第二步确定。</li>
+</ol>
+<p><strong>本质</strong>：求出了阴影中需要做PCF的半影部分后再进行PCF的计算，这样动态调节了半影范围，也就是动态设置了PCF的搜索范围，这样我们的硬阴影部分清晰，软阴影部分模糊，动态的实现了不错的软阴影效果。</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">float</span> PCSS(<span class="hljs-type">sampler2D</span> shadowMap,<span class="hljs-type">vec4</span> coords)&#123;<br>  <br>  <span class="hljs-comment">// STEP 1: avgblocker depth</span><br>  <span class="hljs-type">float</span> d_Blocker = findBlocker(shadowMap,coords.xy,coords.z);<br>  <span class="hljs-type">float</span> w_Light = <span class="hljs-number">1.</span>;<br>  <span class="hljs-type">float</span> d_Receiver = coords.z;<br>  <br>  <span class="hljs-comment">// STEP 2: penumbra size</span><br>  <span class="hljs-type">float</span> w_penumbra = w_Light*(d_Receiver-d_Blocker)/d_Blocker;<br>  <span class="hljs-comment">// return w_penumbra;</span><br>  <span class="hljs-comment">// STEP 3: filtering</span><br>  <span class="hljs-type">float</span> blocker=<span class="hljs-number">0.</span>;<br>  <span class="hljs-type">float</span> filterSize=<span class="hljs-number">25.</span>;<br>  <span class="hljs-comment">// 上面生成的采样点处于单位圆内，因此可以使用一个 filterSize 来控制整体的采样范围。由于作业框架 Shadowmap 的大小为 2048 x 2048，每个像素的长度可以近似为 1 / 2048。</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;NUM_SAMPLES;i++)&#123;<br>    <span class="hljs-type">vec2</span> uv_bias=poissonDisk[i]/<span class="hljs-number">2048.</span>*filterSize*w_penumbra;<span class="hljs-comment">// !这里与PCF不同</span><br>    <span class="hljs-type">float</span> shadowDepth=unpack(<span class="hljs-built_in">texture2D</span>(shadowMap,coords.xy+uv_bias));<br>    <span class="hljs-keyword">if</span>(coords.z-Bias3()&gt;shadowDepth)&#123;<br>      blocker++;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1.</span>-blocker/<span class="hljs-type">float</span>(NUM_SAMPLES);<br>  <br>&#125;<br></code></pre></td></tr></table></figure>
+<p>步骤1和步骤3需要对整个区域的<strong>各个shading point与点x的深度进行比较</strong>，所以会导致很慢。由于需要在一个范围内进行比较，那么步骤1和3的时间开销会决定整个算法的时间开销，此外为了得到越“软”的阴影意味着需要使用更大的filtering size，会导致速度越慢。为了解决这两步慢的问题,就有人提出了Variance Soft Shadow Mapping。</p>
+<h1 id="vssm-variance-soft-shadow-mapping"><a class="markdownIt-Anchor" href="#vssm-variance-soft-shadow-mapping"></a> <strong>VSSM (Variance Soft Shadow Mapping)</strong></h1>
+<p>解决PCSS第一步和第三步慢的问题，优化了第三步范围查询shadow map得到平均深度值，直接使用切比雪夫进行猜测。</p>
+<h2 id="第一步的优化如何更快地求遮挡物的平均深度"><a class="markdownIt-Anchor" href="#第一步的优化如何更快地求遮挡物的平均深度"></a> 第一步的优化：如何更快地求遮挡物的平均深度</h2>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2011.png" alt></p>
+<ul>
+<li>
+<p>将其分为两个区域，<strong>蓝色</strong>是深度小于shading point的遮挡区域,其平均深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{occ}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。<strong>红色</strong>是深度大于shading point的非遮挡区域，其平均深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>u</mi><mi>n</mi><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{unocc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。并且我们认为区域内的像素总数为<strong>N，<strong>非遮挡的像素为</strong>N1</strong>个，遮挡的像素为<strong>N2</strong>个</p>
+</li>
+<li>
+<p>重要公式**：非遮挡像素占的比例 * 非遮挡物的平均深度 + 遮挡像素占的比例 * 遮挡物的平均深度 = 总区域内的平均深度**</p>
+</li>
+<li>
+<p><strong>VSSM核心思想</strong></p>
+<ul>
+<li>
+<p>求范围内有百分之多少的像素比shading point浅，于是就可以把范围内所有的深度做一个直方图，根据直方图可以判断shaing point的深度排名。而<strong>VSSM假设这个直方图的分布是正态分布，而该分布最重要的是得到均值和方差。而求”有百分之多少的像素比shading point浅”这个问题就转化为”给定shading point值，PDF（概论密度函数）下的阴影面积是多少，或者是CDF在shading poingt处的函数值是多少“</strong>（对于一个通用的高斯的PDF，对于这类PDF，可以直接把CDF结果，输出为一个表，叫误差函数Error Fuction，误差函数有数值解，但是没有解析解，在C++ 中的函数ERF(lower_limit,[upper_limit])函数可以计算CDF。）</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2012.png" alt></p>
+</li>
+<li>
+<p>但是计算PDF的面积又过于麻烦，于是找到了一个不等式来近似计算。那么就可以通过均值和方差获得图中红色面积的值。因此就可以不用计算CDF了，而是通过1 - 求出的x&gt;t的面积值得到CDF.但是<strong>切比雪夫不等式有一个苛刻的条件：t 必须在均值右边，也就是t大于均值。</strong></p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2013.png" alt></p>
+</li>
+</ul>
+</li>
+<li>
+<p>总区域内的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>A</mi><mi>v</mi><mi>g</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{Avg}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>我们用<strong>mipmap</strong>或者<strong>SAT(Summed Area Tables)<strong>去求,也就是得到了正态分布的</strong>均值。<strong>然后用shadow map（存储的是深度值）和square-depth map(存储的是深度值的平方）来计算</strong>方差</strong>：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false">(</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>−</mo><msup><mi>E</mi><mn>2</mn></msup><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Var(X) = E(X^2)-E^2(X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span></p>
+</li>
+<li>
+<p>根据切比雪夫不等式近似求出两个比例<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>N</mi><mn>1</mn></msub><mi mathvariant="normal">/</mi><mi>N</mi><mi mathvariant="normal">、</mi><msub><mi>N</mi><mn>2</mn></msub><mi mathvariant="normal">/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">N_1/N、N_2/N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord cjk_fallback">、</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></p>
+</li>
+<li>
+<p>最后一个假设：认为非遮挡物的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>u</mi><mi>n</mi><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{unocc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> = shading point的深度</p>
+</li>
+<li>
+<p>将所有值代入可求出遮挡物的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{occ}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>p</p>
+</li>
+<li>
+<p>ps：接受平面是曲面或者与光源不平行的时候就会出问题</p>
+</li>
+</ul>
+<h2 id="第三步的优化"><a class="markdownIt-Anchor" href="#第三步的优化"></a> 第三步的优化</h2>
+<ul>
+<li>我们通过生成shadow map和square-depth map得到期望值的平方和平方值的期望再根据公式得到方差：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false">(</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>−</mo><msup><mi>E</mi><mn>2</mn></msup><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Var(X) = E(X^2)-E^2(X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span></li>
+<li>通过mipmap或者SAT得到期望</li>
+<li>得到期望和方差之后，根据切比雪夫不等式近似得到一个depth大于shading point点深度的面积，也就是求出了未遮挡Shading point的概率，从而可以求出一个在1-0之间的visilibity</li>
+<li>ps：省去了在这个范围内进行<strong>采样</strong>或者<strong>循环</strong>的操作,大大加速了第三步。如果场景/光源出现移动 就需要更新MIPMAP，本身还是有一定的开销，但是生成MIPMAP硬件GPU支持的非常到位，生成非常快（几乎不花时间），而是SAT会慢一点。</li>
+</ul>
+<h1 id="moment-shadow-mapping"><a class="markdownIt-Anchor" href="#moment-shadow-mapping"></a> <strong><strong>Moment shadow mapping</strong></strong></h1>
+<p>为了避免VSSM中不是正态分布情况下的问题,就引入了更高阶的<strong>moments</strong>来得到更加准确的深度分布情况.想要描述的更准确，就要使用更高阶的<strong>moment(矩)</strong>，矩的定义有很多，最简单的矩就是记录一个数的次方，<strong>VSSM 就等于用了前两阶的矩</strong>。这样多记录几阶矩就能得到更准确的结果。</p>
+<p>如果保留前M阶的矩，就能描述一个阶跃函数，阶数等2/M,就等于某种展开。越多的阶数就和原本的分布越拟合。一般来说4阶就够用。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2014.png" alt></p>
+<h1 id="sdfdisatance-field-soft-shadows"><a class="markdownIt-Anchor" href="#sdfdisatance-field-soft-shadows"></a> <strong>SDF(Disatance field soft shadows)</strong></h1>
+<p><strong>有向距离场SDF</strong>：记录了空间中任何一点到定义该场的物体之间的最小距离。</p>
+<p><strong>背后的理论</strong>：optimal transport最优传输。</p>
+<h2 id="应用1ray-marching"><a class="markdownIt-Anchor" href="#应用1ray-marching"></a> 应用1：Ray Marching</h2>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2015.png" alt></p>
+<p>简述：将SDF距离作为安全距离，判断光线是否与物体相交，可以加速光线步进。</p>
+<p>详述：</p>
+<p>任意一点的SDF我们是已知的,因此在P0 点时,我们以它的SDF(P0)为半径做一个圆(此处假设在2D内,如果在3D内则是一个球),在这个圆内无论是哪个方向前进,只要不超过半径距离,都不会碰见物体,是安全的.</p>
+<p>因此我们可以利用这个特性不断的朝一个方向前进,以P0开始朝一方向走SDF(P0)到达 P1 点,若仍与物体表面相距甚远,则以P1点为新起点继续走SDF(P1)到达 P2 点,假设此处 P2 点的SDF足够小,也就是代表离物体表面足够接近了,则进行求交操作.</p>
+<p>如果在超一方向trace非常远的距离但仍然什么都没trace到,此时就可以舍弃这条光线,也就是停止了.</p>
+<p>虚幻引擎中便使用了这种方法判断静态网格的表面：<a href="https://docs.unrealengine.com/5.1/en-US/mesh-distance-fields-in-unreal-engine/">Mesh Distance Fields in Unreal Engine | Unreal Engine 5.1 Documentation</a></p>
+<h2 id="应用2生成软阴影"><a class="markdownIt-Anchor" href="#应用2生成软阴影"></a> 应用2：生成软阴影</h2>
+<p>将安全距离的概念进行延伸，在任意一点通过sdf可以获得一个safe angle，即取点P为shading point往一方向打出一根光线,光线上的一点a,有一个SDF值SDF(a),也就是在a点以SDF(a)为半径所做的球或圆内是安全的,不会碰到物体.</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2016.png" alt></p>
+<p>把shading point和<strong>面光源</strong>相连，所得到的安全角度越小，被遮蔽的可能越高，就可以认为</p>
+<p><strong>safe angle越小，阴影越黑,越趋近于硬阴影;</strong></p>
+<p><strong>safe angle够大就视为不被遮挡没有阴影,也就越趋近于软阴影。</strong></p>
+<h3 id="具体步骤"><a class="markdownIt-Anchor" href="#具体步骤"></a> 具体步骤</h3>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2017.png" alt></p>
+<ul>
+<li>
+<p>我们以o为起点,沿一个方向推进,仍然是ray marhcing的步骤,在p1点以SDF(p1)进行推进,其余点也是一样,此处主要是为了求safe angle,我们在起点o沿每个点的sdf为半径所形成的圆做切线,从而求出各个点的safe angle,我们最后再<strong>取其中最小的角度作为总的safe angle.</strong></p>
+</li>
+<li>
+<p>求safe angle的公式：以p1点为例,从o点到p1的距离为斜边,sdf(p1)是直角边,因此我们用arcsin就可以求出safe angle了.</p>
+</li>
+<li>
+<p>但是对于反函数计算对于计算机不友好，于是使用比值而不是比值的arcsin来描述safe angle的大小，然后引入一个系数k（k的大小是控制阴影的软硬程度）即可</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2018.png" alt></p>
+</li>
+</ul>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>SDF是一个快速的高质量的软阴影生成方法(比shadow map快是忽略了SDF生成的时间),但是在存储上的消耗非常大，而且生成SDF的花的时间也要很久，SDF是预计算，在有动态形变的物体的情况就得重新计算SDF。</p>
+<h1 id="概念补充"><a class="markdownIt-Anchor" href="#概念补充"></a> 概念补充</h1>
+<h2 id="sat"><a class="markdownIt-Anchor" href="#sat"></a> SAT</h2>
+<p>SAT是百分百准确的一个数据结构。</p>
+<p>SAT的出现是为了解决范围查询(在区域内快速得到平均值),并且,范围内求平均值是等价于范围内求和的,毕竟总和除以个数=平均值.</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2019.png" alt></p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2020.png" alt></p>
+<h2 id="mipmap"><a class="markdownIt-Anchor" href="#mipmap"></a> MIPMAP</h2>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2021.png" alt></p>
+<p>是一个<strong>快速的,近似的,正方形的范围查询</strong>,由于它要做插值,因此即便是方形有时也会不准确.同时当插值的范围不是2的次方时，也就是在两个MIPMAP之间时，还要再进行一次插值，也就是“三线性插值”，这样会让结果更加不准确,因此局限性太大且准确度也不算高.</p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=2">Lecture2 Recap of CG Basics_哔哩哔哩_bilibili</a></p>
+<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=3">Lecture3 Real-time Shadows 1_哔哩哔哩_bilibili</a></p>
+<p><a href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=4">Lecture4 Real-time Shadows 2_哔哩哔哩_bilibili</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/363355018">GAMES202 高质量实时渲染课程笔记Lecture 2: Recap of CG Basics - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/363355909">GAMES202 Real-Time High Quality Rendrting 高质量实时渲染课程笔记Lecture 3: Shadow 01 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/363357318">GAMES202 Real-Time High Quality Rendrting 高质量实时渲染课程笔记Lecture 4: Shadow 02 - 知乎 (zhihu.com)</a></p>
 ]]></content>
       <categories>
         <category>CG</category>
@@ -5734,7 +5734,6 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
 <ul>
 <li>右上角的两张贴图（骨骼动画的位置信息、旋转信息），每一列都是一块骨骼（其实是关节），每一行都是一帧动画，第一行是参考姿势（或者说绑定姿势），下面是不同动画片段的信息。如上图包含两段动画，他们是前后衔接的。</li>
 <li>下面的贴图保存了两个信息，一个是静态网格体的顶点所对应的参考姿势下的位置，一个是每个顶点所绑定的的骨骼的权重。</li>
-<li></li>
 </ul>
 <p>具体的内部实现，有时间看下源码再补充。</p>
 <h1 id="插件使用"><a class="markdownIt-Anchor" href="#插件使用"></a> 插件使用</h1>
@@ -6206,71 +6205,6 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
       </tags>
   </entry>
   <entry>
-    <title>链接合集</title>
-    <url>/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/</url>
-    <content><![CDATA[<h1 id="工具介绍"><a class="markdownIt-Anchor" href="#工具介绍"></a> 📗 工具介绍</h1>
-<ul>
-<li><a href="https://www.jianshu.com/p/c4f02f46224f">yarn的介绍及workspace的使用</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/77577415">Monorepo 是什么，为什么大家都在用？</a></li>
-<li><a href="https://www.jianshu.com/p/dafc2052eedc">Monorepo实战</a></li>
-</ul>
-<h1 id="文档链接"><a class="markdownIt-Anchor" href="#文档链接"></a> 🎈 文档链接</h1>
-<ul>
-<li><a href="https://yarn.bootcss.com/docs/">Yarn</a></li>
-<li><a href="https://webpack.docschina.org/configuration">webpack</a></li>
-<li><a href="https://github.com/lerna/lerna">Lerna</a></li>
-</ul>
-<h1 id="参考教程"><a class="markdownIt-Anchor" href="#参考教程"></a> 💙 参考教程</h1>
-<h2 id="vs-code-c开发"><a class="markdownIt-Anchor" href="#vs-code-c开发"></a> VS Code —— C++开发</h2>
-<ul>
-<li><a href="https://www.whbwiki.com/335.html">开发环境配置详细教程</a></li>
-<li><a href="https://blog.csdn.net/weixin_43343144/article/details/85147439">配置文件说明</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/153252108">插件CodeRunner运行C++代码时中文乱码问题的解决</a></li>
-<li><a href="https://blog.csdn.net/weixin_43940314/article/details/115456199">安装和使用C++线性代数库eigen（Windows，MinGW，VS Code和VS2019的配置）</a></li>
-<li>Code-Runner在编译时不会自动引入eigen，需要在setting.json中设置<code>&quot;code-runner.executorMap&quot;</code>中的<code>&quot;cpp&quot;: &quot;cd $dir &amp;&amp; g++ -g $fileName -o $fileNameWithoutExt -I 'C:/Users/xxx/eigen-3.4-rc1' &amp;&amp; $dir$fileNameWithoutExt&quot;</code>，才可以正常运行。当然这个插件配置较为简单，更加复杂、稳妥的配置推荐使用C/C++插件中的tasks.json文件。</li>
-</ul>
-<h2 id="vs-code-cmake"><a class="markdownIt-Anchor" href="#vs-code-cmake"></a> VS Code —— CMake</h2>
-<ul>
-<li><a href="https://www.cnblogs.com/herelsp/p/8679200.html#_label2">CMake+MinGW64搭建C/C++编译环境</a></li>
-<li><a href="https://blog.csdn.net/JohnJim0/article/details/81842249?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-9.pc_relevant_baidujshouduan&amp;spm=1001.2101.3001.4242">CMake+VSCode搭建C/C++编译环境</a></li>
-</ul>
-<h4 id="使用cmake编译和运行包含有eigen库的步骤"><a class="markdownIt-Anchor" href="#使用cmake编译和运行包含有eigen库的步骤"></a> 使用CMake编译和运行包含有eigen库的步骤</h4>
-<ol>
-<li>编写main.cpp文件</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;cmath&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;Eigen/Core&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;Eigen/Dense&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">// Example of vector</span><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Example of vector \n&quot;</span>;<br>    <span class="hljs-comment">// vector definition</span><br>    <span class="hljs-function">Eigen::Vector3f <span class="hljs-title">v</span><span class="hljs-params">(<span class="hljs-number">1.0f</span>,<span class="hljs-number">2.0f</span>,<span class="hljs-number">3.0f</span>)</span></span>;<br>    <span class="hljs-function">Eigen::Vector3f <span class="hljs-title">w</span><span class="hljs-params">(<span class="hljs-number">1.0f</span>,<span class="hljs-number">0.0f</span>,<span class="hljs-number">0.0f</span>)</span></span>;<br>    <span class="hljs-comment">// vector output</span><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Example of output \n&quot;</span>;<br>    std::cout &lt;&lt; v &lt;&lt; std::endl;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ol start="2">
-<li>编写CMakeLists.txt文件</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs txt">cmake_minimum_required (VERSION 2.8.11)<br><br># 项目名<br>project (Transformation)<br><br># 将解压后的Eigen库的目录引入<br>include_directories(&quot;C:/Users/xxx/eigen-3.4-rc1/&quot;)<br><br># 添加可执行文件<br>add_executable (Transformation main.cpp)<br><br></code></pre></td></tr></table></figure>
-<ol start="3">
-<li>在main.cpp所在目录下，打开终端(命令行)，依次输入：</li>
-</ol>
-<ul>
-<li><code>mkdir build</code> 创建名为build的文件夹</li>
-<li><code>cd build</code> 移动到build文件夹下</li>
-<li><code>cmake -G &quot;MinGW Makefiles&quot; ..</code> 注意其中<code>..</code>表示上一级目录，若为<code>.</code>则表示当前目录；<code>&quot;MinGW Makefiles&quot;</code>指定了使用MinGW编译器，否则默认是MSVC（Visual Studio的编译器）</li>
-<li><code>mingw32-make.exe</code> 编译程序，错误提示会显示在终端中</li>
-<li><code>./Transformation</code>：若上一步无错误，则可运行程序(这里的Transformation为可执行文件名，可参照CMakeLists.txt中修改)</li>
-</ul>
-<p><img src="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-06-58.png" alt="文件目录结构"></p>
-<p><img src="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-16-22.png" alt="执行结果"></p>
-<blockquote>
-<p>cmake 在 find_path 和 find_library 时，会搜索一些默认的路径。当我们将一些lib安装在非默认搜索路径时，cmake就没法搜索到了。这是我们需要添加路径。方法如下：<br>
-<code>set(CMAKE_INCLUDE_PATH &quot;include_path&quot;)</code><br>
-<code>set(CMAKE_LIBRARY_PATH &quot;lib_path&quot;)</code></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Link-collect</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-        <tag>webpack</tag>
-        <tag>Monorepo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>论文综述-建筑模型简化度量</title>
     <url>/2022/08/23/%E8%AE%BA%E6%96%87%E7%BB%BC%E8%BF%B0-%E5%BB%BA%E7%AD%91%E6%A8%A1%E5%9E%8B%E7%AE%80%E5%8C%96%E5%BA%A6%E9%87%8F/</url>
     <content><![CDATA[<h1 id="减面度量方法细化"><a class="markdownIt-Anchor" href="#减面度量方法细化"></a> 减面度量方法细化</h1>
@@ -6412,6 +6346,71 @@ Cohen J, Olano M, Manocha D. Appearance-preserving simplification[C]//Proceeding
       <tags>
         <tag>Algorithm</tag>
         <tag>论文综述</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>链接合集</title>
+    <url>/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/</url>
+    <content><![CDATA[<h1 id="工具介绍"><a class="markdownIt-Anchor" href="#工具介绍"></a> 📗 工具介绍</h1>
+<ul>
+<li><a href="https://www.jianshu.com/p/c4f02f46224f">yarn的介绍及workspace的使用</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/77577415">Monorepo 是什么，为什么大家都在用？</a></li>
+<li><a href="https://www.jianshu.com/p/dafc2052eedc">Monorepo实战</a></li>
+</ul>
+<h1 id="文档链接"><a class="markdownIt-Anchor" href="#文档链接"></a> 🎈 文档链接</h1>
+<ul>
+<li><a href="https://yarn.bootcss.com/docs/">Yarn</a></li>
+<li><a href="https://webpack.docschina.org/configuration">webpack</a></li>
+<li><a href="https://github.com/lerna/lerna">Lerna</a></li>
+</ul>
+<h1 id="参考教程"><a class="markdownIt-Anchor" href="#参考教程"></a> 💙 参考教程</h1>
+<h2 id="vs-code-c开发"><a class="markdownIt-Anchor" href="#vs-code-c开发"></a> VS Code —— C++开发</h2>
+<ul>
+<li><a href="https://www.whbwiki.com/335.html">开发环境配置详细教程</a></li>
+<li><a href="https://blog.csdn.net/weixin_43343144/article/details/85147439">配置文件说明</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/153252108">插件CodeRunner运行C++代码时中文乱码问题的解决</a></li>
+<li><a href="https://blog.csdn.net/weixin_43940314/article/details/115456199">安装和使用C++线性代数库eigen（Windows，MinGW，VS Code和VS2019的配置）</a></li>
+<li>Code-Runner在编译时不会自动引入eigen，需要在setting.json中设置<code>&quot;code-runner.executorMap&quot;</code>中的<code>&quot;cpp&quot;: &quot;cd $dir &amp;&amp; g++ -g $fileName -o $fileNameWithoutExt -I 'C:/Users/xxx/eigen-3.4-rc1' &amp;&amp; $dir$fileNameWithoutExt&quot;</code>，才可以正常运行。当然这个插件配置较为简单，更加复杂、稳妥的配置推荐使用C/C++插件中的tasks.json文件。</li>
+</ul>
+<h2 id="vs-code-cmake"><a class="markdownIt-Anchor" href="#vs-code-cmake"></a> VS Code —— CMake</h2>
+<ul>
+<li><a href="https://www.cnblogs.com/herelsp/p/8679200.html#_label2">CMake+MinGW64搭建C/C++编译环境</a></li>
+<li><a href="https://blog.csdn.net/JohnJim0/article/details/81842249?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-9.pc_relevant_baidujshouduan&amp;spm=1001.2101.3001.4242">CMake+VSCode搭建C/C++编译环境</a></li>
+</ul>
+<h4 id="使用cmake编译和运行包含有eigen库的步骤"><a class="markdownIt-Anchor" href="#使用cmake编译和运行包含有eigen库的步骤"></a> 使用CMake编译和运行包含有eigen库的步骤</h4>
+<ol>
+<li>编写main.cpp文件</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;cmath&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;Eigen/Core&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;Eigen/Dense&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">// Example of vector</span><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Example of vector \n&quot;</span>;<br>    <span class="hljs-comment">// vector definition</span><br>    <span class="hljs-function">Eigen::Vector3f <span class="hljs-title">v</span><span class="hljs-params">(<span class="hljs-number">1.0f</span>,<span class="hljs-number">2.0f</span>,<span class="hljs-number">3.0f</span>)</span></span>;<br>    <span class="hljs-function">Eigen::Vector3f <span class="hljs-title">w</span><span class="hljs-params">(<span class="hljs-number">1.0f</span>,<span class="hljs-number">0.0f</span>,<span class="hljs-number">0.0f</span>)</span></span>;<br>    <span class="hljs-comment">// vector output</span><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Example of output \n&quot;</span>;<br>    std::cout &lt;&lt; v &lt;&lt; std::endl;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>编写CMakeLists.txt文件</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs txt">cmake_minimum_required (VERSION 2.8.11)<br><br># 项目名<br>project (Transformation)<br><br># 将解压后的Eigen库的目录引入<br>include_directories(&quot;C:/Users/xxx/eigen-3.4-rc1/&quot;)<br><br># 添加可执行文件<br>add_executable (Transformation main.cpp)<br><br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>在main.cpp所在目录下，打开终端(命令行)，依次输入：</li>
+</ol>
+<ul>
+<li><code>mkdir build</code> 创建名为build的文件夹</li>
+<li><code>cd build</code> 移动到build文件夹下</li>
+<li><code>cmake -G &quot;MinGW Makefiles&quot; ..</code> 注意其中<code>..</code>表示上一级目录，若为<code>.</code>则表示当前目录；<code>&quot;MinGW Makefiles&quot;</code>指定了使用MinGW编译器，否则默认是MSVC（Visual Studio的编译器）</li>
+<li><code>mingw32-make.exe</code> 编译程序，错误提示会显示在终端中</li>
+<li><code>./Transformation</code>：若上一步无错误，则可运行程序(这里的Transformation为可执行文件名，可参照CMakeLists.txt中修改)</li>
+</ul>
+<p><img src="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-06-58.png" alt="文件目录结构"></p>
+<p><img src="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-16-22.png" alt="执行结果"></p>
+<blockquote>
+<p>cmake 在 find_path 和 find_library 时，会搜索一些默认的路径。当我们将一些lib安装在非默认搜索路径时，cmake就没法搜索到了。这是我们需要添加路径。方法如下：<br>
+<code>set(CMAKE_INCLUDE_PATH &quot;include_path&quot;)</code><br>
+<code>set(CMAKE_LIBRARY_PATH &quot;lib_path&quot;)</code></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Link-collect</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>webpack</tag>
+        <tag>Monorepo</tag>
       </tags>
   </entry>
 </search>
