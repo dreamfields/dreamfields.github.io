@@ -1,0 +1,617 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="🔵代码编辑器: 使用 vscode 编辑器使用vscode，代码的规范基本都要依赖于 vscode的插件  这里需要使用的插件有:  ESLint koroFileHeader Prettier - Code formatter   可选插件  Chinese (Simplified) Language Pack for Visual Studio Code  (中文插件) GitLens —">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端规范">
+<meta property="og:url" content="http://example.com/2021/12/06/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="🔵代码编辑器: 使用 vscode 编辑器使用vscode，代码的规范基本都要依赖于 vscode的插件  这里需要使用的插件有:  ESLint koroFileHeader Prettier - Code formatter   可选插件  Chinese (Simplified) Language Pack for Visual Studio Code  (中文插件) GitLens —">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-06T11:30:53.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.672Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="规范">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>前端规范 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="前端规范">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-06 19:30" pubdate>
+        2021年12月6日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">前端规范</h1>
+            
+            <div class="markdown-body">
+              <h1 id="代码编辑器-使用-vscode"><a class="markdownIt-Anchor" href="#代码编辑器-使用-vscode"></a> 🔵代码编辑器: 使用 vscode</h1>
+<p>编辑器使用vscode，代码的规范基本都要依赖于 vscode的插件</p>
+<h3 id="这里需要使用的插件有"><a class="markdownIt-Anchor" href="#这里需要使用的插件有"></a> 这里需要使用的插件有:</h3>
+<ul>
+<li>ESLint</li>
+<li>koroFileHeader</li>
+<li>Prettier - Code formatter</li>
+</ul>
+<h3 id="可选插件"><a class="markdownIt-Anchor" href="#可选插件"></a> 可选插件</h3>
+<ul>
+<li>Chinese (Simplified) Language Pack for Visual Studio Code  (中文插件)</li>
+<li>GitLens — Git supercharged</li>
+<li>One Dark Pro</li>
+<li>vscode-icons</li>
+</ul>
+<h1 id="包管理器使用-yarn-替代npm"><a class="markdownIt-Anchor" href="#包管理器使用-yarn-替代npm"></a> 🔵包管理器：使用 Yarn 替代NPM</h1>
+<h2 id="yarn-优点"><a class="markdownIt-Anchor" href="#yarn-优点"></a> yarn 优点:</h2>
+<h3 id="1缓存"><a class="markdownIt-Anchor" href="#1缓存"></a> 1.缓存</h3>
+<p>Yarn 缓存了每个下载过的包，所以再次使用时无需重复下载。 同时利用并行下载以最大化资源利用率，因此安装速度更快。</p>
+<h3 id="2安全性"><a class="markdownIt-Anchor" href="#2安全性"></a> 2.安全性</h3>
+<p>在执行代码之前，Yarn 会通过算法校验每个安装包的完整性。</p>
+<h3 id="3可靠性"><a class="markdownIt-Anchor" href="#3可靠性"></a> 3.可靠性</h3>
+<p>使用详细、简洁的锁文件格式和明确的安装算法，Yarn 能够保证在不同系统上无差异的工作。</p>
+<h2 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h2>
+<p>中文文档: <a target="_blank" rel="noopener" href="https://yarn.bootcss.com/docs/usage/">https://yarn.bootcss.com/docs/usage/</a></p>
+<h3 id="初始化一个新项目"><a class="markdownIt-Anchor" href="#初始化一个新项目"></a> 初始化一个新项目:</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yarn init<br></code></pre></td></tr></table></figure>
+<h3 id="添加依赖包"><a class="markdownIt-Anchor" href="#添加依赖包"></a> 添加依赖包</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">yarn add [package]<br>yarn add [package]@[version]<br>yarn add [package]@[tag]<br></code></pre></td></tr></table></figure>
+<h3 id="将依赖项添加到不同依赖项类别中"><a class="markdownIt-Anchor" href="#将依赖项添加到不同依赖项类别中"></a> 将依赖项添加到不同依赖项类别中</h3>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ada">yarn add [<span class="hljs-keyword">package</span>] <span class="hljs-comment">--dev</span><br>yarn add [<span class="hljs-keyword">package</span>] <span class="hljs-comment">--peer</span><br>yarn add [<span class="hljs-keyword">package</span>] <span class="hljs-comment">--optional</span><br></code></pre></td></tr></table></figure>
+<h3 id="升级依赖包"><a class="markdownIt-Anchor" href="#升级依赖包"></a> 升级依赖包</h3>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs inform7">yarn upgrade <span class="hljs-comment">[package]</span><br>yarn upgrade <span class="hljs-comment">[package]</span>@<span class="hljs-comment">[version]</span><br>yarn upgrade <span class="hljs-comment">[package]</span>@<span class="hljs-comment">[tag]</span><br></code></pre></td></tr></table></figure>
+<h3 id="移除依赖包"><a class="markdownIt-Anchor" href="#移除依赖包"></a> 移除依赖包</h3>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lua">yarn <span class="hljs-built_in">remove</span> [<span class="hljs-built_in">package</span>]<br></code></pre></td></tr></table></figure>
+<h3 id="安装项目的全部依赖"><a class="markdownIt-Anchor" href="#安装项目的全部依赖"></a> 安装项目的全部依赖</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yarn<br>或者 yarn <span class="hljs-keyword">install</span><br></code></pre></td></tr></table></figure>
+<h1 id="静态代码分析工具eslint"><a class="markdownIt-Anchor" href="#静态代码分析工具eslint"></a> 🔵静态代码分析工具：ESLint</h1>
+<p>ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。</p>
+<p>在 TypeScript 中直使用 tslint 来对代码质量进行保障。但是 tslint 是 eslint 的子集。tslint 大概提供了 151 条基础规则，eslint 却有 249 条，更不用说 eslint 发达的生态了，提供了更多的规范代码。</p>
+<h4 id="例如"><a class="markdownIt-Anchor" href="#例如"></a> 例如：</h4>
+<p>ESLint 的标准里面禁止使用var ，需要使用let 或者 const 替代。</p>
+<h2 id="1安装-eslint"><a class="markdownIt-Anchor" href="#1安装-eslint"></a> 1.安装 Eslint:</h2>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">yarn <span class="hljs-built_in">add</span> eslint <span class="hljs-comment">--dev</span><br></code></pre></td></tr></table></figure>
+<h2 id="2使用umi中的eslint-规则-umi-fabric"><a class="markdownIt-Anchor" href="#2使用umi中的eslint-规则-umi-fabric"></a> 2.使用umi中的eslint 规则 umi-fabric:</h2>
+<p>文档: <a target="_blank" rel="noopener" href="https://pro.ant.design/blog/use-eslint-typescript-cn">https://pro.ant.design/blog/use-eslint-typescript-cn</a></p>
+<p>🌟🌟umi-fabric 🌟🌟, 这个库提供了 eslint ，stylelint 和 prettier 的一些预设。</p>
+<h3 id="安装-umi-fabric"><a class="markdownIt-Anchor" href="#安装-umi-fabric"></a> 安装 umi-fabric</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">yarn <span class="hljs-keyword">add</span> <span class="hljs-variable">@umijs</span><span class="hljs-operator">/</span>fabric <span class="hljs-comment">--dev</span><br></code></pre></td></tr></table></figure>
+<h3 id="并且在根目录-eslintrcjs-中做如下配置"><a class="markdownIt-Anchor" href="#并且在根目录-eslintrcjs-中做如下配置"></a> 并且在根目录 .eslintrc.js 中做如下配置</h3>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-keyword">const</span> fabric = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@umijs/fabric&#x27;</span>);<br><span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = fabric.eslint;<br></code></pre></td></tr></table></figure>
+<h3 id="在-vscode-中-eslint-的插件并不会默认的去-lint-ts-文件我们需要在-settingsjson-中设置"><a class="markdownIt-Anchor" href="#在-vscode-中-eslint-的插件并不会默认的去-lint-ts-文件我们需要在-settingsjson-中设置"></a> 在 vscode 中 eslint 的插件并不会默认的去 lint .ts 文件，我们需要在 settings.json 中设置</h3>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs prolog"><span class="hljs-string">&quot;eslint.validate&quot;</span>: [<br> <span class="hljs-string">&quot;javascript&quot;</span>,<br> <span class="hljs-string">&quot;javascriptreact&quot;</span>,<br> <span class="hljs-string">&quot;typescript&quot;</span>,<br> <span class="hljs-string">&quot;typescriptreact&quot;</span><br>],<br></code></pre></td></tr></table></figure>
+<h2 id="3安装vscode-中的eslint-插件"><a class="markdownIt-Anchor" href="#3安装vscode-中的eslint-插件"></a> 3.安装vscode 中的Eslint 插件</h2>
+<p>Eslint 扩展使用安装在打开的工作区文件夹中的ESLint库。写代码的时候可以静态检测代码。</p>
+<p>eslint可以按照使用情况来自己定义哪些规则需要使用，哪些不需要使用。这里给出一个项目中的配置文件参考</p>
+<h3 id="eslintrcjs-配置文件参考"><a class="markdownIt-Anchor" href="#eslintrcjs-配置文件参考"></a> .eslintrc.js 配置文件参考：</h3>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">module</span>.exports = &#123;<br> <span class="hljs-attr">extends</span>: [<span class="hljs-built_in">require</span>.resolve(<span class="hljs-string">&#x27;@umijs/fabric/dist/eslint&#x27;</span>)],<br> <span class="hljs-attr">globals</span>: &#123;<br>  <span class="hljs-attr">ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION</span>: <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">page</span>: <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">REACT_APP_ENV</span>: <span class="hljs-literal">true</span>,<br> &#125;,<br> <span class="hljs-attr">rules</span>: &#123;<br>  <span class="hljs-string">&#x27;no-param-reassign&#x27;</span>: <span class="hljs-number">0</span>,<br>  <span class="hljs-string">&#x27;no-restricted-syntax&#x27;</span>: <span class="hljs-number">0</span>,<br>  <span class="hljs-string">&#x27;no-underscore-dangle&#x27;</span>: <span class="hljs-number">0</span>,<br>  <span class="hljs-string">&#x27;import/no-unresolved&#x27;</span>: <span class="hljs-number">0</span>,<br>  <span class="hljs-string">&#x27;@typescript-eslint/naming-convention&#x27;</span>: <span class="hljs-number">0</span>,<br> &#125;,<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h1 id="代码格式化工具prettier-code-formatter"><a class="markdownIt-Anchor" href="#代码格式化工具prettier-code-formatter"></a> 🔵代码格式化工具：Prettier - Code formatter</h1>
+<p>Prettier 是一个“有主见”的代码格式化工具，支持列表如下： JavaScript，包括 ES2017 JSX Flow TypeScript CSS、LESS 和 SCSS</p>
+<h2 id="安装-prettier-包"><a class="markdownIt-Anchor" href="#安装-prettier-包"></a> 安装 Prettier 包</h2>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">yarn <span class="hljs-built_in">add</span> prettier <span class="hljs-comment">--dev</span><br></code></pre></td></tr></table></figure>
+<h2 id="安装vscode-中的prettier-插件"><a class="markdownIt-Anchor" href="#安装vscode-中的prettier-插件"></a> 安装vscode 中的Prettier 插件</h2>
+<h3 id="使用方法"><a class="markdownIt-Anchor" href="#使用方法"></a> 使用方法:</h3>
+<p>快捷键 : <strong>shift + alt +F</strong></p>
+<p>或者 参考官方文档中 的方法:</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dos">\<span class="hljs-number">1</span>. <span class="hljs-built_in">CMD</span> + <span class="hljs-built_in">Shift</span> + P -&gt; <span class="hljs-built_in">Format</span> Document<br>OR<br>\<span class="hljs-number">1</span>. Select the text you want to Prettify<br>\<span class="hljs-number">2</span>. <span class="hljs-built_in">CMD</span> + <span class="hljs-built_in">Shift</span> + P -&gt; <span class="hljs-built_in">Format</span> Selection<br></code></pre></td></tr></table></figure>
+<h2 id="配置文件参考"><a class="markdownIt-Anchor" href="#配置文件参考"></a> 配置文件参考</h2>
+<p><strong>这里同样也引入了umi中的规则 🌟🌟umi-fabric 🌟🌟</strong></p>
+<p><strong>.prettierrc.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> fabric = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@umijs/fabric&#x27;</span>);<br><span class="hljs-built_in">module</span>.exports = &#123;<br> ...fabric.prettier,<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h1 id="注释插件-korofileheader"><a class="markdownIt-Anchor" href="#注释插件-korofileheader"></a> 🔵注释插件: koroFileHeader</h1>
+<p>不一定所有的函数都需要写注释，一般是比较关键的函数需要注释。文件头部的注释在安装插件后在创建的时候会默认加上。</p>
+<h3 id="1文件头部添加注释"><a class="markdownIt-Anchor" href="#1文件头部添加注释"></a> 1.文件头部添加注释:</h3>
+<ul>
+<li>在文件开头添加注释，记录文件信息/文件的传参/出参等</li>
+<li>支持用户高度自定义注释选项, 适配各种需求和注释。</li>
+<li>保存文件的时候，自动更新最后的编辑时间和编辑人</li>
+<li>快捷键：window：ctrl+alt+i,mac：ctrl+cmd+i, linux: ctrl+meta+I</li>
+</ul>
+<h3 id="2在光标处添加函数注释"><a class="markdownIt-Anchor" href="#2在光标处添加函数注释"></a> 2.在光标处添加函数注释:</h3>
+<ul>
+<li>在光标处自动生成一个注释模板, 自动解析函数参数，生成函数参数注释。</li>
+<li>支持用户高度自定义注释选项</li>
+<li>快捷键：window：ctrl+alt+t,mac：ctrl+cmd+t,linux: ctrl+meta+t</li>
+<li>快捷键不可用很可能是被占用了,参考这里</li>
+</ul>
+<h3 id="函数注释配置参考"><a class="markdownIt-Anchor" href="#函数注释配置参考"></a> 函数注释配置参考:</h3>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-string">&quot;fileheader.cursorMode&quot;</span>: &#123;<br>  <span class="hljs-comment">// 函数注释</span><br>  <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,<br>  <span class="hljs-string">&quot;param&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,<br>  <span class="hljs-string">&quot;return&quot;</span>: <span class="hljs-string">&quot;&quot;</span><br> &#125;,<br></code></pre></td></tr></table></figure>
+<h3 id="文件头部注释配置参考"><a class="markdownIt-Anchor" href="#文件头部注释配置参考"></a> 文件头部注释配置参考:</h3>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-string">&quot;fileheader.customMade&quot;</span>: &#123;<br>  <span class="hljs-comment">// 头部注释</span><br>  <span class="hljs-string">&quot;Author&quot;</span>: <span class="hljs-string">&quot;linkenzone&quot;</span>, <span class="hljs-comment">// 文件编辑者</span><br>  <span class="hljs-string">&quot;Date&quot;</span>: <span class="hljs-string">&quot;Do not edit&quot;</span>, <span class="hljs-comment">// 文件创建时间</span><br>  <span class="hljs-string">&quot;Descripttion&quot;</span>: <span class="hljs-string">&quot;Do not edit&quot;</span>, <span class="hljs-comment">// 文件描述</span><br> &#125;,<br></code></pre></td></tr></table></figure>
+<h1 id="页面代码结构推荐"><a class="markdownIt-Anchor" href="#页面代码结构推荐"></a> 🔵页面代码结构推荐</h1>
+<p>参考: <a target="_blank" rel="noopener" href="https://beta-pro.ant.design/docs/folder-cn">https://beta-pro.ant.design/docs/folder-cn</a></p>
+<p>为了让项目代码组织更加规范，让开发能够更方便的定位到相关页面组件代码，我们定义了一套规范，该规范当前只作为推荐的指导，并非强制。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs awk">src<br>├── components<br>└── pages<br>    ├── Welcome        <span class="hljs-regexp">//</span> 路由组件下不应该再包含其他路由组件，基于这个约定就能清楚的区分路由组件和非路由组件了<br>    |   ├── components <span class="hljs-regexp">//</span> 对于复杂的页面可以再自己做更深层次的组织，但建议不要超过三层<br>    |   ├── Form.tsx<br>    |   ├── index.tsx  <span class="hljs-regexp">//</span> 页面组件的代码<br>    |   └── index.less <span class="hljs-regexp">//</span> 页面样式<br>    ├── Order          <span class="hljs-regexp">//</span> 路由组件下不应该再包含其他路由组件，基于这个约定就能清楚的区分路由组件和非路由组件了<br>    |   ├── index.tsx<br>    |   └── index.less<br>    ├── user           <span class="hljs-regexp">//</span> 一系列页面推荐通过小写的单一字母做 group 目录<br>    |   ├── components <span class="hljs-regexp">//</span> group 下公用的组件集合<br>    |   ├── Login      <span class="hljs-regexp">//</span> group 下的页面 Login<br>    |   ├── Register   <span class="hljs-regexp">//</span> group 下的页面 Register<br>    |   └── util.ts    <span class="hljs-regexp">//</span> 这里可以有一些共用方法之类，不做推荐和约束，看业务场景自行做组织<br>    └── *              <span class="hljs-regexp">//</span> 其它页面组件代码<br></code></pre></td></tr></table></figure>
+<p>所有路由组件（会配置在路由配置中的组件）我们推荐以大驼峰命名打平到 pages 下面第一级（复杂的项目可以增加 group 层级，在 group 下放置 pages）。不建议在路由组件内部再嵌套路由组件 - 不方便分辨一个组件是否是路由组件，而且不方便快速从全局定位到路由组件。</p>
+<p>我们推荐尽可能的拆分路由组件为更细粒度的组件，对于多个页面可能会用到的组件我们推荐放到 src/components 中，对于只是被单个页面依赖的（区块）组件，我们推荐就近维护到路由组件文件夹下即可。</p>
+<h1 id="其他的规范参考"><a class="markdownIt-Anchor" href="#其他的规范参考"></a> 🔵其他的规范参考</h1>
+<p><strong>Isobar 前端代码规范 及 最佳实践:</strong></p>
+<p><a target="_blank" rel="noopener" href="http://coderlmn.github.io/code-standards/#_javascript_libraries">http://coderlmn.github.io/code-standards/#_javascript_libraries</a></p>
+<p><strong>使用 stylelint 来约束样式文件</strong></p>
+<p><a target="_blank" rel="noopener" href="https://stylelint.io/">https://stylelint.io/</a></p>
+<p><strong>TypeScript 规范参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://beta-pro.ant.design/docs/type-script-cn">https://beta-pro.ant.design/docs/type-script-cn</a></p>
+<p><strong>antd pro v5 参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://beta-pro.ant.design/">https://beta-pro.ant.design/</a></p>
+<p><strong>antd pro v4 参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://pro.ant.design/index-cn">https://pro.ant.design/index-cn</a></p>
+<p>…</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Front-end/">Front-end</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%A7%84%E8%8C%83/">规范</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/24/Lecture-02-03-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80&amp;%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lecture 02-03 线性代数基础与线性变换</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/02/LearnOpenGL-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+                        <span class="hidden-mobile">LearnOpenGL-环境配置</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

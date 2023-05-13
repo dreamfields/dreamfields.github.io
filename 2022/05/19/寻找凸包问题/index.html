@@ -1,0 +1,614 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="凸包概念与性质 顶点定义法 给定空间RnR^{n}Rn上的有限点集SSS，由点集中有限个极点Extreme Point）构成的凸对象（Convex Object），就称为凸多胞体。 极点：可以看成是多胞体的顶点，以二维多边形为例，极点就相当于凸多边形的顶点。使用严格的数学定义来说，极点是指那些不能由凸多胞体内的其它点的凸组合（Convex Combination）表示出来的点。 凸多胞体任意两点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寻找凸包问题">
+<meta property="og:url" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="凸包概念与性质 顶点定义法 给定空间RnR^{n}Rn上的有限点集SSS，由点集中有限个极点Extreme Point）构成的凸对象（Convex Object），就称为凸多胞体。 极点：可以看成是多胞体的顶点，以二维多边形为例，极点就相当于凸多边形的顶点。使用严格的数学定义来说，极点是指那些不能由凸多胞体内的其它点的凸组合（Convex Combination）表示出来的点。 凸多胞体任意两点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%201.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%202.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%203.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%204.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%205.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%206.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%207.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%208.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%209.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%2010.png">
+<meta property="og:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%2011.png">
+<meta property="article:published_time" content="2022-05-19T08:17:48.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.672Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled.png">
+  
+  <title>寻找凸包问题 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="寻找凸包问题">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-19 16:17" pubdate>
+        2022年5月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">寻找凸包问题</h1>
+            
+            <div class="markdown-body">
+              <h1 id="凸包概念与性质"><a class="markdownIt-Anchor" href="#凸包概念与性质"></a> 凸包概念与性质</h1>
+<p><strong>顶点定义法</strong></p>
+<p>给定空间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>R</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">R^{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span></span>上的有限点集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>，由点集中有限个极点Extreme Point）构成的凸对象（Convex Object），就称为凸多胞体。</p>
+<p>极点：可以看成是多胞体的顶点，以二维多边形为例，极点就相当于凸多边形的顶点。使用严格的数学定义来说，极点是指那些不能由凸多胞体内的其它点的凸组合（Convex Combination）表示出来的点。</p>
+<p>凸多胞体任意两点的连线，还在凸多胞体内部。</p>
+<p><strong>半空间交定义法</strong></p>
+<p>一个凸多胞体可以表示成有限个半空间（Half Space）相交的密闭空间。</p>
+<p>半空间：例如在二维空间下，一条直线可以把平面分成两半，这两半就可以称为半空间，在三维空间下，一个平面可以把空间分成两半，这两半也就是两个半空间，在更高的维度下也可以有类似的表示。把<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>R</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">R^{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span></span>空间分成两半的平面称为超平面，例如二维的直线和三维的平面，都可以称为超平面。</p>
+<p>以每条边所在直线（或每个面所在平面）将空间分为两个半空间，凸多胞体只存在其中一个半空间中。</p>
+<h1 id="二维凸包算法"><a class="markdownIt-Anchor" href="#二维凸包算法"></a> 二维凸包算法</h1>
+<p>问题引入：在二维空间中给定一个有限点集，如何构造最大的凸多边形？</p>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>常见的八种算法：</p>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%201.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%202.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h2 id="jarvis步进法"><a class="markdownIt-Anchor" href="#jarvis步进法"></a> Jarvis步进法</h2>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%203.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>直观上，可以把Jarvis步进法看做是在集合Q的外面紧紧地包了一条线，线的一端固定在最下角的点上。把线向右拉使其绷紧，再拉高些，直到碰到一个点，这个点一定在凸包上。使线继续处于绷紧状态，查到下一个顶点，直至回来原点。更形式化的表示，是通过判断极角的大小，来确定下一个顶点。</p>
+<p>实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Pi 3.1415926;</span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">printData</span><span class="hljs-params">(vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; data)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; data.<span class="hljs-built_in">size</span>(); i++)<br>    &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;[&quot;</span> &lt;&lt; data[i][<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot;,&quot;</span> &lt;&lt; data[i][<span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-string">&quot;]   &quot;</span>;<br>    &#125;<br>&#125;<br><br>vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">JarvisFunc</span>(vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; &amp;points)<br>&#123;<br>    <span class="hljs-keyword">if</span> (points.<span class="hljs-built_in">size</span>() &lt;= <span class="hljs-number">3</span>)<br>        <span class="hljs-keyword">return</span> points;<br><br>    <span class="hljs-keyword">int</span> minY = <span class="hljs-number">65535</span>;<br>    <span class="hljs-keyword">int</span> maxY = <span class="hljs-number">-65535</span>;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt;::iterator idxMinY;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt;::iterator idxMaxY;<br>    <span class="hljs-comment">// 找到Y值最小和Y值最大的点，一定是凸包上的点</span><br>    <span class="hljs-keyword">for</span> (vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt;::iterator it = points.<span class="hljs-built_in">begin</span>(); it != points.<span class="hljs-built_in">end</span>(); ++it)<br>    &#123;<br>        <span class="hljs-keyword">if</span> ((*it)[<span class="hljs-number">1</span>] &lt; minY)<br>        &#123;<br>            minY = (*it)[<span class="hljs-number">1</span>];<br>            idxMinY = it;<br>        &#125;<br>        <span class="hljs-keyword">if</span> ((*it)[<span class="hljs-number">1</span>] &gt; maxY)<br>        &#123;<br>            maxY = (*it)[<span class="hljs-number">1</span>];<br>            idxMaxY = it;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// 将最终结果存入convexHull</span><br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; convexHull;<br>    convexHull.<span class="hljs-built_in">push_back</span>(*idxMinY);<br><br>    <span class="hljs-comment">// 寻找剩余点中与当前点的连线在极坐标下角度</span><br>    vector&lt;<span class="hljs-keyword">int</span>&gt; curPoint = (*idxMinY);<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; maxYPoint = (*idxMaxY); <span class="hljs-comment">// 最大的Y坐标点</span><br>    <span class="hljs-keyword">bool</span> isRightChainOver = <span class="hljs-literal">false</span>;      <span class="hljs-comment">//标记右链是否结束</span><br>    <span class="hljs-keyword">bool</span> isOver = <span class="hljs-literal">false</span>;                <span class="hljs-comment">// 标记是否退出循环</span><br>    <span class="hljs-comment">// 进入循环迭代</span><br>    <span class="hljs-keyword">while</span> (!isOver)<br>    &#123;<br>        <span class="hljs-built_in">printData</span>(points);<br>        cout &lt;&lt; <span class="hljs-string">&quot;curPoint:[&quot;</span> &lt;&lt; curPoint[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot;,&quot;</span> &lt;&lt; curPoint[<span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-string">&quot;]&quot;</span> &lt;&lt; endl;<br><br>        <span class="hljs-comment">// 迭代初始化</span><br>        <span class="hljs-keyword">double</span> minAngle = <span class="hljs-number">2</span> * Pi;<br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; minPointStack = &#123;&#125;; <span class="hljs-comment">//  极坐标角度减小则入栈</span><br>        vector&lt;<span class="hljs-keyword">int</span>&gt; eraseIdxStack = &#123;&#125;;         <span class="hljs-comment">//   极坐标角度减小，对应的points下标入栈</span><br>        <span class="hljs-keyword">int</span> startIdx = <span class="hljs-number">0</span>;<br>        vector&lt;<span class="hljs-keyword">int</span>&gt; visited = &#123;<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>&#125;; <span class="hljs-comment">// points中已经访问过的点的标记</span><br><br>        <span class="hljs-comment">// 遍历points的剩余点</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> it = <span class="hljs-number">0</span>; it &lt; points.<span class="hljs-built_in">size</span>(); ++it)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (points[it] == visited)<br>                <span class="hljs-keyword">continue</span>;<br><br>            <span class="hljs-comment">// 计算极坐标角度的cos值</span><br>            <span class="hljs-keyword">double</span> curCos = (points[it][<span class="hljs-number">0</span>] - curPoint[<span class="hljs-number">0</span>]) / <span class="hljs-built_in">sqrt</span>((<span class="hljs-built_in">pow</span>((points[it][<span class="hljs-number">0</span>] - curPoint[<span class="hljs-number">0</span>]), <span class="hljs-number">2</span>) + <span class="hljs-built_in">pow</span>((points[it][<span class="hljs-number">1</span>] - curPoint[<span class="hljs-number">1</span>]), <span class="hljs-number">2</span>)));<br><br>            <span class="hljs-comment">// 如果是右链，角度相对于x轴正方向；左链的角度相对于x轴负方向</span><br>            curCos = isRightChainOver ? -curCos : curCos;<br>            <span class="hljs-comment">// 得到当前的</span><br>            <span class="hljs-keyword">double</span> curAngle = <span class="hljs-built_in">acos</span>(curCos);<br><br>            <span class="hljs-comment">// 计算大于180度的角度</span><br>            <span class="hljs-keyword">if</span> (!isRightChainOver &amp;&amp; (points[it][<span class="hljs-number">1</span>] &lt; curPoint[<span class="hljs-number">1</span>]) || isRightChainOver &amp;&amp; (points[it][<span class="hljs-number">1</span>] &gt; curPoint[<span class="hljs-number">1</span>]))<br>                curAngle = <span class="hljs-number">2</span> * Pi - curAngle;<br><br>            vector&lt;<span class="hljs-keyword">int</span>&gt; test = &#123;<span class="hljs-number">13</span>, <span class="hljs-number">49</span>&#125;;<br>            <span class="hljs-keyword">if</span> (curPoint == test)<br>            &#123;<br>                cout &lt;&lt; <span class="hljs-string">&quot;---------------------------------&quot;</span> &lt;&lt; endl;<br>            &#125;<br><br>            <span class="hljs-comment">// 将最小值的改变过程全部入栈</span><br>            <span class="hljs-keyword">if</span> (curAngle &lt;= minAngle || (curAngle - minAngle) &lt; <span class="hljs-number">1e-6</span>)<br>            &#123;<br>                <span class="hljs-keyword">if</span> (curPoint == test)<br>                &#123;<br>                    cout &lt;&lt; <span class="hljs-string">&quot;进栈！&quot;</span> &lt;&lt; endl;<br>                &#125;<br>                minPointStack.<span class="hljs-built_in">push_back</span>(points[it]);<br>                eraseIdxStack.<span class="hljs-built_in">push_back</span>(it);<br>                <span class="hljs-keyword">int</span> curStackSize = minPointStack.<span class="hljs-built_in">size</span>();<br><br>                <span class="hljs-keyword">if</span> (curAngle &lt; minAngle)<br>                    startIdx = curStackSize - <span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">else</span> <span class="hljs-comment">// 当角度相同，即有多个点在同一条直线上时，均入栈</span><br>                &#123;<br>                    <span class="hljs-comment">// 决定入栈顺序</span><br>                    <span class="hljs-keyword">if</span> (curStackSize &gt; <span class="hljs-number">1</span>)<br>                    &#123;<br>                        <span class="hljs-keyword">if</span> (isRightChainOver) <span class="hljs-comment">// 左链构造时，将Y值更小的点保持在栈顶；Y值相等时，X值更小的点保持在栈顶</span><br>                        &#123;<br>                            <span class="hljs-keyword">if</span> (minPointStack[curStackSize - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>] &gt; minPointStack[curStackSize - <span class="hljs-number">2</span>][<span class="hljs-number">1</span>] || minPointStack[curStackSize - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>] == minPointStack[curStackSize - <span class="hljs-number">2</span>][<span class="hljs-number">1</span>] &amp;&amp; minPointStack[curStackSize - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] &gt; minPointStack[curStackSize - <span class="hljs-number">2</span>][<span class="hljs-number">0</span>])<br>                            &#123;<br>                                <span class="hljs-built_in">swap</span>(minPointStack[curStackSize - <span class="hljs-number">1</span>], minPointStack[curStackSize - <span class="hljs-number">2</span>]);<br>                                <span class="hljs-built_in">swap</span>(eraseIdxStack[curStackSize - <span class="hljs-number">1</span>], eraseIdxStack[curStackSize - <span class="hljs-number">2</span>]);<br>                            &#125;<br>                        &#125;<br>                        <span class="hljs-keyword">else</span><br>                        &#123; <span class="hljs-comment">// 右链构造时，将Y值更大的点保持在栈顶；Y值相等时，X值更大的点保持在栈顶</span><br>                            <span class="hljs-keyword">if</span> (minPointStack[curStackSize - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>] &lt; minPointStack[curStackSize - <span class="hljs-number">2</span>][<span class="hljs-number">1</span>] || minPointStack[curStackSize - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>] == minPointStack[curStackSize - <span class="hljs-number">2</span>][<span class="hljs-number">1</span>] &amp;&amp; minPointStack[curStackSize - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] &lt; minPointStack[curStackSize - <span class="hljs-number">2</span>][<span class="hljs-number">0</span>])<br>                            &#123;<br>                                <span class="hljs-built_in">swap</span>(minPointStack[curStackSize - <span class="hljs-number">1</span>], minPointStack[curStackSize - <span class="hljs-number">2</span>]);<br>                                <span class="hljs-built_in">swap</span>(eraseIdxStack[curStackSize - <span class="hljs-number">1</span>], eraseIdxStack[curStackSize - <span class="hljs-number">2</span>]);<br>                            &#125;<br>                        &#125;<br>                    &#125;<br>                &#125;<br><br>                minAngle = curAngle;<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>            &#123;<br>                <span class="hljs-keyword">if</span> (curPoint == test)<br>                &#123;<br>                    cout &lt;&lt; <span class="hljs-string">&quot;未进栈！&quot;</span> &lt;&lt; endl;<br>                &#125;<br>            &#125;<br>            cout &lt;&lt; <span class="hljs-string">&quot;*it:[&quot;</span> &lt;&lt; points[it][<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot;,&quot;</span> &lt;&lt; points[it][<span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-string">&quot;]  &quot;</span>;<br>            cout &lt;&lt; <span class="hljs-string">&quot;curAngle:&quot;</span> &lt;&lt; curAngle &lt;&lt; <span class="hljs-string">&quot;   &quot;</span>;<br>            cout &lt;&lt; <span class="hljs-string">&quot;minAngle:&quot;</span> &lt;&lt; minAngle &lt;&lt; <span class="hljs-string">&quot;   &quot;</span>;<br>            cout &lt;&lt; <span class="hljs-string">&quot;curCos:&quot;</span> &lt;&lt; curCos &lt;&lt; endl;<br>        &#125;<br><br>        <span class="hljs-comment">// * 识别同一条直线上的目标点</span><br>        cout &lt;&lt; <span class="hljs-string">&quot;minPointStack:&quot;</span>;<br>        <span class="hljs-built_in">printData</span>(minPointStack);<br>        cout &lt;&lt; <span class="hljs-string">&quot;startIdx:&quot;</span> &lt;&lt; startIdx &lt;&lt; endl;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> idx = startIdx; idx &lt; minPointStack.<span class="hljs-built_in">size</span>(); ++idx)<br>        &#123;<br>            curPoint = *(minPointStack.<span class="hljs-built_in">begin</span>() + idx);<br>            <span class="hljs-comment">// 当前点查找到原来的点，闭包结束，退出循环</span><br>            <span class="hljs-keyword">if</span> (curPoint == convexHull[<span class="hljs-number">0</span>])<br>            &#123;<br>                isOver = <span class="hljs-literal">true</span>;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>            convexHull.<span class="hljs-built_in">push_back</span>(*(minPointStack.<span class="hljs-built_in">begin</span>() + idx));<br>            *(points.<span class="hljs-built_in">begin</span>() + eraseIdxStack[idx]) = visited;<br>        &#125;<br>        <span class="hljs-comment">// 更新当前点，进入下一次迭代</span><br>        curPoint = *(minPointStack.<span class="hljs-built_in">end</span>() - <span class="hljs-number">1</span>);<br>        <span class="hljs-comment">// 判断右链是否结束构造</span><br>        <span class="hljs-keyword">if</span> (curPoint[<span class="hljs-number">1</span>] == maxY)<br>            isRightChainOver = <span class="hljs-literal">true</span>;<br><br>        <span class="hljs-built_in">printData</span>(convexHull);<br>        cout &lt;&lt; <span class="hljs-string">&quot;minAngle &quot;</span> &lt;&lt; minAngle &lt;&lt; endl;<br>        cout &lt;&lt; <span class="hljs-string">&quot;targetIdx:[&quot;</span> &lt;&lt; curPoint[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot;,&quot;</span> &lt;&lt; curPoint[<span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-string">&quot;]&quot;</span> &lt;&lt; endl;<br>        cout &lt;&lt; <span class="hljs-string">&quot;\n-----------------------------&quot;</span> &lt;&lt; endl;<br>    &#125;<br><br>    <span class="hljs-comment">// 返回</span><br>    <span class="hljs-keyword">return</span> convexHull;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br><br>    <span class="hljs-comment">// vector&lt;vector&lt;int&gt;&gt; testData = &#123;&#123;1, 1&#125;, &#123;2, 2&#125;, &#123;2, 0&#125;, &#123;3, 3&#125;, &#123;4, 0&#125;&#125;;</span><br>    <span class="hljs-comment">// vector&lt;vector&lt;int&gt;&gt; testData = &#123;&#123;1, 1&#125;, &#123;2, 2&#125;, &#123;2, 0&#125;, &#123;2, 4&#125;, &#123;3, 3&#125;, &#123;4, 2&#125;&#125;;</span><br>    <span class="hljs-comment">// vector&lt;vector&lt;int&gt;&gt; testData = &#123;&#123;1, 2&#125;, &#123;2, 2&#125;, &#123;4, 2&#125;&#125;;</span><br>    <span class="hljs-comment">// vector&lt;vector&lt;int&gt;&gt; testData = &#123;&#123;3, 0&#125;, &#123;4, 0&#125;, &#123;5, 0&#125;, &#123;6, 1&#125;, &#123;7, 2&#125;, &#123;7, 3&#125;, &#123;7, 4&#125;, &#123;6, 5&#125;, &#123;5, 5&#125;, &#123;4, 5&#125;, &#123;3, 5&#125;, &#123;2, 5&#125;, &#123;1, 4&#125;, &#123;1, 3&#125;, &#123;1, 2&#125;, &#123;2, 1&#125;, &#123;4, 2&#125;, &#123;0, 3&#125;&#125;;</span><br>    <span class="hljs-comment">// vector&lt;vector&lt;int&gt;&gt; testData = &#123;&#123;0, 2&#125;, &#123;1, 2&#125;, &#123;1, 8&#125;, &#123;2, 3&#125;, &#123;2, 4&#125;, &#123;3, 0&#125;, &#123;3, 3&#125;, &#123;3, 4&#125;, &#123;3, 9&#125;, &#123;4, 3&#125;, &#123;4, 5&#125;, &#123;4, 9&#125;, &#123;5, 6&#125;, &#123;6, 0&#125;, &#123;6, 8&#125;, &#123;7, 1&#125;, &#123;7, 2&#125;, &#123;7, 6&#125;, &#123;7, 7&#125;, &#123;8, 0&#125;, &#123;8, 3&#125;, &#123;8, 4&#125;, &#123;8, 6&#125;, &#123;8, 7&#125;, &#123;9, 5&#125;, &#123;9, 9&#125;&#125;;</span><br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; testData = &#123;&#123;<span class="hljs-number">10</span>, <span class="hljs-number">11</span>&#125;, &#123;<span class="hljs-number">10</span>, <span class="hljs-number">44</span>&#125;, &#123;<span class="hljs-number">10</span>, <span class="hljs-number">46</span>&#125;, &#123;<span class="hljs-number">11</span>, <span class="hljs-number">17</span>&#125;, &#123;<span class="hljs-number">11</span>, <span class="hljs-number">21</span>&#125;, &#123;<span class="hljs-number">11</span>, <span class="hljs-number">28</span>&#125;, &#123;<span class="hljs-number">11</span>, <span class="hljs-number">36</span>&#125;, &#123;<span class="hljs-number">11</span>, <span class="hljs-number">41</span>&#125;, &#123;<span class="hljs-number">12</span>, <span class="hljs-number">17</span>&#125;, &#123;<span class="hljs-number">12</span>, <span class="hljs-number">18</span>&#125;, &#123;<span class="hljs-number">12</span>, <span class="hljs-number">19</span>&#125;, &#123;<span class="hljs-number">12</span>, <span class="hljs-number">30</span>&#125;, &#123;<span class="hljs-number">12</span>, <span class="hljs-number">41</span>&#125;, &#123;<span class="hljs-number">12</span>, <span class="hljs-number">43</span>&#125;, &#123;<span class="hljs-number">12</span>, <span class="hljs-number">48</span>&#125;, &#123;<span class="hljs-number">13</span>, <span class="hljs-number">15</span>&#125;, &#123;<span class="hljs-number">13</span>, <span class="hljs-number">39</span>&#125;, &#123;<span class="hljs-number">13</span>, <span class="hljs-number">42</span>&#125;, &#123;<span class="hljs-number">13</span>, <span class="hljs-number">43</span>&#125;, &#123;<span class="hljs-number">13</span>, <span class="hljs-number">49</span>&#125;, &#123;<span class="hljs-number">14</span>, <span class="hljs-number">21</span>&#125;, &#123;<span class="hljs-number">90</span>, <span class="hljs-number">34</span>&#125;, &#123;<span class="hljs-number">91</span>, <span class="hljs-number">49</span>&#125;, &#123;<span class="hljs-number">92</span>, <span class="hljs-number">12</span>&#125;&#125;;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res = <span class="hljs-built_in">JarvisFunc</span>(testData);<br>    cout &lt;&lt; <span class="hljs-string">&quot;res:&quot;</span>;<br>    <span class="hljs-built_in">printData</span>(res);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="增量算法"><a class="markdownIt-Anchor" href="#增量算法"></a> 增量算法</h2>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%204.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<hr>
+<ul>
+<li>随机选择若干个不共线的点，作为初始凸包</li>
+<li>每次增加一个点
+<ul>
+<li>若该点在当前凸包内，则移除该点；</li>
+<li>否则，移除对该点可见的边（可能有多条这样的边），连接该点与当前凸包上和该点相切的点，产生新的凸包；</li>
+<li>重复上述步骤，直至点集中所有的点都处理为止。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>初始凸包可以是三角形也可以是四边形，为了使初始的凸包尽可能多的囊括非极点，可以选择最左、最右、最上、最下的四个点构成的四边形作为初始凸包。</p>
+</blockquote>
+<hr>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%205.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>可见：若一个点p在凸多边形的边 e指向外的法向量的一侧，称点p对边e可见或者称边e对点p可见。</p>
+<p>相切：若点p在凸多边形外，那么对点p可见的边必然是连续的，则边e的两个端点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mi>i</mi><mi mathvariant="normal">、</mi><mi>P</mi><mi>j</mi></mrow><annotation encoding="application/x-tex">Pi、Pj</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault">i</span><span class="mord cjk_fallback">、</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span>为凸多边形上与点p相切的两个点。</p>
+<h2 id="快速凸包算法"><a class="markdownIt-Anchor" href="#快速凸包算法"></a> 快速凸包算法</h2>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%206.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%207.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<ul>
+<li>首先，找到点集中最左、最右、最上、最下的四个点，作为初始的凸包</li>
+<li>左上和右下两个点连线将凸包一分为二</li>
+<li>对两个凸包外侧的点做如下递归处理：
+<ul>
+<li>对于当前凸包的每条边：
+<ul>
+<li>找到与该边e距离最远的点P0，找到当前凸包上与点P相切的两点P1和P2</li>
+<li>删除边e，连接P0与P1，P0与P2，形成新的凸包；</li>
+<li>舍弃新的凸包内的点</li>
+<li>将新的凸包以P0为分界点，将凸包一分为二</li>
+</ul>
+</li>
+<li>重复上述步骤，直至点集中所有的点都处理为止。</li>
+</ul>
+</li>
+</ul>
+<h1 id="三维凸包算法"><a class="markdownIt-Anchor" href="#三维凸包算法"></a> 三维凸包算法</h1>
+<h2 id="礼物包裹算法gift-wrapping"><a class="markdownIt-Anchor" href="#礼物包裹算法gift-wrapping"></a> 礼物包裹算法(Gift Wrapping)</h2>
+<p><strong>简介</strong></p>
+<p>礼物包裹算法最早由Chand&amp;Kapur (1970) 提出的，它不仅可以实现二维、三维凸包，还可以实现更高维的凸包。</p>
+<p>Jarvis步进法是礼物包裹算法在二维情况下的特例。</p>
+<p>直观上，三维的礼物包裹算法，可以看做是在点集的外面包围了一张纸，每次更新一个新的顶点，用纸覆盖住它，就像包裹礼物一样，直至覆盖整个点集。</p>
+<p><strong>关键问题</strong></p>
+<ol>
+<li>
+<p>给定一个凸包上的面，如何确定与该面片上任意一条边相邻的三角形面片？</p>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%208.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%209.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+</li>
+<li>
+<p>如何确定在凸包上的初始三角形面片？</p>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%2010.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>从点集中找到最小的点，即点的x分量最小，若x分量最小的点有多个，则取其中y分量最小的点，若y分量最小的点有多个，则取其中z分量最小的点。</p>
+</li>
+</ol>
+<p><strong>时间复杂度</strong></p>
+<p>在礼物包裹算法中，确定初始的三角形面片，算法需要三次遍历点集，时间规模：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>3</mn><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(3n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">3</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>把边结构存储在一个平衡二叉树的数据结构中，边结构的查询、插入操作只需要时间：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span>（m为边的个数），根据三维空间的凸多胞体欧拉公式<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mo>−</mo><mi>E</mi><mo>+</mo><mi>F</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">V-E+F=2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>可知，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span>与<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>线性相关。（其中：V：顶点数， E：边数， F：面数）</p>
+<p>总的时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></p>
+<h2 id="快速凸包算法-2"><a class="markdownIt-Anchor" href="#快速凸包算法-2"></a> 快速凸包算法</h2>
+<p><img src="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/Untitled%2011.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><strong>简介</strong><br>
+快速凸包算法也可以看成是增量算法的一种变种，其思想类似于快排，因此得名。</p>
+<p><strong>基本思想</strong></p>
+<p>快速凸包算法首先会初始化一个4个点的凸包，然后把点集分割成各个面的外部点集，挑选距离面最远的点进行处理。任意一个极点都不会因为分割为外部点集导致被丢弃。</p>
+<p>与增量算法相比，它们的不同就在于每次迭代从面的外部点集中选择的点不同。增量算法从外部点集中遍历所有点，但是快速凸包算法是选择距离最远的一个点。</p>
+<p>最好的情况：每次划分都是平衡的，时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>最坏的情况：每次划分点后某一半凸包不再需要处理，另一半需要处理划分前剩余的点，时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>平均时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>∗</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n*logn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/158043191">凸包问题–概述</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/158877025">凸包问题–礼物包裹算法</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Algorithm/">Algorithm</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Algorithm/">Algorithm</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/25/Bim%E5%87%8F%E9%9D%A2%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">论文综述-Bim减面算法调研</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/10/Hexo-GitHub%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+                        <span class="hidden-mobile">Hexo + GitHub 搭建我的个人博客记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

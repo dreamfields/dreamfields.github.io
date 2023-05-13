@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="Lecture 19 相机、棱镜   成像  光栅化&#x2F;光线追踪——合成方式成像，生成自然界没有的物体； 照相机——捕捉成像    Field of View（FOV）视场   视场用来描述拍摄的范围，​​​​​​​​​​​​​​​​​​​，h：高度，f：焦距。    对视场的影响因素   焦距（Focal length）对视场（FOV）的影响：当传感器大小一定时，FOV 随着焦距增加而减少。通常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lecture 19 相机与棱镜">
+<meta property="og:url" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="Lecture 19 相机、棱镜   成像  光栅化&#x2F;光线追踪——合成方式成像，生成自然界没有的物体； 照相机——捕捉成像    Field of View（FOV）视场   视场用来描述拍摄的范围，​​​​​​​​​​​​​​​​​​​，h：高度，f：焦距。    对视场的影响因素   焦距（Focal length）对视场（FOV）的影响：当传感器大小一定时，FOV 随着焦距增加而减少。通常">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/f237a651-e24f-44d9-b6c5-f640e5570e24-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/1ef1ceec-8dad-444c-8733-16d1d158ce7e-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/3d56e3ad-73d4-4e63-969d-856f5767b8a3-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/1b6514f4-eb6d-4123-89e7-534af20b17a7-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/9e68ee4c-5921-48aa-9097-dffd53bab599-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/c230f084-aabe-4282-ae52-fb6d785e0eda-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/960507f7-c1bf-4b9d-85d1-a36fffdf2090-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/5f33b5a1-60aa-40fe-ac50-1127ba8b230f-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/ac55d814-1cdc-4ddc-85d6-b370c96e2183-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/d2183d6f-884c-4bad-b644-e2ceffb9e0af-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/0501aa85-a115-4539-a179-b924ecccfd18-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/3c7b4ad4-9558-436e-b763-5b8dadf9bf0e-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/5c3c1668-a6c4-45b8-8f4f-970b78c08a24-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/5f97764e-c15a-40e0-bda2-9f4752ef3430-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/dd7fc1c2-80e0-4b57-bb25-d252bafda41e-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/27296038-35c2-40fe-bed9-9455070875fa-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/8e8f339b-c3ac-47d3-a1fc-ab900c04b6fe-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/b795aa66-3cf2-40f6-a091-fa8e98562310-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/9777f2e6-480a-4f9d-ba3a-5b7e017933b9-11709514.jpg">
+<meta property="article:published_time" content="2022-02-14T14:50:00.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.503Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/f237a651-e24f-44d9-b6c5-f640e5570e24-11709514.jpg">
+  
+  <title>Lecture 19 相机与棱镜 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Lecture 19 相机与棱镜">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-14 22:50" pubdate>
+        2022年2月14日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Lecture 19 相机与棱镜</h1>
+            
+            <div class="markdown-body">
+              <h1 id="lecture-19-相机-棱镜"><a class="markdownIt-Anchor" href="#lecture-19-相机-棱镜"></a> Lecture 19 <a target="_blank" rel="noopener" href="https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_19.pdf">相机、棱镜</a></h1>
+<hr>
+<h1 id="成像"><a class="markdownIt-Anchor" href="#成像"></a> 成像</h1>
+<ul>
+<li>光栅化/光线追踪——合成方式成像，生成自然界没有的物体；</li>
+<li>照相机——捕捉成像</li>
+</ul>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/f237a651-e24f-44d9-b6c5-f640e5570e24-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<h1 id="field-of-viewfov视场"><a class="markdownIt-Anchor" href="#field-of-viewfov视场"></a> Field of View（FOV）视场</h1>
+<ul>
+<li>
+<p>视场用来描述拍摄的范围，​​​​​​​​​​​​​​​​​​​，h：高度，f：焦距。</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/1ef1ceec-8dad-444c-8733-16d1d158ce7e-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>对视场的影响因素</p>
+<ul>
+<li>
+<p>焦距（Focal length）对视场（FOV）的影响：当传感器大小一定时，FOV 随着焦距增加而减少。通常在定义视场时，用以 35mm 格式的胶片为基准（35mm-format film，36 × 24 mm )的焦距来定义视场</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/3d56e3ad-73d4-4e63-969d-856f5767b8a3-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>传感器大小对视场的影响：传感器越小，视场越小</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/1b6514f4-eb6d-4123-89e7-534af20b17a7-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>注意：在渲染中，传感器（Sensor）负责记录最后每个像素接受到的 Irradiance（指每单位照射面积所接收到的或者说入射的 power）有多大，最后的胶片（Film）决定最后图片的存储格式</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="exposure-曝光"><a class="markdownIt-Anchor" href="#exposure-曝光"></a> Exposure 曝光</h1>
+<h3 id="曝光定义为-h其计算公式"><a class="markdownIt-Anchor" href="#曝光定义为-h其计算公式"></a> 曝光定义为 H，其计算公式：​​​​​</h3>
+<ul>
+<li>T（曝光时间 Time）：由快门（shuttle）控制有多少光进来</li>
+<li>E（Irradiance）由传感器上一个单位区域接收光的能量和镜头的光圈（aperture，通俗理解用来遮挡光线用的）和焦距控制。</li>
+<li>可以看出曝光记录的是总体时间的能量</li>
+</ul>
+<h3 id="曝光的影响因素"><a class="markdownIt-Anchor" href="#曝光的影响因素"></a> 曝光的影响因素</h3>
+<ul>
+<li>
+<p>光圈大小 Aperture size：仿生学设计，模拟瞳孔，通过打开和关闭 apeture 改变 f-stop</p>
+<ul>
+<li>其中，镜头的 f-stop（也被叫做 f-number）写作 FN 或 F/N，大小为焦距除以光圈的直径</li>
+</ul>
+</li>
+<li>
+<p>快门速度 Shuttle speed：改变 sensors 的曝光时间即每个像素接收光的时间，快门越快曝光越少。快门这个元件类似于一个窗帘，它的打开是有一个过程的</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/9e68ee4c-5921-48aa-9097-dffd53bab599-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>运动模糊的形成：在快门打开的这段时间内，高速运动的物体已经发生了位移，中间的过程都会被记录下来。（Slow Speed vs. Fast Speed）</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/c230f084-aabe-4282-ae52-fb6d785e0eda-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>运动模糊不一定是坏事，从人的感知角度它可以形容速度快；从采样角度，它也可以进行反走样。</p>
+</li>
+<li>
+<p>高速摄影 High-Speed Photography ：每秒拍更多的照片，也导致快门时间很少（短曝光时间）。</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/960507f7-c1bf-4b9d-85d1-a36fffdf2090-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>延时摄影 Long-Exposure Photography</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/5f33b5a1-60aa-40fe-ac50-1127ba8b230f-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+<li>
+<p>感光度 ISO gain：是一个后期处理，更改传感器值和数字图像值之间的倍率，但是 ISO 在简单放大信号的同时会放大噪声</p>
+</li>
+</ul>
+<h1 id="thin-lens-approximation-薄透镜近似"><a class="markdownIt-Anchor" href="#thin-lens-approximation-薄透镜近似"></a> Thin Lens Approximation 薄透镜近似</h1>
+<ul>
+<li>
+<p>真正的透镜非常复杂，需要一个简单的方法描述。</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/ac55d814-1cdc-4ddc-85d6-b370c96e2183-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>研究对象：Ideal Thin Lens - Focal Point 理想化薄透镜</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/d2183d6f-884c-4bad-b644-e2ceffb9e0af-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>所有进入透镜的平行光一定过焦点。</p>
+</li>
+<li>
+<p>过交点的在透镜后面一定是平行光。</p>
+</li>
+<li>
+<p>认为焦距可以被随意改变（利用透镜组）。</p>
+</li>
+<li>
+<p>The Thin Lens Equation 薄透镜公式（利用相似三角形推导）</p>
+<ul>
+<li>
+<p>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/0501aa85-a115-4539-a179-b924ecccfd18-11709514.jpg" srcset="/img/loading.gif" lazyload alt><br>
+<img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/3c7b4ad4-9558-436e-b763-5b8dadf9bf0e-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="defocus-blur"><a class="markdownIt-Anchor" href="#defocus-blur"></a> Defocus Blur</h3>
+<ul>
+<li>
+<p>Computing Cicle of Confusion(CoC) Size</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/5c3c1668-a6c4-45b8-8f4f-970b78c08a24-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>Object 远离 Focal Plane，聚焦后的点不在 Sensor Plane 上，而是在它前面聚焦，然后光线在聚焦点继续直线传播，到 Sensor Plane 上就变成了一个圆，这个圆就是 Cicle of Confusion(CoC)。</p>
+</li>
+<li>
+<p>形成原因：在一段距离内的所有物体都会被对焦，如果在这个距离之外，物体上的某个点就会在成像平面（清晰的平面）之前就聚焦，然后光线继续沿直线传播，从而在成像平面上形成一个圈，并且其它点也可能落入这个圈中，所以就变得模糊不清。</p>
+</li>
+<li>
+<p>CoC 的计算公式如下，其中 A 是光圈直径，C 是 CoC 的直径。</p>
+<ul>
+<li>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​</li>
+<li>可以看出：Circle of Confusion 与光圈大小成正比，所以看到的东西是否模糊与光圈的大小有关。</li>
+<li>将上面的公式与 F-Number 联系起来就得到如下公式：</li>
+<li>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​</li>
+</ul>
+</li>
+<li>
+<p>CoC 告诉我们，看到的图片是否模糊，取决于光圈大小，左图光圈大小 A=f/1.4，右图 A=f/22</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/5f97764e-c15a-40e0-bda2-9f4752ef3430-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="ray-tracing-ideal-thin-lenses"><a class="markdownIt-Anchor" href="#ray-tracing-ideal-thin-lenses"></a> Ray Tracing Ideal Thin Lenses</h3>
+<ul>
+<li>
+<p>小孔成像——从相机透过一个像素连线，无景深效果</p>
+</li>
+<li>
+<p>模拟薄棱镜，可以产生景深效果，具体做法：</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/dd7fc1c2-80e0-4b57-bb25-d252bafda41e-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>建立场景</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/27296038-35c2-40fe-bed9-9455070875fa-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>先定义 Sensor 的大小（成像平面大小），然后定义透镜的属性，即焦距和光圈的大小。</li>
+<li>定义透镜和关注平面的距离 ​​​（物距）。</li>
+<li>根据透镜方程计算相应的深度 ​​​（相距）。</li>
+</ul>
+</li>
+<li>
+<p>渲染</p>
+<ul>
+<li>对于每个在 sensor 上的像素 ​​</li>
+<li>在 lens plane 上取样随机一点 ​​​</li>
+<li>根据透镜的属性可以计算通过透镜的光线会打到 ​​​​</li>
+<li>计算光线 ​​​​​​​​​​​​​​​​​​​ 的 radiance（发射的、反射的、折射的、接收的光线在每单位立体角、每单位垂直面积上的 power，同时指定了光的方向与照射到的表面所接受到的亮度。），最后记录在 ​​ 上</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="depth-of-field-景深"><a class="markdownIt-Anchor" href="#depth-of-field-景深"></a> Depth of Field 景深</h3>
+<ul>
+<li>
+<p>光圈大小的不同会影响模糊的范围，景深就是在场景内对应的 CoC 足够小的距离范围，在这个范围内，CoC 的大小小于或等于一个像素的大小，就可以认为这一部分深度内的场景是锐利的，非模糊的。</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/8e8f339b-c3ac-47d3-a1fc-ab900c04b6fe-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>DOF 就是 Depth of Field，指成像清晰的一段范围。要做的事情：将 ​​​​​​​ 与焦距联系起来</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/b795aa66-3cf2-40f6-a091-fa8e98562310-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>最终可以得到以下结论（<a target="_blank" rel="noopener" href="http://graphics.stanford.edu/courses/cs178/applets/dof.html">一个在线网站</a>）</p>
+<p><img src="/2022/02/14/Lecture-19-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E6%A3%B1%E9%95%9C/9777f2e6-480a-4f9d-ba3a-5b7e017933b9-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES101/">GAMES101</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Theory/">Theory</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/26/GAMES101%E9%87%8D%E8%A6%81%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC%E8%A1%A5%E5%85%85/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">GAMES101 重要公式推导与算法补充</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/12/Lecture-18-%E9%AB%98%E7%BA%A7%E5%85%89%E7%BA%BF%E4%BC%A0%E6%92%AD%E4%B8%8E%E6%9D%90%E8%B4%A8/">
+                        <span class="hidden-mobile">Lecture 18 高级光线传播与材质</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

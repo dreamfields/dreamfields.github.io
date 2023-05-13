@@ -1,0 +1,622 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="走样   扫描转换的算法在处理图形非水平或者非垂直线段时引起了锯齿或阶梯状的变形。   具体解释  （1）几何图形中的直线段无限细，多边形的边亦如此，它们均是带宽无限的信号，即傅里叶频谱中的最高频率为无限大； （2）由于几何图形为带宽无限信号，所以将几何图形像素化时，采样频率无法满足乃奎斯特定理，导致采样过程中丢失高频成分，因而产生的图像信号失真现象，称为“走样”。 （3）在视觉上，直线段或多边">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lecture 06 反走样">
+<meta property="og:url" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="走样   扫描转换的算法在处理图形非水平或者非垂直线段时引起了锯齿或阶梯状的变形。   具体解释  （1）几何图形中的直线段无限细，多边形的边亦如此，它们均是带宽无限的信号，即傅里叶频谱中的最高频率为无限大； （2）由于几何图形为带宽无限信号，所以将几何图形像素化时，采样频率无法满足乃奎斯特定理，导致采样过程中丢失高频成分，因而产生的图像信号失真现象，称为“走样”。 （3）在视觉上，直线段或多边">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/30f27f04-cb35-4143-a29f-80c5f2661505-11709514.jpg">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/8dcc19b2-f5b0-431a-8064-45d23d07459a-11709514.jpg">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/8e2c07f0-5647-40e6-b793-bebeff4b2f2e-11709514.jpg">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/f652c394-f00f-4452-9046-8d31742bee70-11709514.jpg">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/0265e20c-1abd-4338-93c8-d8fd229492ba-11709514.jpg">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/76eed36a-099d-443c-8348-cfc44d132a80-11709514.jpg">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/8f5ba925-a659-4fd8-926e-87eb1f77fffd-11709514.jpg">
+<meta property="og:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/45769713-a6c4-44b3-91f2-414194b0212d-11709514.jpg">
+<meta property="article:published_time" content="2021-12-27T13:25:58.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.314Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/30f27f04-cb35-4143-a29f-80c5f2661505-11709514.jpg">
+  
+  <title>Lecture 06 反走样 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Lecture 06 反走样">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-27 21:25" pubdate>
+        2021年12月27日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      890 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      3 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Lecture 06 反走样</h1>
+            
+            <div class="markdown-body">
+              <h1 id="走样"><a class="markdownIt-Anchor" href="#走样"></a> 走样</h1>
+<ul>
+<li>
+<p>扫描转换的算法在处理图形非水平或者非垂直线段时引起了锯齿或阶梯状的变形。</p>
+</li>
+<li>
+<p>具体解释</p>
+<ul>
+<li>（1）几何图形中的直线段无限细，多边形的边亦如此，它们均是带宽无限的信号，即傅里叶频谱中的最高频率为无限大；</li>
+<li>（2）由于几何图形为带宽无限信号，所以将几何图形像素化时，采样频率无法满足乃奎斯特定理，导致采样过程中丢失高频成分，因而产生的图像信号失真现象，称为“走样”。</li>
+<li>（3）在视觉上，直线段或多边形边界走样呈现为锯齿状，即“直线边界不直”。</li>
+</ul>
+</li>
+</ul>
+<h1 id="采样理论"><a class="markdownIt-Anchor" href="#采样理论"></a> 采样理论</h1>
+<ul>
+<li>
+<p>频率与频谱的理解</p>
+<ul>
+<li>
+<p>通过傅里叶变换（时域 → 频域），将任何周期信号通过级数理论转变为正弦或余弦信号的叠加（每个正余弦信号叫做谐波），而通过刻画这些单个正余弦信号的属性（频率、振幅、相位）形成的对应关系，就形成了该信号的频谱。而原来是通过记录信号随时间变化的起伏来描述该信号（时域），现在便可以通过频谱来描述该信号（频域）。</p>
+<ul>
+<li>
+<p>总结</p>
+<p><img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/30f27f04-cb35-4143-a29f-80c5f2661505-11709514.jpg" srcset="/img/loading.gif" lazyload alt><br>
+<img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/8dcc19b2-f5b0-431a-8064-45d23d07459a-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>振幅频谱</p>
+<p><img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/8e2c07f0-5647-40e6-b793-bebeff4b2f2e-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>相位频谱</p>
+<p><img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/f652c394-f00f-4452-9046-8d31742bee70-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>如何对图像分析频率和频谱</p>
+<ul>
+<li>
+<p>基础知识的理解</p>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/19763358">傅里叶分析</a></p>
+<ul>
+<li>
+<p>相位谱和频率谱的直观理解</p>
+<p><img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/0265e20c-1abd-4338-93c8-d8fd229492ba-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Vichael_Chan/article/details/102570542">数字图像处理：图像的频域</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://www.360doc.com/content/18/0410/09/7551_744364416.shtml">图像 RGB 值、灰度值与像素值的关系</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/99605178">通俗讲解：图像傅里叶变换</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/26969067/answer/567804862">对图像二维傅立叶变换到底是完成什么功能？</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/turbogofi/article/details/12048777?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1.control&amp;spm=1001.2101.3001.4242">图像处理中频域(Fourier)的应用总结</a></p>
+</li>
+<li>
+<p>图像频谱</p>
+<p><img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/76eed36a-099d-443c-8348-cfc44d132a80-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+<li>
+<p>通过频率分析图像中的走样：通过同样的频率采样两种频率截然不同的函数，得到的采样点可以完全相同，即为走样</p>
+<p><img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/8f5ba925-a659-4fd8-926e-87eb1f77fffd-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>图像操作</p>
+<ul>
+<li>时域上的卷积=频域上的乘积</li>
+<li>卷积核可以看作一张小的图片，卷积核越大，保留的高频信息越少，在频域图上高频区域的亮度就越低</li>
+<li>高通滤波器——保留高频信息</li>
+<li>采样反映到频谱中——重复原始信号的频谱。采样的频率越小，反映到频谱中，频谱的重复越密集，于是出现频谱的混叠，产生走样</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="反走样的思路"><a class="markdownIt-Anchor" href="#反走样的思路"></a> 反走样的思路</h1>
+<ul>
+<li>
+<p>增加采样率（并不是反走样所研究的）</p>
+</li>
+<li>
+<p>采样之前，先对信号进行模糊（或者说低通滤波，即拿掉高频信息，这样边界会看起来变得更浅，具体做法是将某个像素计算其在图形内部的覆盖面积，将该像素值进行平均覆盖），再进行采样，那么在频谱中便不容易发生混叠，可以对走样进行一定程度的改善</p>
+<p><img src="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/45769713-a6c4-44b3-91f2-414194b0212d-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>如何判断某个像素在三角形内部的比例？MSAA 方法，将每个像素分割为更小的像素点，计算在三角形内部的点占该像素所有点的比例即可。</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES101/">GAMES101</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Theory/">Theory</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lecture 07-09 着色</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/26/Lecture-04-05-%E6%97%8B%E8%BD%AC&amp;%E5%85%89%E6%A0%85%E5%8C%96/">
+                        <span class="hidden-mobile">Lecture 04-05 旋转、光栅化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

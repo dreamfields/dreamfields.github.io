@@ -1,0 +1,618 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="UE（Unreal Engine）是一种广泛使用的游戏引擎，它的渲染体系是其最重要的组成部分之一。UE的渲染体系包含许多不同的渲染技术，涵盖了从基本的几何形状、材质和光源到复杂的全局照明和后期处理。  Engine\Source\Runtime\RendererCore。 Engine\Source\Runtime\Renderer。 Engine\Source\Runtime\RHI。 部分RH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE 渲染体系浅析">
+<meta property="og:url" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="UE（Unreal Engine）是一种广泛使用的游戏引擎，它的渲染体系是其最重要的组成部分之一。UE的渲染体系包含许多不同的渲染技术，涵盖了从基本的几何形状、材质和光源到复杂的全局照明和后期处理。  Engine\Source\Runtime\RendererCore。 Engine\Source\Runtime\Renderer。 Engine\Source\Runtime\RHI。 部分RH">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%201.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%202.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%203.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%204.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%205.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%206.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%207.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%208.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%209.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2010.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2011.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2012.png">
+<meta property="og:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2013.png">
+<meta property="article:published_time" content="2023-03-08T07:15:50.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.544Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="Unreal">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled.png">
+  
+  <title>UE 渲染体系浅析 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="UE 渲染体系浅析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-03-08 15:15" pubdate>
+        2023年3月8日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">UE 渲染体系浅析</h1>
+            
+            <div class="markdown-body">
+              <p>UE（Unreal Engine）是一种广泛使用的游戏引擎，它的渲染体系是其最重要的组成部分之一。UE的渲染体系包含许多不同的渲染技术，涵盖了从基本的几何形状、材质和光源到复杂的全局照明和后期处理。</p>
+<ul>
+<li>Engine\Source\Runtime\RendererCore。</li>
+<li>Engine\Source\Runtime\Renderer。</li>
+<li>Engine\Source\Runtime\RHI。</li>
+<li>部分RHI模块（为了跨多种图形API，加入了RHI体系，解决用户层裸调用图形API的问题）：D3D12RHI，OpenGLDrv，VulkanRHI等。</li>
+<li>部分基础模块：Core，CoreUObject等。</li>
+</ul>
+<h1 id="ue的渲染流程"><a class="markdownIt-Anchor" href="#ue的渲染流程"></a> UE的渲染流程</h1>
+<p>UE存在游戏线程（Game Thread）、渲染线程（Render Thread）、RHI线程（RHI Thread），它们都独立地运行在专门的线程上（FRunnableThread）。</p>
+<p><strong>游戏线程</strong>通过某些接口向渲染线程的Queue入队回调接口，以便渲染线程稍后运行时，从渲染线程的Queue获取回调，一个个地执行，从而生成了Command List。</p>
+<p><strong>渲染线程</strong>作为前端（frontend）产生的Command List是平台无关的，是抽象的图形API调用。</p>
+<p><strong>RHI线程</strong>作为后端（backtend）会执行和转换渲染线程的Command List成为指定图形API的调用（称为Graphical Command），并提交到GPU执行。</p>
+<p>事实上，多线程并非多个渲染线程，渲染线程从始至终只有一个。这里的多线程指的是游戏线程、渲染线程、RHI线程同时存在，并行处理整个渲染过程。每个线程负责不同的任务而已。</p>
+<p>此外，三个线程的处理速度并不一致，渲染线程在游戏线程的一两帧后操作。如果游戏线程跑的太快，游戏线程会在每个Tick事件的末尾阻塞，直到渲染线程赶上一到两帧的差距，才继续处理下一帧。</p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h2 id="游戏线程"><a class="markdownIt-Anchor" href="#游戏线程"></a> <strong>游戏线程</strong></h2>
+<p>游戏线程被称为主线程，是引擎运行的心脏，承载主要的游戏逻辑、运行流程的工作，也是其它线程的数据发起者。游戏线程的创建是运行程序入口的线程，由系统启动进程时被同时创建的（因为进程至少需要一个线程来工作），在引擎启动时直接存储到全局变量中。</p>
+<p>游戏线程在Tick时，会通过UGameEngine、FViewport、UGameViewportClient等对象，才会进入渲染模块的调用。该线程完成的主要任务是：</p>
+<ul>
+<li>资源加载：加载本地模型、材质等资源</li>
+<li>场景搭建：将场景中的物体以特定的数据结构组织起来</li>
+<li>之后会创<strong>建场景渲染器</strong>，并向渲染线程发送绘制场景指令，会进入渲染模块的调用</li>
+</ul>
+<p>整个的Tick函数中跟渲染相关的逻辑精简后如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">UGameEngine::Tick</span><span class="hljs-params">( <span class="hljs-keyword">float</span> DeltaSeconds, <span class="hljs-keyword">bool</span> bIdleMode )</span></span><br><span class="hljs-function"></span>&#123;<br>    UGameEngine::<span class="hljs-built_in">RedrawViewports</span>()<br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FViewport::Draw</span><span class="hljs-params">( <span class="hljs-keyword">bool</span> bShouldPresent)</span></span><br><span class="hljs-function">        </span>&#123;<br>            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">UGameViewportClient::Draw</span><span class="hljs-params">()</span></span><br><span class="hljs-function">            </span>&#123;<br>                <span class="hljs-comment">// 计算ViewFamily、View的各种属性</span><br>                ULocalPlayer::<span class="hljs-built_in">CalcSceneView</span>();<br>                <span class="hljs-comment">// 发送渲染命令</span><br>                FRendererModule::<span class="hljs-built_in">BeginRenderingViewFamily</span>()<br>                &#123;<br>                    World-&gt;<span class="hljs-built_in">SendAllEndOfFrameUpdates</span>();<br>                    <span class="hljs-comment">// 创建场景渲染器</span><br>                    FSceneRenderer* SceneRenderer = FSceneRenderer::<span class="hljs-built_in">CreateSceneRenderer</span>(ViewFamily, ...);<br>                    <span class="hljs-comment">// 向渲染线程发送绘制场景指令.</span><br>                    <span class="hljs-built_in">ENQUEUE_RENDER_COMMAND</span>(FDrawSceneCommand)(<br>                    [SceneRenderer](FRHICommandListImmediate&amp; RHICmdList)<br>                    &#123;<br>                        <span class="hljs-built_in">RenderViewFamily_RenderThread</span>(RHICmdList, SceneRenderer)<br>                        &#123;<br>                            (......)<br>                            <span class="hljs-comment">// 调用场景渲染器的绘制接口.</span><br>                            SceneRenderer-&gt;<span class="hljs-built_in">Render</span>(RHICmdList);<br>                            (......)<br>                        &#125;<br>                        <span class="hljs-built_in">FlushPendingDeleteRHIResources_RenderThread</span>();<br>                    &#125;);<br>                &#125;<br>&#125;&#125;&#125;&#125;<br></code></pre></td></tr></table></figure>
+<p>下面的一系列截图是从Tick函数开始到渲染线程的整个调用过程：</p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%201.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%202.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%203.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%204.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%205.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><code>FSceneRenderer</code>是UE场景渲染器父类，是UE渲染体系的大脑和发动机，在整个渲染体系拥有举足轻重的位置，主要用于处理和渲染场景，生成RHI层的渲染指令。</p>
+<p><code>FSceneRenderer</code>由游戏线程的<code>FRendererModule::BeginRenderingViewFamily</code>负责创建和初始化，然后传递给渲染线程。</p>
+<p>渲染线程会调用<code>FSceneRenderer::Render()</code>，渲染完返回后，会删除<code>FSceneRenderer</code>的实例。也就是说，<code>SceneRenderer</code>会被每帧创建和销毁。</p>
+<h2 id="渲染线程"><a class="markdownIt-Anchor" href="#渲染线程"></a> <strong>渲染线程</strong></h2>
+<p>渲染线程与游戏不同，是一条专门用于生成渲染指令和渲染逻辑的独立线程。游戏线程的对象通常做逻辑更新，在内存中有一份持久的数据，为了避免游戏线程和渲染线程产生竞争条件，会<strong>在渲染线程额外存储一份内存拷贝，并且使用的是另外的类型：</strong></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%206.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><strong>FScene</strong>是UWorld在渲染模块的代表，存在于<code>FSceneRenderer</code>中，只有加入到FScene的物体才会被渲染器感知到。渲染线程拥有FScene的所有状态（游戏线程不可直接修改）。</p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%207.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><code>FSceneRenderer</code>拥有两个子类：<code>FMobileSceneRenderer</code>和<code>FDeferredShadingSceneRenderer</code>。</p>
+<p><code>FDeferredShadingSceneRenderer</code>虽然名字叫做延迟着色场景渲染器，但其实集成了包含前向渲染和延迟渲染的两种渲染路径，是PC和主机平台的默认场景渲染器。在渲染线程中会着重讨论<code>FDeferredShadingSceneRenderer</code>。</p>
+<p>细分<code>FDeferredShadingSceneRenderer::Render</code>的逻辑，则可以划分成以下主要阶段（在源码中可找到对应的函数）：</p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%208.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%209.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h3 id="updateallprimitivesceneinfos"><a class="markdownIt-Anchor" href="#updateallprimitivesceneinfos"></a> UpdateAllPrimitiveSceneInfos</h3>
+<p><code>FScene::UpdateAllPrimitiveSceneInfos</code>的主要作用是删除、增加、更新CPU侧的图元数据，包含变换矩阵、自定义数据、距离场数据等，并同步到GPU端。</p>
+<h3 id="initviews"><a class="markdownIt-Anchor" href="#initviews"></a> <strong><strong>InitViews</strong></strong></h3>
+<p>这是渲染管线的开始，这步是为渲染管线准备绘制当前帧所需要的各种资源。</p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2010.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<ul>
+<li><strong><code>PreVisibilityFrameSetup</code></strong>：可见性判定预处理阶段，主要是初始化和设置静态网格、Groom、SkinCache、特效、TAA、ViewState等等。</li>
+<li>初始化特效系统（<code>FXSystem</code>）。</li>
+<li><strong><code>ComputeViewVisibility</code></strong>：计算视图相关的可见性，执行视锥体裁剪、遮挡剔除，收集动态网格信息，创建光源信息等。
+<ul>
+<li>FPrimitiveSceneInfo::UpdateStaticMeshes：更新静态网格数据。</li>
+<li>ViewState::GetPrecomputedVisibilityData：获取预计算的可见性数据。</li>
+<li>FrustumCull：视锥体裁剪。</li>
+<li><strong>ComputeAndMarkRelevanceForViewParallel</strong>：计算和标记视图并行处理的关联数据。</li>
+<li><strong>GatherDynamicMeshElements</strong>：收集view的动态可见元素。</li>
+<li><strong>SetupMeshPass</strong>：设置网格Pass的数据，将FMeshBatch转换成FMeshDrawCommand。</li>
+</ul>
+</li>
+<li><code>UpdateSkyIrradianceGpuBuffer</code>：更新天空体环境光照的GPU数据。</li>
+<li><code>InitSkyAtmosphereForViews</code>：初始化大气效果。</li>
+<li><strong><code>PostVisibilityFrameSetup</code></strong>：可见性判定后处理阶段，利用view的视锥裁剪光源，处理贴花排序，调整之前帧的RT和雾效、光束等。</li>
+<li><code>View.InitRHIResources</code>：初始化视图的部分RHI资源。</li>
+<li><code>OnStartRender</code>：通知RHI已经开启了渲染，以初始化视图相关的数据和资源。</li>
+</ul>
+<h3 id="renderprepass"><a class="markdownIt-Anchor" href="#renderprepass"></a> RenderPrePass</h3>
+<p>提前深度pass，只写入非透明物体的深度。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/81011375">虚幻4渲染编程(Shader篇)【第十四卷：PreZ And EarlyZ In UE4】 - 知乎 (zhihu.com)</a></p>
+<h3 id="basepass"><a class="markdownIt-Anchor" href="#basepass"></a> <strong><strong>BasePass</strong></strong></h3>
+<p><strong>延迟渲染里的几何通道</strong>，用来渲染不透明物体的几何信息，包含<strong>法线、深度、颜色、AO、粗糙度、金属度</strong>等等，这些几何信息会写入若干张GBuffer中。</p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2011.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2012.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><img src="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/Untitled%2013.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><code>FParallelMeshDrawCommandPass::DispatchDraw</code>这个部分应该是当渲染命令设置完成后就执行<code>RenderBasePassInternal</code>函数中的<code>SetupBasePassState</code>所设置的着色器，再往下需要更多的研究才能看懂。</p>
+<hr>
+<p>（待更新）</p>
+<h3 id="lightingpass"><a class="markdownIt-Anchor" href="#lightingpass"></a> <strong><strong>LightingPass</strong></strong></h3>
+<p>UE的LightingPass就是前面章节所说的光照通道。此阶段会计算开启阴影的光源的阴影图，也会计算每个灯光对屏幕空间像素的贡献量，并累计到Scene Color中。此外，还会计算光源也对translucency lighting volumes的贡献量。</p>
+<p>Lighting Pass的负责的渲染逻辑多而杂，包含间接阴影、间接AO、透明体积光照、光源计算、LPV、天空光、SSS等等，但光照计算的核心逻辑在<code>RenderLights</code></p>
+<h3 id="translucency"><a class="markdownIt-Anchor" href="#translucency"></a> <strong>Translucency</strong></h3>
+<p>Translucency是渲染半透明物体的阶段，所有半透明物体在视图空间由远到近逐个绘制到离屏渲染纹理（separate translucent render target）中，接着用单独的pass以正确计算和混合光照结果。</p>
+<h3 id="postprocessing"><a class="markdownIt-Anchor" href="#postprocessing"></a> <strong>PostProcessing</strong></h3>
+<p>后处理阶段，也是<code>FDeferredShadingSceneRenderer::Render</code>的最后一个阶段。包含了不需要GBuffer的Bloom、色调映射、Gamma校正等以及需要GBuffer的SSR、SSAO、SSGI等。此阶段会将半透明的渲染纹理混合到最终的场景颜色中。</p>
+<h2 id="rhi线程render-hardware-interface"><a class="markdownIt-Anchor" href="#rhi线程render-hardware-interface"></a> <strong>RHI线程（Render Hardware Interface）</strong></h2>
+<p><strong>RHI</strong>全称是<strong>Render Hardware Interface（渲染硬件接口）</strong>，是UE渲染体系中非常基础且重要的模块，封装了众多图形API（DirectX、OpenGL、Vulkan、Metal）之间的差异，对Game和Renderer模块提供了简便且一致的概念、数据、资源和接口，实现一份渲染代码跑在多个平台的目标。</p>
+<p>RHI线程的工作是转换渲染指令到指定图形API，创建、上传渲染资源到GPU。<code>FRenderResource</code>是渲染线程的渲染资源代表，由渲染线程管理和传递，介于游戏线程和RHI线程的中间数据。</p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/timlly/p/14327537.html#25-ue%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%B8%B2%E6%9F%93">剖析虚幻渲染体系（02）- 多线程渲染 - 0向往0 - 博客园 (cnblogs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/timlly/p/14732412.html">剖析虚幻渲染体系（04）- 延迟渲染管线 - 0向往0 - 博客园 (cnblogs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/timlly/p/15156626.html">剖析虚幻渲染体系（10）- RHI - 0向往0 - 博客园 (cnblogs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/484960867">虚幻引擎UE渲染框架 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36630694?utm_campaign=shareopn&amp;utm_medium=social&amp;utm_oi=913827360451735552&amp;utm_psn=1614073247485652992&amp;utm_source=wechat_session">虚幻4渲染编程（Shader篇）【第一卷：虚幻自身的延迟渲染管线】 - 知乎 (zhihu.com)</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Unreal/">Unreal</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Unreal/%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB/">渲染体系</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Unreal/">Unreal</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Niagara Advance-官方用例学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">
+                        <span class="hidden-mobile">Games202-08工业界的实时渲染</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

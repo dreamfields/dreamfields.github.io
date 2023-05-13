@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="DWV简介  DWV (DICOM Web Viewer) is an open source zero footprint medical image viewer.  DWV是一款开源的Web端DICOM医学影像查看器，这是其 官方文档。 从其架构上来看：  拆分为两个过程：一是load，对DICOM数据的加载；二是view，对视图的渲染，包括图层控制（视图层-对图片渲染展示、绘制层-利用K">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DWV及其React实践简要学习">
+<meta property="og:url" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="DWV简介  DWV (DICOM Web Viewer) is an open source zero footprint medical image viewer.  DWV是一款开源的Web端DICOM医学影像查看器，这是其 官方文档。 从其架构上来看：  拆分为两个过程：一是load，对DICOM数据的加载；二是view，对视图的渲染，包括图层控制（视图层-对图片渲染展示、绘制层-利用K">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/architecture-overview.png">
+<meta property="og:image" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-09-37.png">
+<meta property="og:image" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-12-32.png">
+<meta property="og:image" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-41-04.png">
+<meta property="og:image" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-13-55.png">
+<meta property="og:image" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-18-21-37.png">
+<meta property="article:published_time" content="2021-07-23T08:53:35.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.627Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="DWV">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/architecture-overview.png">
+  
+  <title>DWV及其React实践简要学习 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="DWV及其React实践简要学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-23 16:53" pubdate>
+        2021年7月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">DWV及其React实践简要学习</h1>
+            
+            <div class="markdown-body">
+              <h1 id="dwv简介"><a class="markdownIt-Anchor" href="#dwv简介"></a> DWV简介</h1>
+<blockquote>
+<p>DWV (DICOM Web Viewer) is an open source zero footprint medical image viewer.</p>
+</blockquote>
+<p>DWV是一款开源的Web端DICOM医学影像查看器，这是其 <a target="_blank" rel="noopener" href="https://ivmartel.github.io/dwv/doc/stable/index.html">官方文档</a>。</p>
+<p>从其架构上来看：<br>
+<img src="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/architecture-overview.png" srcset="/img/loading.gif" lazyload alt="DWV项目架构"></p>
+<p>拆分为两个过程：一是<strong>load</strong>，对DICOM数据的加载；二是<strong>view</strong>，对视图的渲染，包括图层控制（视图层-对图片渲染展示、绘制层-利用Konva进行标注）和工具控制（控制工具的加载和派发交互事件到已选工具）两部分。</p>
+<h1 id="react实践"><a class="markdownIt-Anchor" href="#react实践"></a> React实践</h1>
+<p>本次主要学习如何对项目进行组织并应用到React框架上，因此重点关注其在<a target="_blank" rel="noopener" href="https://github.com/ivmartel/dwv-react">React上的实践</a></p>
+<p>可以很方便地下载源码并运行起来这个小的Demo，具体效果是将DICOM文件拖入区域，读取数据后渲染出一幅图像，并利用工具进行操作。</p>
+<p><img src="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-09-37.png" srcset="/img/loading.gif" lazyload alt="运行结果"></p>
+<p><img src="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-12-32.png" srcset="/img/loading.gif" lazyload alt="运行结果"></p>
+<p>在控制台看DOM元素的结构，标注信息层和图像层是分开到2个canvas中的：</p>
+<p><img src="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-41-04.png" srcset="/img/loading.gif" lazyload alt="DOM元素结构"></p>
+<p>接下来看源码，结构如下：<br>
+<img src="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-17-13-55.png" srcset="/img/loading.gif" lazyload alt="源码结构"></p>
+<p>标准的React项目，UI界面框架用的是<code>Material-UI</code>，现在主要看<code>DwvComponent</code>组件中的标尺如何进行实现。</p>
+<h3 id="构造函数"><a class="markdownIt-Anchor" href="#构造函数"></a> 构造函数</h3>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs JavaScript"><span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">props</span>)</span> &#123;<br>    <span class="hljs-built_in">super</span>(props);<br>    <span class="hljs-built_in">this</span>.state = &#123;<br>      <span class="hljs-comment">// 版本控制</span><br>      <span class="hljs-attr">versions</span>: &#123;<br>        <span class="hljs-attr">dwv</span>: dwv.getVersion(),<br>        <span class="hljs-attr">react</span>: React.version<br>      &#125;,<br><br>      <span class="hljs-comment">// 工具设置</span><br>      <span class="hljs-attr">tools</span>: &#123;<br>        <span class="hljs-attr">Scroll</span>: &#123;&#125;,<br>        <span class="hljs-attr">ZoomAndPan</span>: &#123;&#125;,<br>        <span class="hljs-attr">WindowLevel</span>: &#123;&#125;,<br>        <span class="hljs-attr">Draw</span>: &#123;<br>          <span class="hljs-attr">options</span>: [<span class="hljs-string">&#x27;Ruler&#x27;</span>], <span class="hljs-comment">// 声明绘制工具的“选项”为“标尺”</span><br>          <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;factory&#x27;</span>,<br>          <span class="hljs-attr">events</span>: [<span class="hljs-string">&#x27;drawcreate&#x27;</span>, <span class="hljs-string">&#x27;drawchange&#x27;</span>, <span class="hljs-string">&#x27;drawmove&#x27;</span>, <span class="hljs-string">&#x27;drawdelete&#x27;</span>] <span class="hljs-comment">// 包括4个响应事件</span><br>        &#125;<br>      &#125;,<br>      <span class="hljs-attr">toolNames</span>: [],<br>      <span class="hljs-attr">selectedTool</span>: <span class="hljs-string">&#x27;Select Tool&#x27;</span>,<br>      <br>      <span class="hljs-comment">// 数据加载相关</span><br>      <span class="hljs-attr">loadProgress</span>: <span class="hljs-number">0</span>,<br>      <span class="hljs-attr">dataLoaded</span>: <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">dwvApp</span>: <span class="hljs-literal">null</span>,<br>      <span class="hljs-attr">metaData</span>: [],<br>      <span class="hljs-attr">showDicomTags</span>: <span class="hljs-literal">false</span>,<br>      <br>      <span class="hljs-comment">// 工具在菜单上挂载元素</span><br>      <span class="hljs-attr">toolMenuAnchorEl</span>: <span class="hljs-literal">null</span>,<br><br>      <span class="hljs-attr">dropboxDivId</span>: <span class="hljs-string">&#x27;dropBox&#x27;</span>,<br>      <span class="hljs-attr">dropboxClassName</span>: <span class="hljs-string">&#x27;dropBox&#x27;</span>,<br>      <span class="hljs-attr">borderClassName</span>: <span class="hljs-string">&#x27;dropBoxBorder&#x27;</span>,<br>      <span class="hljs-attr">hoverClassName</span>: <span class="hljs-string">&#x27;hover&#x27;</span><br>    &#125;;<br>  &#125;<br></code></pre></td></tr></table></figure>
+<p>在构造函数里直接用state来控制图片数据加载和工具设置</p>
+<h3 id="渲染函数"><a class="markdownIt-Anchor" href="#渲染函数"></a> 渲染函数</h3>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs JavaScript"><span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>    <span class="hljs-keyword">const</span> &#123; classes &#125; = <span class="hljs-built_in">this</span>.props;<br>    <span class="hljs-keyword">const</span> &#123; versions, tools, toolNames, loadProgress, dataLoaded, metaData, toolMenuAnchorEl &#125; = <span class="hljs-built_in">this</span>.state;<br><br>    <span class="hljs-comment">// 将工具名称通过一个工具控制函数绑定，并返回包括工具的子菜单，toolNames从state中获取</span><br>    <span class="hljs-keyword">const</span> toolsMenuItems = toolNames.map( <span class="hljs-function">(<span class="hljs-params">tool</span>) =&gt;</span><br>      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MenuItem</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.handleMenuItemClick.bind(this,</span> <span class="hljs-attr">tool</span>)&#125; <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;tool&#125;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#123;tool&#125;</span>&gt;</span>&#123;tool&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">MenuItem</span>&gt;</span></span><br>    );<br><br>    <span class="hljs-keyword">return</span> (<br>      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dwv&quot;</span>&gt;</span></span><br><span class="xml">        <span class="hljs-tag">&lt;<span class="hljs-name">LinearProgress</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;determinate&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#123;loadProgress&#125;</span> /&gt;</span></span><br><span class="xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;button-row&quot;</span>&gt;</span></span><br><span class="xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;contained&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">aria-owns</span>=<span class="hljs-string">&#123;toolMenuAnchorEl</span> ? &#x27;<span class="hljs-attr">simple-menu</span>&#x27; <span class="hljs-attr">:</span> <span class="hljs-attr">null</span>&#125;</span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">aria-haspopup</span>=<span class="hljs-string">&quot;true&quot;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.handleMenuButtonClick&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">disabled</span>=<span class="hljs-string">&#123;!dataLoaded&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;classes.button&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;medium&quot;</span></span></span><br><span class="hljs-tag"><span class="xml">          &gt;</span>&#123; this.state.selectedTool &#125;</span><br><span class="xml">          <span class="hljs-tag">&lt;<span class="hljs-name">ArrowDropDownIcon</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;classes.iconSmall&#125;/</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span></span><br><span class="xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Menu</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;simple-menu&quot;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">anchorEl</span>=<span class="hljs-string">&#123;toolMenuAnchorEl&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">open</span>=<span class="hljs-string">&#123;Boolean(toolMenuAnchorEl)&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">onClose</span>=<span class="hljs-string">&#123;this.handleMenuClose&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">          &gt;</span></span><br><span class="xml">            &#123;toolsMenuItems&#125;</span><br><span class="xml">          <span class="hljs-tag">&lt;/<span class="hljs-name">Menu</span>&gt;</span></span><br><span class="xml"></span><br><span class="xml">          <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;contained&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">disabled</span>=<span class="hljs-string">&#123;!dataLoaded&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">            <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.onReset&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">          &gt;</span>Reset<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span></span><br><span class="xml"></span><br><span class="xml">        <span class="hljs-comment">&lt;!-- 省略了tags对话框的DOM --&gt;</span></span><br><span class="xml"></span><br><span class="xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dropBox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="xml"></span><br><span class="xml">        <span class="hljs-comment">&lt;!-- 这里存放两个图层，一个为图像层，一个为标注层 --&gt;</span></span><br><span class="xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;layerContainer&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="xml"></span><br><span class="xml">        <span class="hljs-comment">&lt;!-- 省略了页脚的DOM --&gt;</span></span><br><span class="xml"></span><br><span class="xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="xml">    );</span><br><span class="xml">  &#125;</span><br></code></pre></td></tr></table></figure>
+<h3 id="生命周期函数"><a class="markdownIt-Anchor" href="#生命周期函数"></a> 生命周期函数</h3>
+<p><code>componentDidMount</code>函数会在<code>render</code>渲染完之后执行，此时组件已经初始化完毕。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">componentDidMount</span>(<span class="hljs-params"></span>)</span> &#123;<br>    <span class="hljs-comment">// create app</span><br>    <span class="hljs-keyword">var</span> app = <span class="hljs-keyword">new</span> dwv.App();<br>    <span class="hljs-comment">// initialise app</span><br>    app.init(&#123;<br>      <span class="hljs-string">&quot;containerDivId&quot;</span>: <span class="hljs-string">&quot;dwv&quot;</span>,<br>      <span class="hljs-string">&quot;tools&quot;</span>: <span class="hljs-built_in">this</span>.state.tools<br>    &#125;);<br><br>    <span class="hljs-comment">// load events</span><br>    <span class="hljs-keyword">let</span> nLoadItem = <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">let</span> nReceivedError = <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">let</span> nReceivedAbort = <span class="hljs-literal">null</span>;<br><br>    <span class="hljs-comment">// 通过addEventListener函数向类dwv.App中添加事件监听</span><br>    app.addEventListener(<span class="hljs-string">&#x27;loadstart&#x27;</span>, <span class="hljs-function">(<span class="hljs-params"><span class="hljs-comment">/*event*/</span></span>) =&gt;</span> &#123;<br>      ...<br>    &#125;);<br>    <span class="hljs-comment">// 在图片加载后，将工具名称添加到state中</span><br>    app.addEventListener(<span class="hljs-string">&quot;load&quot;</span>, <span class="hljs-function">(<span class="hljs-params"><span class="hljs-comment">/*event*/</span></span>) =&gt;</span> &#123;<br>      <span class="hljs-comment">// set dicom tags</span><br>      <span class="hljs-built_in">this</span>.setState(&#123;<span class="hljs-attr">metaData</span>: dwv.utils.objectToArray(app.getMetaData())&#125;);<br>      <span class="hljs-comment">// available tools</span><br>      <span class="hljs-keyword">let</span> names = [];<br>      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> <span class="hljs-built_in">this</span>.state.tools) &#123;<br>        <span class="hljs-keyword">if</span> ((key === <span class="hljs-string">&#x27;Scroll&#x27;</span> &amp;&amp; app.canScroll()) ||<br>          (key === <span class="hljs-string">&#x27;WindowLevel&#x27;</span> &amp;&amp; app.canWindowLevel()) ||<br>          (key !== <span class="hljs-string">&#x27;Scroll&#x27;</span> &amp;&amp; key !== <span class="hljs-string">&#x27;WindowLevel&#x27;</span>)) &#123;<br>          names.push(key);<br>        &#125;<br>      &#125;<br>      <span class="hljs-built_in">this</span>.setState(&#123;<span class="hljs-attr">toolNames</span>: names&#125;);<br>      <span class="hljs-built_in">this</span>.onChangeTool(names[<span class="hljs-number">0</span>]);<br>      <span class="hljs-comment">// set the selected tool</span><br>      <span class="hljs-keyword">let</span> selectedTool = <span class="hljs-string">&#x27;Scroll&#x27;</span><br>      <span class="hljs-keyword">if</span> (app.isMonoSliceData() &amp;&amp; app.getImage().getNumberOfFrames() === <span class="hljs-number">1</span>) &#123;<br>        selectedTool = <span class="hljs-string">&#x27;ZoomAndPan&#x27;</span>;<br>      &#125;<br>      <span class="hljs-built_in">this</span>.onChangeTool(selectedTool);<br>      <span class="hljs-comment">// set data loaded flag</span><br>      <span class="hljs-built_in">this</span>.setState(&#123;<span class="hljs-attr">dataLoaded</span>: <span class="hljs-literal">true</span>&#125;);<br>    &#125;);<br>    app.addEventListener(<span class="hljs-string">&#x27;loadend&#x27;</span>, <span class="hljs-function">(<span class="hljs-params"><span class="hljs-comment">/*event*/</span></span>) =&gt;</span> &#123;<br>      ...<br>    &#125;);<br>    <br>    ...<br>    <br>    <span class="hljs-comment">// handle window resize</span><br>    <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;resize&#x27;</span>, app.onResize);<br><br>    <span class="hljs-comment">// store</span><br>    <span class="hljs-built_in">this</span>.setState(&#123;<span class="hljs-attr">dwvApp</span>: app&#125;);<br><br>    <span class="hljs-comment">// setup drop box</span><br>    <span class="hljs-built_in">this</span>.setupDropbox(app);<br><br>    <span class="hljs-comment">// possible load from location</span><br>    dwv.utils.loadFromUri(<span class="hljs-built_in">window</span>.location.href, app);<br>  &#125;<br></code></pre></td></tr></table></figure>
+<h3 id="控制函数"><a class="markdownIt-Anchor" href="#控制函数"></a> 控制函数</h3>
+<p>此步骤将一些dom操作和事件操作封装为函数放到整个组件里。</p>
+<h3 id="标尺工具"><a class="markdownIt-Anchor" href="#标尺工具"></a> 标尺工具</h3>
+<p>在dwv中留有class类的接口进行实现，内部封装的是Konva，找源码看：</p>
+<p><img src="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/2021-07-23-18-21-37.png" srcset="/img/loading.gif" lazyload alt="标尺实现"></p>
+<p>应该是将多个Konva.Line放到一起组成标尺的基本形状，至于长度的计算，思路应该是根据两个端点的坐标求出像素长度，再根据图片的比例换算为实际长度。</p>
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<ul>
+<li>DWV的结构的重点在于，把工具的添加实现了自动化，只需要在state中声明需要的工具，通过渲染函数和dwv.app类的接口调用即可实现工具的添加</li>
+<li>对于图像的查看功能实现，应按照逻辑进行分层来处理：图形层（获取数据并显示）和绘制层（形状标注），对于事件的监听放到最外层，以避免层覆盖使得事件监听失效。同时可以仿照DWV，对事件监听的控制统一进行添加管理</li>
+<li>DWV这个Demo较小，对于数据流没有明显展现，如果使用Mobx数据流的话，可以将<strong>数据获取</strong>和<strong>界面状态</strong>分别封装为两个Store</li>
+</ul>
+<p>目前只是对dwv简单进行了解，其接口使用、具体实践还有待进一步学习。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Front-end/">Front-end</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/React/">React</a>
+                    
+                      <a class="hover-with-bg" href="/tags/DWV/">DWV</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/02/LearnOpenGL-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LearnOpenGL-环境配置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/">
+                        <span class="hidden-mobile">链接合集</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

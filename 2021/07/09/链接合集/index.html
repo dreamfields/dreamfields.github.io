@@ -1,0 +1,566 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="📗 工具介绍  yarn的介绍及workspace的使用 Monorepo 是什么，为什么大家都在用？ Monorepo实战   🎈 文档链接  Yarn webpack Lerna   💙 参考教程  VS Code —— C++开发  开发环境配置详细教程 配置文件说明 插件CodeRunner运行C++代码时中文乱码问题的解决 安装和使用C++线性代数库eigen（Windows，M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链接合集">
+<meta property="og:url" content="http://example.com/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="📗 工具介绍  yarn的介绍及workspace的使用 Monorepo 是什么，为什么大家都在用？ Monorepo实战   🎈 文档链接  Yarn webpack Lerna   💙 参考教程  VS Code —— C++开发  开发环境配置详细教程 配置文件说明 插件CodeRunner运行C++代码时中文乱码问题的解决 安装和使用C++线性代数库eigen（Windows，M">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-06-58.png">
+<meta property="og:image" content="http://example.com/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-16-22.png">
+<meta property="article:published_time" content="2021-07-09T01:56:17.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.697Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="webpack">
+<meta property="article:tag" content="Monorepo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-06-58.png">
+  
+  <title>链接合集 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="链接合集">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-09 09:56" pubdate>
+        2021年7月9日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      5 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">链接合集</h1>
+            
+            <div class="markdown-body">
+              <h1 id="工具介绍"><a class="markdownIt-Anchor" href="#工具介绍"></a> 📗 工具介绍</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c4f02f46224f">yarn的介绍及workspace的使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/77577415">Monorepo 是什么，为什么大家都在用？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/dafc2052eedc">Monorepo实战</a></li>
+</ul>
+<h1 id="文档链接"><a class="markdownIt-Anchor" href="#文档链接"></a> 🎈 文档链接</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://yarn.bootcss.com/docs/">Yarn</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpack.docschina.org/configuration">webpack</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/lerna/lerna">Lerna</a></li>
+</ul>
+<h1 id="参考教程"><a class="markdownIt-Anchor" href="#参考教程"></a> 💙 参考教程</h1>
+<h2 id="vs-code-c开发"><a class="markdownIt-Anchor" href="#vs-code-c开发"></a> VS Code —— C++开发</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.whbwiki.com/335.html">开发环境配置详细教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43343144/article/details/85147439">配置文件说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/153252108">插件CodeRunner运行C++代码时中文乱码问题的解决</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43940314/article/details/115456199">安装和使用C++线性代数库eigen（Windows，MinGW，VS Code和VS2019的配置）</a></li>
+<li>Code-Runner在编译时不会自动引入eigen，需要在setting.json中设置<code>&quot;code-runner.executorMap&quot;</code>中的<code>&quot;cpp&quot;: &quot;cd $dir &amp;&amp; g++ -g $fileName -o $fileNameWithoutExt -I 'C:/Users/xxx/eigen-3.4-rc1' &amp;&amp; $dir$fileNameWithoutExt&quot;</code>，才可以正常运行。当然这个插件配置较为简单，更加复杂、稳妥的配置推荐使用C/C++插件中的tasks.json文件。</li>
+</ul>
+<h2 id="vs-code-cmake"><a class="markdownIt-Anchor" href="#vs-code-cmake"></a> VS Code —— CMake</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/herelsp/p/8679200.html#_label2">CMake+MinGW64搭建C/C++编译环境</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/JohnJim0/article/details/81842249?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-9.pc_relevant_baidujshouduan&amp;spm=1001.2101.3001.4242">CMake+VSCode搭建C/C++编译环境</a></li>
+</ul>
+<h4 id="使用cmake编译和运行包含有eigen库的步骤"><a class="markdownIt-Anchor" href="#使用cmake编译和运行包含有eigen库的步骤"></a> 使用CMake编译和运行包含有eigen库的步骤</h4>
+<ol>
+<li>编写main.cpp文件</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;cmath&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;Eigen/Core&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;Eigen/Dense&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">// Example of vector</span><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Example of vector \n&quot;</span>;<br>    <span class="hljs-comment">// vector definition</span><br>    <span class="hljs-function">Eigen::Vector3f <span class="hljs-title">v</span><span class="hljs-params">(<span class="hljs-number">1.0f</span>,<span class="hljs-number">2.0f</span>,<span class="hljs-number">3.0f</span>)</span></span>;<br>    <span class="hljs-function">Eigen::Vector3f <span class="hljs-title">w</span><span class="hljs-params">(<span class="hljs-number">1.0f</span>,<span class="hljs-number">0.0f</span>,<span class="hljs-number">0.0f</span>)</span></span>;<br>    <span class="hljs-comment">// vector output</span><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Example of output \n&quot;</span>;<br>    std::cout &lt;&lt; v &lt;&lt; std::endl;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>编写CMakeLists.txt文件</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs txt">cmake_minimum_required (VERSION 2.8.11)<br><br># 项目名<br>project (Transformation)<br><br># 将解压后的Eigen库的目录引入<br>include_directories(&quot;C:/Users/xxx/eigen-3.4-rc1/&quot;)<br><br># 添加可执行文件<br>add_executable (Transformation main.cpp)<br><br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>在main.cpp所在目录下，打开终端(命令行)，依次输入：</li>
+</ol>
+<ul>
+<li><code>mkdir build</code> 创建名为build的文件夹</li>
+<li><code>cd build</code> 移动到build文件夹下</li>
+<li><code>cmake -G &quot;MinGW Makefiles&quot; ..</code> 注意其中<code>..</code>表示上一级目录，若为<code>.</code>则表示当前目录；<code>&quot;MinGW Makefiles&quot;</code>指定了使用MinGW编译器，否则默认是MSVC（Visual Studio的编译器）</li>
+<li><code>mingw32-make.exe</code> 编译程序，错误提示会显示在终端中</li>
+<li><code>./Transformation</code>：若上一步无错误，则可运行程序(这里的Transformation为可执行文件名，可参照CMakeLists.txt中修改)</li>
+</ul>
+<p><img src="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-06-58.png" srcset="/img/loading.gif" lazyload alt="文件目录结构"></p>
+<p><img src="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/2021-08-10-09-16-22.png" srcset="/img/loading.gif" lazyload alt="执行结果"></p>
+<blockquote>
+<p>cmake 在 find_path 和 find_library 时，会搜索一些默认的路径。当我们将一些lib安装在非默认搜索路径时，cmake就没法搜索到了。这是我们需要添加路径。方法如下：<br>
+<code>set(CMAKE_INCLUDE_PATH &quot;include_path&quot;)</code><br>
+<code>set(CMAKE_LIBRARY_PATH &quot;lib_path&quot;)</code></p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Link-collect/">Link-collect</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C++</a>
+                    
+                      <a class="hover-with-bg" href="/tags/webpack/">webpack</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Monorepo/">Monorepo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DWV及其React实践简要学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/08/%E5%88%9B%E5%BB%BA%E5%B9%B6%E5%8F%91%E5%B8%83%E4%B8%80%E4%B8%AAreact%E7%BB%84%E4%BB%B6%E5%88%B0npm/">
+                        <span class="hidden-mobile">创建并发布一个react组件到npm</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

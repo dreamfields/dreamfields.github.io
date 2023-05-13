@@ -1,0 +1,731 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="Shadow Mapping 概述：是一个完全在图像空间中的算法，将深度信息渲染到深度图上，并在运行时通过深度对比检测物体是否在阴影中的算法。Shadow map是一个2-pass的算法 优点：一旦shadow Map已经生成,就可以利用shadow map来获取场景中的几何表示而不是场景中的几何 缺点：会产生自遮挡和走样现象  步骤   从light处出发看向场景生成一张记录每个像素中最近物体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games202-03实时阴影">
+<meta property="og:url" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="Shadow Mapping 概述：是一个完全在图像空间中的算法，将深度信息渲染到深度图上，并在运行时通过深度对比检测物体是否在阴影中的算法。Shadow map是一个2-pass的算法 优点：一旦shadow Map已经生成,就可以利用shadow map来获取场景中的几何表示而不是场景中的几何 缺点：会产生自遮挡和走样现象  步骤   从light处出发看向场景生成一张记录每个像素中最近物体">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%201.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%202.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%203.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%204.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%205.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%206.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%207.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%208.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%209.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2010.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2011.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2012.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2013.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2014.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2015.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2016.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2017.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2018.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2019.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2020.png">
+<meta property="og:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2021.png">
+<meta property="article:published_time" content="2022-11-20T09:43:47.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.148Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled.png">
+  
+  <title>Games202-03实时阴影 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Games202-03实时阴影">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-20 17:43" pubdate>
+        2022年11月20日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Games202-03实时阴影</h1>
+            
+            <div class="markdown-body">
+              <h1 id="shadow-mapping"><a class="markdownIt-Anchor" href="#shadow-mapping"></a> Shadow Mapping</h1>
+<p><strong>概述</strong>：是一个完全在图像空间中的算法，将深度信息渲染到深度图上，并在运行时通过深度对比检测物体是否在阴影中的算法。Shadow map是一个2-pass的算法</p>
+<p><strong>优点</strong>：一旦shadow Map已经生成,就可以利用shadow map来获取场景中的几何表示而不是场景中的几何</p>
+<p><strong>缺点</strong>：会产生自遮挡和走样现象</p>
+<h2 id="步骤"><a class="markdownIt-Anchor" href="#步骤"></a> 步骤</h2>
+<ol>
+<li>
+<p>从light处出发看向场景生成一张记录每个像素中最近物体深度的一张图，图中有很多像素,我们记录下每个像素中他们各自看到的最浅的深度或是最近的物体他们的位置在哪,存下来从而得到一张texture。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>从Camera(眼睛)出发，再渲染一遍场景。看渲染中的每个像素中都要来判断是否能被light照到,如果被照到则不在阴影中,反之,则存在于阴影中</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%201.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ol>
+<p>在Opengl中,1-pass就是在light处放置一个相机,然后往某一方向看去,定义framebuffer写到某个texture上,然后在fragment shader中定义写的是一个深度而非shading的结果,在2-pass中则只需要用1-pass得到的texture即可。</p>
+<h2 id="存在的问题"><a class="markdownIt-Anchor" href="#存在的问题"></a> 存在的问题</h2>
+<ol>
+<li><strong>自遮挡</strong>
+<ul>
+<li>
+<p>在使用 Shadow Map 的时候，如果不做任何处理，就会出现下图这种现象，被称为 Shadow Acne 或者 Self-Shadowing。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%202.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>成因：物体的实际深度，与自己的采样深度，相比较不相等（实际深度大于采样深度）导致的，所以可谓是自己（采样的副本）遮挡了自己（实际的物体），所以被称为 self shadowing。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%203.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>解决方法：Shadow Bias。在判断前先每个 shading point 深度往光照方向挪一挪，让由于自遮挡被判断处于阴影的点挪到有光照的地方，就能很大程度改善这一点。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%204.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>但是存在另一个问题：这个现象只有在加入了 shadow bias 的时候才会出现，如下图，会看到影子脱离了物体（像飞起来的小飞侠一样），被称为 peter-panning。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%205.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>解决 peter-panning 的方法</p>
+<ul>
+<li>
+<p>可以看到，bias 加小了没用，依旧会有自遮挡；加多了又会导致 peter panning。所以要怎么加，是有一定技巧的，最终的目标是要找到一个刚好能够消除 shadow acne 的 bias 值。</p>
+</li>
+<li>
+<p>现在常用的 shadow bias 的计算方法，是基于物体斜度的，称为 <strong>slope scale based depth bias</strong>。<strong>原理：当斜度大的时候，shadow map 上的一个点，所对应的实际物体的一小块面，其深度变化就会更大。</strong></p>
+</li>
+<li>
+<p>基于斜度的偏移可以根据表面的斜度，更改深度的偏差值。当表面与灯光的夹角越小，那么阴影贴图中一个像素对应的表面区域越大，其深度变化也就越大，就需要添加更大的 bias。表面与灯光的夹角可以通过法线与灯光方向的夹角余弦值来计算（dot(normal,lightDir)），所以 bias 要和夹角余弦值成反比。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%206.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>最终公式是：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mi>i</mi><mi>a</mi><mi>s</mi><mo>=</mo><mi>f</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>S</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi><mo>∗</mo><mi>s</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi><mo>+</mo><mi>c</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi><mi>B</mi><mi>i</mi><mi>a</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">bias = factorSlope * slope + constantBias</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">i</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">a</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">i</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span></span></span></span></p>
+</li>
+<li>
+<p>factorSlope 是斜度偏差范围的系数，表示斜度偏差的程度，slope 是根据夹角余弦值计算，constantBias 是基础的阴影偏差。由此可知，factorSlope 与 constantBias 都是需要手动给出的，通过调试才能得到最优的效果。</p>
+</li>
+<li>
+<p>举例来说，一个 x 方向的斜坡，同样是在 x 方向上差 0.01，如果坡角是 45 度，那么深度差就是 0.01，如果坡角是 60 度，那么深度差就是 0.017.</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%207.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>如果采样点都是在 x=0.005 处，那么对坡角 60 的情况，就需要 bias 至少为 0.0085，才可以保证不会产生 shadow acne，而 45 度的情况，bias 只要 0.005 就可以了</p>
+<p>对于这个公式，需要做一些说明：</p>
+<p>1）坡度如何确定？当然是用顶点的 normal，但是需要注意的是，我们是在灯光坐标系下观察物体的，所以 normal 需要转换到 light space 中。</p>
+<p>2）里面的两个参数 factorSlope 和 constantBias 如何确定？只能通过不断调整才能得到。</p>
+</li>
+<li>
+<p>解决 peter-panning 的另一种方法：<strong>Second-depth shadow mapping</strong>，此时我们就舍弃biasd的概念,而是在渲染时不仅存最小的深度,我们还要存第二小的深度,然后我们用最小深度和第二小深度中间的深度来作比较。但实际中并没有人去使用这个技术,因为场景内的物体必须都是watertight（非面片），还有就是计算复杂，开销太大</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>走样</strong>
+<ul>
+<li>
+<p>shadow map本身就存在分辨率，当分辨率不够大自然会看到锯齿,因为shadow map上每一个像素都可以看为小片,那么投出来的阴影自然会存在锯齿。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%208.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>解决的方法是下面提到的PCF</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="pcfpercentage-closer-filtering"><a class="markdownIt-Anchor" href="#pcfpercentage-closer-filtering"></a> <strong>PCF(percentage Closer Filtering)</strong></h1>
+<p>概述：PCF能解决shadow map的锯齿块和硬边问题，产生柔和软阴影。</p>
+<p>核心思想：从深度贴图中多次采样，每一次采样的纹理坐标都稍有不同（比如采样像素周围一圈范围）。每个独立的样本可能在也可能不再阴影中。所有的次生结果接着结合在一起，最终通过样本的总数目将深度结果平均化，得到的可见性变为0~1之间的数。</p>
+<p>步骤：在<strong>第二个pass中</strong>，对于这个shading point我们仍要判断是否在阴影内,但是我们把其投影到light之后不再只找其对应的单个像素,而是<strong>找其周围一圈的像素</strong>（<strong>采样方式可以是均匀采样、泊松圆盘采样等，采样的范围称为Filter Size</strong>）,把周围像素深度比较的结果<strong>加起来平均一下</strong>，就得到一个0-1之间的数，就得到了一个模糊的结果。</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">float</span> PCF(<span class="hljs-type">sampler2D</span> shadowMap,<span class="hljs-type">vec4</span> coords)&#123;<br>  poissonDiskSamples(coords.xy);<br>  <span class="hljs-comment">// uniformDiskSamples(coords.xy); // 均匀圆盘采样时阴影边缘不够自然</span><br>  <span class="hljs-type">float</span> blocker=<span class="hljs-number">0.</span>;<br>  <span class="hljs-type">float</span> filterSize=<span class="hljs-number">25.</span>;<br>  <span class="hljs-comment">// 上面生成的采样点处于单位圆内，因此可以使用一个 filterSize 来控制整体的采样范围。由于作业框架 Shadowmap 的大小为 2048 x 2048，每个像素的长度可以近似为 1 / 2048。</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;NUM_SAMPLES;i++)&#123;<br>    <span class="hljs-type">vec2</span> uv_bias=poissonDisk[i]/<span class="hljs-number">2048.</span>*filterSize;<br>    <span class="hljs-type">float</span> shadowDepth=unpack(<span class="hljs-built_in">texture2D</span>(shadowMap,coords.xy+uv_bias));<br>    <span class="hljs-keyword">if</span>(coords.z-Bias3()&gt;shadowDepth)&#123;<br>      blocker++;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1.</span>-blocker/<span class="hljs-type">float</span>(NUM_SAMPLES);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="pcsspercentage-closer-soft-shadows"><a class="markdownIt-Anchor" href="#pcsspercentage-closer-soft-shadows"></a> <strong>PCSS（Percentage Closer Soft Shadows）</strong></h1>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%209.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>PCSS为了实现更真实的软阴影，达到离遮挡物距离近的时候硬，远的时候软的效果：<strong>阴影接受物与阴影投射物的距离越小,阴影越锐利。因此,我们要解决的一个问题是我们如何决定一个软阴影的半影区。换句话说，就是filter size 有多大的问题。</strong></p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2010.png" srcset="/img/loading.gif" lazyload alt></p>
+<ol>
+<li>算每个区块深度（shadow map上，<strong>只算被遮挡点的平均深度，而不是区块内所有点的平均深度</strong>）</li>
+<li>利用相似三角形的原理计算新的半影直径</li>
+<li>PCF。在shadow map上采样，范围由第二步确定。</li>
+</ol>
+<p><strong>本质</strong>：求出了阴影中需要做PCF的半影部分后再进行PCF的计算，这样动态调节了半影范围，也就是动态设置了PCF的搜索范围，这样我们的硬阴影部分清晰，软阴影部分模糊，动态的实现了不错的软阴影效果。</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">float</span> PCSS(<span class="hljs-type">sampler2D</span> shadowMap,<span class="hljs-type">vec4</span> coords)&#123;<br>  <br>  <span class="hljs-comment">// STEP 1: avgblocker depth</span><br>  <span class="hljs-type">float</span> d_Blocker = findBlocker(shadowMap,coords.xy,coords.z);<br>  <span class="hljs-type">float</span> w_Light = <span class="hljs-number">1.</span>;<br>  <span class="hljs-type">float</span> d_Receiver = coords.z;<br>  <br>  <span class="hljs-comment">// STEP 2: penumbra size</span><br>  <span class="hljs-type">float</span> w_penumbra = w_Light*(d_Receiver-d_Blocker)/d_Blocker;<br>  <span class="hljs-comment">// return w_penumbra;</span><br>  <span class="hljs-comment">// STEP 3: filtering</span><br>  <span class="hljs-type">float</span> blocker=<span class="hljs-number">0.</span>;<br>  <span class="hljs-type">float</span> filterSize=<span class="hljs-number">25.</span>;<br>  <span class="hljs-comment">// 上面生成的采样点处于单位圆内，因此可以使用一个 filterSize 来控制整体的采样范围。由于作业框架 Shadowmap 的大小为 2048 x 2048，每个像素的长度可以近似为 1 / 2048。</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;NUM_SAMPLES;i++)&#123;<br>    <span class="hljs-type">vec2</span> uv_bias=poissonDisk[i]/<span class="hljs-number">2048.</span>*filterSize*w_penumbra;<span class="hljs-comment">// !这里与PCF不同</span><br>    <span class="hljs-type">float</span> shadowDepth=unpack(<span class="hljs-built_in">texture2D</span>(shadowMap,coords.xy+uv_bias));<br>    <span class="hljs-keyword">if</span>(coords.z-Bias3()&gt;shadowDepth)&#123;<br>      blocker++;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1.</span>-blocker/<span class="hljs-type">float</span>(NUM_SAMPLES);<br>  <br>&#125;<br></code></pre></td></tr></table></figure>
+<p>步骤1和步骤3需要对整个区域的<strong>各个shading point与点x的深度进行比较</strong>，所以会导致很慢。由于需要在一个范围内进行比较，那么步骤1和3的时间开销会决定整个算法的时间开销，此外为了得到越“软”的阴影意味着需要使用更大的filtering size，会导致速度越慢。为了解决这两步慢的问题,就有人提出了Variance Soft Shadow Mapping。</p>
+<h1 id="vssm-variance-soft-shadow-mapping"><a class="markdownIt-Anchor" href="#vssm-variance-soft-shadow-mapping"></a> <strong>VSSM (Variance Soft Shadow Mapping)</strong></h1>
+<p>解决PCSS第一步和第三步慢的问题，优化了第三步范围查询shadow map得到平均深度值，直接使用切比雪夫进行猜测。</p>
+<h2 id="第一步的优化如何更快地求遮挡物的平均深度"><a class="markdownIt-Anchor" href="#第一步的优化如何更快地求遮挡物的平均深度"></a> 第一步的优化：如何更快地求遮挡物的平均深度</h2>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2011.png" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>将其分为两个区域，<strong>蓝色</strong>是深度小于shading point的遮挡区域,其平均深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{occ}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。<strong>红色</strong>是深度大于shading point的非遮挡区域，其平均深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>u</mi><mi>n</mi><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{unocc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。并且我们认为区域内的像素总数为<strong>N，<strong>非遮挡的像素为</strong>N1</strong>个，遮挡的像素为<strong>N2</strong>个</p>
+</li>
+<li>
+<p>重要公式**：非遮挡像素占的比例 * 非遮挡物的平均深度 + 遮挡像素占的比例 * 遮挡物的平均深度 = 总区域内的平均深度**</p>
+</li>
+<li>
+<p><strong>VSSM核心思想</strong></p>
+<ul>
+<li>
+<p>求范围内有百分之多少的像素比shading point浅，于是就可以把范围内所有的深度做一个直方图，根据直方图可以判断shaing point的深度排名。而<strong>VSSM假设这个直方图的分布是正态分布，而该分布最重要的是得到均值和方差。而求”有百分之多少的像素比shading point浅”这个问题就转化为”给定shading point值，PDF（概论密度函数）下的阴影面积是多少，或者是CDF在shading poingt处的函数值是多少“</strong>（对于一个通用的高斯的PDF，对于这类PDF，可以直接把CDF结果，输出为一个表，叫误差函数Error Fuction，误差函数有数值解，但是没有解析解，在C++ 中的函数ERF(lower_limit,[upper_limit])函数可以计算CDF。）</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2012.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>但是计算PDF的面积又过于麻烦，于是找到了一个不等式来近似计算。那么就可以通过均值和方差获得图中红色面积的值。因此就可以不用计算CDF了，而是通过1 - 求出的x&gt;t的面积值得到CDF.但是<strong>切比雪夫不等式有一个苛刻的条件：t 必须在均值右边，也就是t大于均值。</strong></p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2013.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+<li>
+<p>总区域内的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>A</mi><mi>v</mi><mi>g</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{Avg}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>我们用<strong>mipmap</strong>或者<strong>SAT(Summed Area Tables)<strong>去求,也就是得到了正态分布的</strong>均值。<strong>然后用shadow map（存储的是深度值）和square-depth map(存储的是深度值的平方）来计算</strong>方差</strong>：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false">(</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>−</mo><msup><mi>E</mi><mn>2</mn></msup><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Var(X) = E(X^2)-E^2(X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span></p>
+</li>
+<li>
+<p>根据切比雪夫不等式近似求出两个比例<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>N</mi><mn>1</mn></msub><mi mathvariant="normal">/</mi><mi>N</mi><mi mathvariant="normal">、</mi><msub><mi>N</mi><mn>2</mn></msub><mi mathvariant="normal">/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">N_1/N、N_2/N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord cjk_fallback">、</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></p>
+</li>
+<li>
+<p>最后一个假设：认为非遮挡物的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>u</mi><mi>n</mi><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{unocc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> = shading point的深度</p>
+</li>
+<li>
+<p>将所有值代入可求出遮挡物的平均深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>Z</mi><mrow><mi>o</mi><mi>c</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Z_{occ}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>p</p>
+</li>
+<li>
+<p>ps：接受平面是曲面或者与光源不平行的时候就会出问题</p>
+</li>
+</ul>
+<h2 id="第三步的优化"><a class="markdownIt-Anchor" href="#第三步的优化"></a> 第三步的优化</h2>
+<ul>
+<li>我们通过生成shadow map和square-depth map得到期望值的平方和平方值的期望再根据公式得到方差：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false">(</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>−</mo><msup><mi>E</mi><mn>2</mn></msup><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Var(X) = E(X^2)-E^2(X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span></li>
+<li>通过mipmap或者SAT得到期望</li>
+<li>得到期望和方差之后，根据切比雪夫不等式近似得到一个depth大于shading point点深度的面积，也就是求出了未遮挡Shading point的概率，从而可以求出一个在1-0之间的visilibity</li>
+<li>ps：省去了在这个范围内进行<strong>采样</strong>或者<strong>循环</strong>的操作,大大加速了第三步。如果场景/光源出现移动 就需要更新MIPMAP，本身还是有一定的开销，但是生成MIPMAP硬件GPU支持的非常到位，生成非常快（几乎不花时间），而是SAT会慢一点。</li>
+</ul>
+<h1 id="moment-shadow-mapping"><a class="markdownIt-Anchor" href="#moment-shadow-mapping"></a> <strong><strong>Moment shadow mapping</strong></strong></h1>
+<p>为了避免VSSM中不是正态分布情况下的问题,就引入了更高阶的<strong>moments</strong>来得到更加准确的深度分布情况.想要描述的更准确，就要使用更高阶的<strong>moment(矩)</strong>，矩的定义有很多，最简单的矩就是记录一个数的次方，<strong>VSSM 就等于用了前两阶的矩</strong>。这样多记录几阶矩就能得到更准确的结果。</p>
+<p>如果保留前M阶的矩，就能描述一个阶跃函数，阶数等2/M,就等于某种展开。越多的阶数就和原本的分布越拟合。一般来说4阶就够用。</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2014.png" srcset="/img/loading.gif" lazyload alt></p>
+<h1 id="sdfdisatance-field-soft-shadows"><a class="markdownIt-Anchor" href="#sdfdisatance-field-soft-shadows"></a> <strong>SDF(Disatance field soft shadows)</strong></h1>
+<p><strong>有向距离场SDF</strong>：记录了空间中任何一点到定义该场的物体之间的最小距离。</p>
+<p><strong>背后的理论</strong>：optimal transport最优传输。</p>
+<h2 id="应用1ray-marching"><a class="markdownIt-Anchor" href="#应用1ray-marching"></a> 应用1：Ray Marching</h2>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2015.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>简述：将SDF距离作为安全距离，判断光线是否与物体相交，可以加速光线步进。</p>
+<p>详述：</p>
+<p>任意一点的SDF我们是已知的,因此在P0 点时,我们以它的SDF(P0)为半径做一个圆(此处假设在2D内,如果在3D内则是一个球),在这个圆内无论是哪个方向前进,只要不超过半径距离,都不会碰见物体,是安全的.</p>
+<p>因此我们可以利用这个特性不断的朝一个方向前进,以P0开始朝一方向走SDF(P0)到达 P1 点,若仍与物体表面相距甚远,则以P1点为新起点继续走SDF(P1)到达 P2 点,假设此处 P2 点的SDF足够小,也就是代表离物体表面足够接近了,则进行求交操作.</p>
+<p>如果在超一方向trace非常远的距离但仍然什么都没trace到,此时就可以舍弃这条光线,也就是停止了.</p>
+<p>虚幻引擎中便使用了这种方法判断静态网格的表面：<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.1/en-US/mesh-distance-fields-in-unreal-engine/">Mesh Distance Fields in Unreal Engine | Unreal Engine 5.1 Documentation</a></p>
+<h2 id="应用2生成软阴影"><a class="markdownIt-Anchor" href="#应用2生成软阴影"></a> 应用2：生成软阴影</h2>
+<p>将安全距离的概念进行延伸，在任意一点通过sdf可以获得一个safe angle，即取点P为shading point往一方向打出一根光线,光线上的一点a,有一个SDF值SDF(a),也就是在a点以SDF(a)为半径所做的球或圆内是安全的,不会碰到物体.</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2016.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>把shading point和<strong>面光源</strong>相连，所得到的安全角度越小，被遮蔽的可能越高，就可以认为</p>
+<p><strong>safe angle越小，阴影越黑,越趋近于硬阴影;</strong></p>
+<p><strong>safe angle够大就视为不被遮挡没有阴影,也就越趋近于软阴影。</strong></p>
+<h3 id="具体步骤"><a class="markdownIt-Anchor" href="#具体步骤"></a> 具体步骤</h3>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2017.png" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>我们以o为起点,沿一个方向推进,仍然是ray marhcing的步骤,在p1点以SDF(p1)进行推进,其余点也是一样,此处主要是为了求safe angle,我们在起点o沿每个点的sdf为半径所形成的圆做切线,从而求出各个点的safe angle,我们最后再<strong>取其中最小的角度作为总的safe angle.</strong></p>
+</li>
+<li>
+<p>求safe angle的公式：以p1点为例,从o点到p1的距离为斜边,sdf(p1)是直角边,因此我们用arcsin就可以求出safe angle了.</p>
+</li>
+<li>
+<p>但是对于反函数计算对于计算机不友好，于是使用比值而不是比值的arcsin来描述safe angle的大小，然后引入一个系数k（k的大小是控制阴影的软硬程度）即可</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2018.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>SDF是一个快速的高质量的软阴影生成方法(比shadow map快是忽略了SDF生成的时间),但是在存储上的消耗非常大，而且生成SDF的花的时间也要很久，SDF是预计算，在有动态形变的物体的情况就得重新计算SDF。</p>
+<h1 id="概念补充"><a class="markdownIt-Anchor" href="#概念补充"></a> 概念补充</h1>
+<h2 id="sat"><a class="markdownIt-Anchor" href="#sat"></a> SAT</h2>
+<p>SAT是百分百准确的一个数据结构。</p>
+<p>SAT的出现是为了解决范围查询(在区域内快速得到平均值),并且,范围内求平均值是等价于范围内求和的,毕竟总和除以个数=平均值.</p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2019.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2020.png" srcset="/img/loading.gif" lazyload alt></p>
+<h2 id="mipmap"><a class="markdownIt-Anchor" href="#mipmap"></a> MIPMAP</h2>
+<p><img src="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/Untitled%2021.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>是一个<strong>快速的,近似的,正方形的范围查询</strong>,由于它要做插值,因此即便是方形有时也会不准确.同时当插值的范围不是2的次方时，也就是在两个MIPMAP之间时，还要再进行一次插值，也就是“三线性插值”，这样会让结果更加不准确,因此局限性太大且准确度也不算高.</p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=2">Lecture2 Recap of CG Basics_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=3">Lecture3 Real-time Shadows 1_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1YK4y1T7yY?p=4">Lecture4 Real-time Shadows 2_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363355018">GAMES202 高质量实时渲染课程笔记Lecture 2: Recap of CG Basics - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363355909">GAMES202 Real-Time High Quality Rendrting 高质量实时渲染课程笔记Lecture 3: Shadow 01 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363357318">GAMES202 Real-Time High Quality Rendrting 高质量实时渲染课程笔记Lecture 4: Shadow 02 - 知乎 (zhihu.com)</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES202/">GAMES202</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Theory/">Theory</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Games202-04实时环境映射</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/">
+                        <span class="hidden-mobile">Games202-02渲染管线简述</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

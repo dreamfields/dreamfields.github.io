@@ -1,0 +1,612 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="为什么需要分层架构？  为了将游戏引擎解耦并降低复杂度  每一层都将独立，底层提供基础服务，顶层无需知道底层的具体实现，也有利于开发与版本迭代。   为了响应不断变化的需求  顶层部分迭代迅速，底层部分保持稳定     游戏引擎的架构类似于一个城市的结构：自底向上分别为各种各样的能源（类似于平台层，有多种能源都需要使用），交通（类似于核心层，运输核心，效率至上），人口（类似于资源层，需要被合理调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02-引擎架构分层">
+<meta property="og:url" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="为什么需要分层架构？  为了将游戏引擎解耦并降低复杂度  每一层都将独立，底层提供基础服务，顶层无需知道底层的具体实现，也有利于开发与版本迭代。   为了响应不断变化的需求  顶层部分迭代迅速，底层部分保持稳定     游戏引擎的架构类似于一个城市的结构：自底向上分别为各种各样的能源（类似于平台层，有多种能源都需要使用），交通（类似于核心层，运输核心，效率至上），人口（类似于资源层，需要被合理调">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%201.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%202.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%203.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%204.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%205.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%206.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%207.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%208.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%209.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2010.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2011.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2012.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2013.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2014.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2015.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2016.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2017.png">
+<meta property="og:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2018.png">
+<meta property="article:published_time" content="2022-07-30T07:21:57.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:06.512Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled.png">
+  
+  <title>02-引擎架构分层 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="02-引擎架构分层">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-07-30 15:21" pubdate>
+        2022年7月30日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">02-引擎架构分层</h1>
+            
+            <div class="markdown-body">
+              <h1 id="为什么需要分层架构"><a class="markdownIt-Anchor" href="#为什么需要分层架构"></a> <strong>为什么需要分层架构？</strong></h1>
+<ul>
+<li>为了将游戏引擎解耦并降低复杂度
+<ul>
+<li>每一层都将独立，底层提供基础服务，顶层无需知道底层的具体实现，也有利于开发与版本迭代。</li>
+</ul>
+</li>
+<li>为了响应不断变化的需求
+<ul>
+<li>顶层部分迭代迅速，底层部分保持稳定</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>游戏引擎的架构类似于一个城市的结构：自底向上分别为各种各样的能源（类似于平台层，有多种能源都需要使用），交通（类似于核心层，运输核心，效率至上），人口（类似于资源层，需要被合理调配），信息系统（类似于功能层，有无数的信息系统可供使用，并且在不断迭代进化），建筑（类似于工具层，人们依托不同的建筑里做各种各样的事情）</p>
+<h1 id="引擎分层架构简介"><a class="markdownIt-Anchor" href="#引擎分层架构简介"></a> 引擎分层架构简介</h1>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%201.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>游戏引擎主要包括 5 个架构分层以及第三方库，下面将自顶向下介绍这些架构分层（工具层、功能层、资源层、核心层、平台层）。</p>
+<h2 id="工具层-tool-layer"><a class="markdownIt-Anchor" href="#工具层-tool-layer"></a> 工具层 Tool Layer</h2>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%202.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>通过在引擎编辑器中进行简单的 GUI 操作，即可实现游戏功能（设计关卡、动画等），这一层被称为<strong>工具层</strong>，也是接触引擎时最直观、最直接交互的层级，也是释放创造力的地方。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%203.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>工具层通常以编辑器的形式存在，可用多种编程语言，开发效率优先，更加强调用户的便捷性。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%204.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>DCC——数字内容创作。由于很多游戏资源是在 Maya、3ds Max、Houdini 等 DCC 中完成的，工具层通常包含导入、导出器用于导入、导出游戏资源。简单说来，就是别人用工具开发的数字资产通过引擎进入游戏中。</p>
+<h2 id="功能层-function-layer"><a class="markdownIt-Anchor" href="#功能层-function-layer"></a> <strong>功能层 Function Layer</strong></h2>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%205.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h3 id="一些基本功能"><a class="markdownIt-Anchor" href="#一些基本功能"></a> 一些基本功能</h3>
+<ul>
+<li>为了使游戏呈现在屏幕上，需要渲染系统对虚拟世界进行渲染。</li>
+<li>动画系统将艺术家设计的动作动画在引擎中进行组合、过渡，让游戏人物在游戏动起来。</li>
+<li>逼真的虚拟世界也离不开物理，物理系统将使用刚体、软体、流体等去表达世界，使得人与人、人与物不会发生碰撞。</li>
+<li>游戏中的玩法以及 NPC 人物，也都离不开脚本、事件、AI 系统等。</li>
+<li>为了实现游戏中的人机交互，还需要与输入、输出设备连接。</li>
+</ul>
+<h3 id="关键点-1tick"><a class="markdownIt-Anchor" href="#关键点-1tick"></a> 关键点 1——tick</h3>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%206.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>功能层将使得整个虚拟世界变得栩栩如生：每隔<code>tick</code>时间，分别执行逻辑与绘制——<code>tickLogic</code>与<code>tickRender</code>。<code>tickLogic</code>主要用于模拟世界，包括处理输入输出，计算物理并进行碰撞检测等；<code>tickRender</code>将<code>tickLogic</code>计算的结果（人物位置等）进行绘制。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%207.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p><strong>每一个 tick 中(过于简化状态下)</strong></p>
+<ul>
+<li><strong>获取角色的动画帧</strong></li>
+<li>驱动角色<strong>的骨架和皮肤</strong></li>
+<li><strong>渲染器处理每一帧的 render tick 的迭代中的所有渲染工作</strong></li>
+</ul>
+<h3 id="关键点-2复杂性"><a class="markdownIt-Anchor" href="#关键点-2复杂性"></a> 关键点 2——复杂性</h3>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%208.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>功能层非常复杂、庞大，提供了游戏引擎中大部分功能模块，但哪些功能属于游戏，哪些功能属于引擎，界限不明确。</p>
+<h3 id="关键点-3多线程"><a class="markdownIt-Anchor" href="#关键点-3多线程"></a> 关键点 3——多线程</h3>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%209.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>考虑到功能层需要实现大量功能并对运行时间存在要求，功能层复杂性高，并通常需要借助多线程计算。</p>
+<p>现代计算机 CPU 通常有多个核心，主流引擎将拆分适合并行计算的任务，分配到多个线程运算，但一些计算互相依赖，不适用于并行执行。在未来，引擎将所有任务变为原子计算，将任务分配到每个核上。</p>
+<h2 id="资源层-resource-layer"><a class="markdownIt-Anchor" href="#资源层-resource-layer"></a> <strong>资源层 Resource Layer</strong></h2>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2010.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>游戏引擎中通常包含大量数据和文件，这些文件通常以不同的形式存在，上万、上十万的数据文件由<strong>资源层</strong>进行加载与管理。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2011.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>如 psd 格式将保存 Photoshop 中所有的图层，包含通道、参考线、注解和颜色模式等信息。为了避免在使用资源时频繁调度并减少不必要的内存消耗，在导入资源时进行转换，将不同资源（纹理、模型几何、动画等）都转换为资产文件，即 assest 文件*（.ast）*。</p>
+<p>对于引擎中最常使用的贴图数据，可使用 png、jpg 格式进行存储，上述格式对应相应的压缩算法，但这些压缩算法不是 GPU 高效的算法，直接在 GPU 中使用会浪费性能，通常在引擎中被转换成 dds 格式。</p>
+<p>dds 格式针对纹理设计，支持很多其他图像格式不支持的功能，如 Mipmap 等。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2012.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>对于一个游戏人物，可能需要绑定网格、动画、贴图、材质等资源，定义 Composite asset 文件（如 XML）关联不同资源，并使用 Guid 唯一识别号对资产进行管理。</p>
+<p>在游戏实际运行时，需要使用<strong>资产管理器*（Asset Manager）<em><strong>根据</strong>资产生命周期</em>（Asset Life Cycle）</strong>*<br>
+对资产进行管理，包括资产实时加载卸载、资源池分配、垃圾回收与延迟加载等。</p>
+<h2 id="核心层-core-layer"><a class="markdownIt-Anchor" href="#核心层-core-layer"></a> <strong>核心层 Core Layer</strong></h2>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2013.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>工具层、功能层、资源层会频繁调用底层代码，使用容器创建、内存分配、数学库、多线程等底层功能，而<strong>核心层</strong>能够提供上述功能。核心层是游戏引擎的基础，提供各种功能模块所需的工具，包括数学库、数据结构与容器、内存管理等。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2014.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>对于数学库，当前已有很多成熟的第三方库，例如 Eigen。但游戏引擎需要为效率服务，可使用<strong>近似计算</strong>或者**SIMD（单指令多数据流，可并行处理多个数据的指令）**提高运算效率。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2015.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>对于数据结构与容器，编程语言中的数据结构可能不满足要求，比如 C++一些标准实现会产生内存空洞，引擎中实现的数据结构更加方便内存管理，提高访问效率。</p>
+<p>对于内存管理，引擎内存管理与操作系统类似，内存性能瓶颈主要在内存池（分配器）、缓存缺失、内存对齐等。</p>
+<h2 id="平台层-platform-layer"><a class="markdownIt-Anchor" href="#平台层-platform-layer"></a> <strong>平台层 Platform Layer</strong></h2>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2016.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>在游戏引擎中最容易被忽略的是平台层，引擎或者游戏需要发布在不同平台上，可能需要使用不同的图形 API。此外，用户使用的输入设备、硬件设备可能也完全不同，这都需要平台层进行处理。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2017.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>平台层使得游戏能兼容不同平台、不同硬件设备，为上层提供平台无关的服务和信息。对于图形 API（如 OpenGL、DirectX、Vulkan 等），平台层需要使用 RHI（Render Hardware Interface）去除不同 API 的差异，上层使用时无需关心渲染使用的是何种 API。</p>
+<h2 id="第三方库"><a class="markdownIt-Anchor" href="#第三方库"></a> <strong>第三方库</strong></h2>
+<p>第三方库或者中间件通过 SDK 的形式或者通过文件格式转化。</p>
+<p><img src="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/Untitled%2018.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<ol>
+<li>游戏引擎被设计为分层结构</li>
+<li>在引擎的分层结构中，越往上，越灵活；越往下，越稳定</li>
+<li>虚拟世界由一系列 tick 时间组成</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES104/">GAMES104</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/10/03-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">03-如何构建游戏世界</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/">
+                        <span class="hidden-mobile">01-现代游戏引擎导论</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

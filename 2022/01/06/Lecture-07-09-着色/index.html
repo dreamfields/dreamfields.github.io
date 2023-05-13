@@ -1,0 +1,765 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="深度缓冲与着色   思路与算法：在绘制最终的图像同时，绘制深度图，记录每个像素距离相机最近的深度值      着色 Shading  对不同的物体应用不同的材质的过程（不同的材质就是不同的着色方法）   漫反射   漫反射与人眼位置无关，从各个方向看上去亮度均相同，公式中也可以反映出来。    其中，Kd 表示漫反射系数，0 为完全不反射，1 为镜面反射。可以使用一个颜色向量值来表示该点反射出的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lecture 07-09 着色">
+<meta property="og:url" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="深度缓冲与着色   思路与算法：在绘制最终的图像同时，绘制深度图，记录每个像素距离相机最近的深度值      着色 Shading  对不同的物体应用不同的材质的过程（不同的材质就是不同的着色方法）   漫反射   漫反射与人眼位置无关，从各个方向看上去亮度均相同，公式中也可以反映出来。    其中，Kd 表示漫反射系数，0 为完全不反射，1 为镜面反射。可以使用一个颜色向量值来表示该点反射出的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/885605b7-fa53-4251-801b-abc5e1dd54a3-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/9ba89a84-9af3-45cf-86c0-1d4b80765924-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529163944.png">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529171316.png">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529171404.png">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529171431.png">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220530093749.png">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220530093930.png">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220530093951.png">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/d6369dca-3917-4cbf-958d-f1ca1a10e58d-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/c33119a5-bd24-4b62-992d-aab9af40546a-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/13eff49a-6d7e-4282-bce5-b6c645bc45b6-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/fd247a7b-20a3-4364-b4f8-a5589ab5efb2-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/dc915635-f15f-467a-93cf-4c3fdb24cc8e-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/b6a30e8c-fce6-47b6-bb14-bca0a5dfb44d-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/9f87a3c3-d840-483d-b3d8-66dd5df0dfc8-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/aacbafb2-25b5-4f68-b510-2ecf4ff175a4-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/d8ab277e-341c-4975-b72b-84428cc81159-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/00e56316-69c7-4f3e-9287-5c161b68d53b-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/10a8e5e2-135b-4982-b8d5-576ae0af7c25-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/e6846262-5bfc-4528-9477-f50b49decc05-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/df959a07-ad93-4529-b7b0-dfd17ee8b3a4-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/15f78112-fa47-4662-b969-e8d3e80a3108-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/82604133-9408-4d05-a820-4d8d21022015-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/f89bdc6f-1b36-45ec-b54d-364b79ed708a-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/eaa66795-188d-4d03-94c4-89b08c1d3398-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/fe60eddd-d3a7-4d04-a0eb-a5d8be7d6b05-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/a8c244a4-2543-4d87-bf82-582f7b1e3bdc-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/f189f5db-db71-4bc9-a4bf-2d0e2739a254-11709514.jpg">
+<meta property="article:published_time" content="2022-01-06T14:05:54.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.339Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/885605b7-fa53-4251-801b-abc5e1dd54a3-11709514.jpg">
+  
+  <title>Lecture 07-09 着色 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Lecture 07-09 着色">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-06 22:05" pubdate>
+        2022年1月6日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Lecture 07-09 着色</h1>
+            
+            <div class="markdown-body">
+              <h1 id="深度缓冲与着色"><a class="markdownIt-Anchor" href="#深度缓冲与着色"></a> <a target="_blank" rel="noopener" href="https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_07.pdf">深度缓冲与着色</a></h1>
+<ul>
+<li>
+<p>思路与算法：在绘制最终的图像同时，绘制深度图，记录每个像素距离相机最近的深度值</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/885605b7-fa53-4251-801b-abc5e1dd54a3-11709514.jpg" srcset="/img/loading.gif" lazyload alt><br>
+<img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/9ba89a84-9af3-45cf-86c0-1d4b80765924-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+<h1 id="着色-shading"><a class="markdownIt-Anchor" href="#着色-shading"></a> 着色 Shading</h1>
+<ul>
+<li><strong>对不同的物体应用不同的材质的过程（不同的材质就是不同的着色方法）</strong></li>
+</ul>
+<h3 id="漫反射"><a class="markdownIt-Anchor" href="#漫反射"></a> 漫反射</h3>
+<ul>
+<li>
+<p>漫反射与人眼位置无关，从各个方向看上去亮度均相同，公式中也可以反映出来。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529163944.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>其中，Kd 表示漫反射系数，0 为完全不反射，1 为镜面反射。可以使用一个颜色向量值来表示该点反射出的光线的颜色</p>
+</li>
+</ul>
+<h3 id="高光"><a class="markdownIt-Anchor" href="#高光"></a> <a target="_blank" rel="noopener" href="https://sites.cs.ucsb.edu/~lingqi/teaching/resources/GAMES101_Lecture_08.pdf">高光</a></h3>
+<ul>
+<li>
+<p>当眼睛的方向和镜面反射光线的方向较为接近时可以看到，即下图的 R 与 v 接近</p>
+</li>
+<li>
+<p>Blinn-Phong 模型：将“R 与 v 接近”转换为“半程向量 h 与法向量 n 接近”<br>
+<img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529171316.png" srcset="/img/loading.gif" lazyload alt><br>
+<img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529171404.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>上图的指数 p 表示高光系数，原因：余弦函数对角度的容忍度较高，而期望的效果是高光集中在很小的范围内，因此对其进行指数操作。p 一般取 100~200。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220529171431.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+<h3 id="环境光"><a class="markdownIt-Anchor" href="#环境光"></a> 环境光</h3>
+<ul>
+<li>来自四面八方的反射光线，极为复杂，因此假设（简化后）：环境光来自所有方向，且强度相同，颜色相同。与实际光线方向和眼睛的方向无关，设为一个常数。实际上要计算真实环境光需要用到全局光照的部分。</li>
+</ul>
+<h3 id="blinn-phong-反射模型"><a class="markdownIt-Anchor" href="#blinn-phong-反射模型"></a> Blinn-Phong 反射模型</h3>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220530093749.png" srcset="/img/loading.gif" lazyload alt></p>
+<h3 id="着色频率"><a class="markdownIt-Anchor" href="#着色频率"></a> 着色频率</h3>
+<ul>
+<li>
+<p>通俗理解：将着色应用到哪些点上</p>
+</li>
+<li>
+<p>着色频率的分类</p>
+<ul>
+<li>
+<p>Flat shading（对每个三角形求一个法向量，对应只有一个颜色，对光滑表面效果较差）</p>
+</li>
+<li>
+<p>Gouraud shading（对每个顶点求法向量，三角形内部利用插值进行着色）。顶点的法向量，可以对其相邻接的三角形的各个法向量求加权平均，权重可以设置为该三角形的面积。<br>
+<img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220530093930.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>Phong shading（对每个三角形，得到三个顶点的法向量，从而插值出三角形内部每个像素的法向量，然后对每个像素进行一次着色）</p>
+</li>
+</ul>
+</li>
+<li>
+<p>当顶点足够多、模型足够复杂时，就可以使用比较简单的着色频率，效果可以接收。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/20220530093951.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+<h1 id="图形管线实时渲染管线"><a class="markdownIt-Anchor" href="#图形管线实时渲染管线"></a> 图形管线（实时渲染管线）</h1>
+<ul>
+<li>
+<p>通俗理解：从场景到一张图片所经历的整个过程的不同操作</p>
+</li>
+<li>
+<p>OpenGL 中的 Fragment（片段）可以理解为像素。该过程已经在硬件中写好，即 GPU 的渲染过程。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/d6369dca-3917-4cbf-958d-f1ca1a10e58d-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>顶点处理的作用是指对所有的顶点数据进行 Model，View，和 Projection 的变换，最终得到投影到二维平面的坐标信息(同时为了 Zbuffer 保留深度 z 值)。当然如果超出观察空间的会被剪裁掉。</p>
+</li>
+<li>
+<p>三角形处理就是将所有的顶点按照原几何信息，变成三角面，每个面由 3 个顶点组成。得到了许许多多个三角形之后，接下来的操作自然就是三角形光栅化。</p>
+</li>
+<li>
+<p>在进行完三角形的光栅化之后，知道了哪些在三角形内的点可以被显示，那么如何确定每个像素点或者说片元(Fragement)的颜色呢？[注：片元可能比像素更小，如 MSAA 抗拒齿操作的进一步细分得到的采样点]。那自然就是着色了，也就是片元处理阶段应该做的。</p>
+</li>
+<li>
+<p>着色部分在顶点和像素处理过程都可能发生，关键看着色频率的方法。如果是 Gouraud shading，仅在顶点进行着色；如果是 Phong shading，则会在像素生成之后进行着色。因此，着色的关键在于——顶点或者像素（片段）如何着色，该部分的程序即为着色器（定义了一个顶点或者像素该执行什么操作，且只执行一次）。在现代的 GPU 中，该套渲染管线允许某些部分是可编程的。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/c33119a5-bd24-4b62-992d-aab9af40546a-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>Framebuffer 的操作，就是将所有的像素颜色信息整合在一起，输送给显示设备加以显示。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="纹理"><a class="markdownIt-Anchor" href="#纹理"></a> 纹理</h1>
+<h2 id="规定"><a class="markdownIt-Anchor" href="#规定"></a> 规定</h2>
+<ul>
+<li>假设三维物体中的坐标可以映射到二维纹理图片的坐标（参数化）</li>
+<li>对于二维的纹理图片（不考虑像素和长宽），其 u、v 均在（0，1）范围内</li>
+</ul>
+<h2 id="重心坐标"><a class="markdownIt-Anchor" href="#重心坐标"></a> 重心坐标</h2>
+<ul>
+<li>
+<p>针对顶点的任意属性（如纹理坐标、颜色、法向量、深度等）做三角形内部的插值</p>
+</li>
+<li>
+<p>重心坐标定义在一个三角形中，如果某个点在三角形内部，这三个值（α、β、γ）均为非负，且和为 1。三个值（α、β、γ）可以用面积求得，也可以利用三个顶点的坐标公式求得。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/13eff49a-6d7e-4282-bce5-b6c645bc45b6-11709514.jpg" srcset="/img/loading.gif" lazyload alt><br>
+<img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/fd247a7b-20a3-4364-b4f8-a5589ab5efb2-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>详细的推导： <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/361943207">直线与三角形的重心坐标（Barycentric Coordinates）的推导与应用</a></p>
+</li>
+<li>
+<p>插值应该在三维物体投影到二维平面之前做，因为重心坐标不能保证投影后插值得到的属性值不变。如果插值在投影到二维平面之后做，就需要进行一个矫正操作——<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/144331875">透视矫正插值</a>。</p>
+</li>
+</ul>
+<h2 id="存在的问题"><a class="markdownIt-Anchor" href="#存在的问题"></a> 存在的问题</h2>
+<ul>
+<li>
+<p>如果屏幕分辨率很大（如 4k），而纹理图片分辨率很小（如 256*256），那么会出现：屏幕与纹理图片上的点并不能一一对应，得到的是非整数的纹理坐标。解决方法：</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/dc915635-f15f-467a-93cf-4c3fdb24cc8e-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>Nearest：取整，相当于屏幕的多个点（像素）对应了纹理图片的一个像素</p>
+</li>
+<li>
+<p>Bilinear：双线性插值。红点的来源：三维物体中三角面片内部的某一点，经过插值得到一个点，再经过投影变换到屏幕上，再经过映射得到纹理坐标，即该红点。双线性插值经历了两次水平方向的插值，一次竖直方向的插值，最终得到一个平滑的纹理的像素值。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/b6a30e8c-fce6-47b6-bb14-bca0a5dfb44d-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>Bicubic：双三次插值，对周围的 16 个纹理坐标进行插值得到像素值。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>相反，如果屏幕分辨率很小，而纹理图片分辨率很大，那么会出现一个屏幕像素点对应了多个纹理像素点，即覆盖了大块的包含图案变化的纹理区域，便出现走样（屏幕的采样频率跟不上纹理的变化频率）。解决方法：</p>
+<ul>
+<li>
+<p>超采样：一个屏幕像素点分为多个采样点来对应纹理坐标，最后取平均值（有效果，开销过大）</p>
+</li>
+<li>
+<p>Mipmap 多级渐远纹理（利用范围查询的知识：给一个区域，立刻能够知道该区域内部纹理像素的平均值），只能做近似的正方形的范围查询。在渲染之前，提前计算纹理图的渐远纹理，存储空间仅为原图的 4/3。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/9f87a3c3-d840-483d-b3d8-66dd5df0dfc8-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>关键：计算某个屏幕像素应该映射到哪个 level（记为 D）的纹理上。将一个屏幕像素的临近点映射到 level 0 的纹理图上，估计该像素覆盖的一个正方形的边长 L，求以 2 为底的对数即可得到 D。如果 L=1，即一个屏幕像素对应 1 个原始纹理像素，利用原始纹理图即可，D=0；如果 L=4，即一个屏幕像素对应 4*4 个原始纹理像素，那么利用 D=2 的纹理图即可得到对应的 1 个纹理像素。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/aacbafb2-25b5-4f68-b510-2ecf4ff175a4-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>问题 1：如果 L 不是 2 的指数，可以对 D 取整，但很有可能得到的纹理映射结果出现断层。此时利用三线性（Trilinear）插值即可——L=3 时，分别计算 D=1 和 D=2 的双线性插值结果后，再计算两个结果的线性插值。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/d8ab277e-341c-4975-b72b-84428cc81159-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>问题 2：过度模糊（Overblur）问题，在远处无法得到清晰的纹理映射。原因在于，屏幕上的一个像素映射到纹理坐标，可能覆盖了多个纹理像素，此时查询多级渐远纹理后只对应了一个平均的纹理像素值，就产生了模糊。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/00e56316-69c7-4f3e-9287-5c161b68d53b-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>解决方法</p>
+<ul>
+<li>
+<p>各向异性过滤（Anisotropic Filtering，或 Ripmap），将纹理像素的长和宽分别压缩与同时压缩，耗费了原始纹理像素的 3 倍存储空间，那么对于上图右侧的矩形即可准确得到纹理映射。缺点在于：对于上图左侧的倾斜矩形，无法得到正确的结果。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/10a8e5e2-135b-4982-b8d5-576ae0af7c25-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>EWA 过滤，把一个覆盖到纹理像素的不规则形状拆分为多个圆形，执行多级查询，耗费时间，但效果较好。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/e6846262-5bfc-4528-9477-f50b49decc05-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="纹理应用技术"><a class="markdownIt-Anchor" href="#纹理应用技术"></a> 纹理应用技术</h2>
+<ul>
+<li>
+<p>现代计算机 GPU 中，可以把纹理理解为一块内存，以及可以在这块内存中进行范围查询，即 texture = memory + range query (filtering)</p>
+</li>
+<li>
+<p>环境映射（Environment Mapping）。为了实现接受环境光的效果，我们可以用一个贴图来存放环境光信息，即 环境贴图（Environment Map） 或 反射贴图（Reflection Map），在给物体着色的时候不仅采样普通纹理，也采样环境贴图，按一定比例混合这两者的颜色（例如物体材质越光滑，镜面反射效果越强）。即用纹理描述环境光的样子，从而用该纹理去渲染物体。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/df959a07-ad93-4529-b7b0-dfd17ee8b3a4-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>球面环境贴图（Spherical Environment Map）。把环境光记录到球面上，并展开，但会出现扭曲现象。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/15f78112-fa47-4662-b969-e8d3e80a3108-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>解决球面环境贴图扭曲现象的办法——立方体贴图（Cube Map）。设置一个包围盒，将球面上的点延长交于包围盒，并展开。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/82604133-9408-4d05-a820-4d8d21022015-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>凹凸贴图（Bump Mapping）。通过改变表面各点的相对高度，使本来是平的东西看起来有凹凸的效果，是一种欺骗眼睛的技术（因为物体结构并没有发生改变）。例如这个球看起来凹凸不平，实际它的几何结构就是光滑的球，只是通过凹凸贴图改变了各像素点的法线方向，从而导致光照结果不一，产生出凹凸不平的视觉效果。即不把几何形体变复杂的情况下，可以通过应用复杂的纹理定义相对高度，从而法线会发生变化。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/f89bdc6f-1b36-45ec-b54d-364b79ed708a-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>
+<p>首先，凹凸贴图是在不增加三角面片的情况下增加表面细节来实现的。黑色的线是真实的表面，黄色的线是通过凹凸贴图定义的，那么其法向量原本是 p，改变为 n</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/eaa66795-188d-4d03-94c4-89b08c1d3398-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>下图展示的是二维情况下的法向量改变的过程：先假设某一点 p 的局部法向量 n（p），计算该点处在凹凸贴图上的切线，求其垂直向量。之后推广到三维情况即可，需要注意的是：真实模型中某一点 p 的法向量不一定是朝向 z 的，但假设在该局部是这样，计算好改变后的法向量后需要通过变换才能得到真实的改变了的法向量。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/fe60eddd-d3a7-4d04-a0eb-a5d8be7d6b05-11709514.jpg" srcset="/img/loading.gif" lazyload alt><br>
+<img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/a8c244a4-2543-4d87-bf82-582f7b1e3bdc-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+<li>
+<p>位移贴图（Displacement mapping），需要三角形足够细致，否则还会出现走样问题。但在 DirectX 中可以根据需要将三角形进行细分，从而避免该问题。</p>
+<p><img src="/2022/01/06/Lecture-07-09-%E7%9D%80%E8%89%B2/f189f5db-db71-4bc9-a4bf-2d0e2739a254-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p>除此之外，还有三维纹理、环境光遮蔽、医学体渲染等纹理应用。可以参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/KillerAery/p/15106770.html#%E7%BA%B9%E7%90%86%E5%BA%94%E7%94%A8%E6%8A%80%E6%9C%AF%EF%BC%88texture-application%EF%BC%89">纹理映射技术</a></p>
+</li>
+</ul>
+<h1 id="阴影"><a class="markdownIt-Anchor" href="#阴影"></a> 阴影</h1>
+<ul>
+<li>这里考虑点光源产生的阴影，只有两种情况：在阴影中和不在阴影中（硬阴影）。如果是软阴影，则光源一定有大小。</li>
+<li><strong>关键——人眼和光源能够同时看到该点，就不在阴影中。</strong></li>
+<li>step1：假设光源前有一个屏幕，从光源看场景，记录每个点到光源屏幕的深度，得到一张深度图</li>
+<li>step2：从人眼（相机）看物体的每个点，再投影到光源处，计算该点到光源的深度，如果等于 step1 中计算的深度，就表示不在阴影中。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES101/">GAMES101</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Theory/">Theory</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/11/Lecture-10-12-%E5%87%A0%E4%BD%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lecture 10-12 几何（曲面细分、减面）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/27/Lecture-06-%E5%8F%8D%E8%B5%B0%E6%A0%B7/">
+                        <span class="hidden-mobile">Lecture 06 反走样</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

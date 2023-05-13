@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="来自官方的Content Example -&gt; Maps -&gt; Niagara_Advanced_Particles 部分参考：   Niagara Advance 笔记 - 知乎 (zhihu.com)   UE4 Niagara源码解析 - 知乎 (zhihu.com)    操作  脚本模块的重命名需要连续三次单击才能重命名  1.1 FillRenderTarget UE5 N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Niagara Advance-官方用例学习">
+<meta property="og:url" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="来自官方的Content Example -&gt; Maps -&gt; Niagara_Advanced_Particles 部分参考：   Niagara Advance 笔记 - 知乎 (zhihu.com)   UE4 Niagara源码解析 - 知乎 (zhihu.com)    操作  脚本模块的重命名需要连续三次单击才能重命名  1.1 FillRenderTarget UE5 N">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%201.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%202.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%203.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%204.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%205.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%206.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%207.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%208.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%209.png">
+<meta property="og:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%2010.png">
+<meta property="article:published_time" content="2023-04-10T01:56:31.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.527Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="Unreal">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled.png">
+  
+  <title>Niagara Advance-官方用例学习 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Niagara Advance-官方用例学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-04-10 09:56" pubdate>
+        2023年4月10日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      16k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      49 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Niagara Advance-官方用例学习</h1>
+            
+            <div class="markdown-body">
+              <p>来自官方的<code>Content Example -&gt; Maps -&gt; Niagara_Advanced_Particles</code></p>
+<p>部分参考：</p>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/614315995">Niagara Advance 笔记 - 知乎 (zhihu.com)</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/362638250">UE4 Niagara源码解析 - 知乎 (zhihu.com)</a></p>
+</li>
+</ul>
+<h1 id="操作"><a class="markdownIt-Anchor" href="#操作"></a> 操作</h1>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>脚本模块的重命名需要连续三次单击才能重命名</p>
+<h1 id="11-fillrendertarget"><a class="markdownIt-Anchor" href="#11-fillrendertarget"></a> 1.1 FillRenderTarget</h1>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/509101203">UE5 Niagara_Render Target 2D笔记 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/333783850">1.1-1.2 Simulation Stage 和 Grid2dCollection - 知乎 (zhihu.com)</a></p>
+<p>整个发射器是下面这个样子，注意常规模拟阶段设置。其中Data Interface（数据接口，是所有中间数据结构的统称），用来从上到下转递数据的中间结构，即存储上一个模块的迭代结果，给下一个模块或者之后使用。</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%201.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>Fill Texture to RenderTarget模块如下：</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%202.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>注意节点内部的引脚连接：</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%203.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>注意修改渲染器的源模式：</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%204.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>系统BUG：每次写完暂存区脚本后，需要关闭整个粒子系统的文件，关之前会提示是否应用，之后再打开才能看见报错信息，并且也会显示暂存区脚本在系统总览的输入选项。</p>
+<h1 id="12-advectgrid"><a class="markdownIt-Anchor" href="#12-advectgrid"></a> 1.2 AdvectGrid</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xcinkey/article/details/117450602">Niagara_Advanced  1.2 Advect Grid 2D Collection_niagara grid2d</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/333783850">1.1-1.2 Simulation Stage 和 Grid2dCollection - 知乎 (zhihu.com)</a></p>
+<p><strong>Grid2D Collection</strong>——是一段缓冲区数组，用来作属性的“缓冲”。Render Target 2D可以认为是一个2维的数组，数组内存着的是一个又一个对应位置的颜色数据。Grid2D Collection是它的超集，即Grid2D Collection也是这样一个数组，其内存着的可以是颜色数据，也可以是其他类型数据，这些数据可以供你模拟，变换等，但是如果希望输出（显示），还是得借助Render Target（所以才说Grid2D Collection是数据的缓冲区）。</p>
+<p><strong>StackContent</strong>——参考【<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342315125">UE4：Niagara的变量与HLSL - 知乎 (zhihu.com)</a>】，说白了这就是个懒人命名空间，各个阶段都能用。当你有一些各层级实体都可能具备的一些属性，不想每个命名空间都分别创建这些同名变量，不想随着算法的迭代去调整到底哪个命名空间应该保留这个变量时，就可以使用StackContext命名空间。</p>
+<p>1.1中的流程为：Texture -&gt; RenderTarget2D。</p>
+<p>1.2中只是多了一个步骤：Texture -&gt; Grid2DCollection -&gt; RenderTarget2D。</p>
+<ul>
+<li>Fill Grid with Texture阶段将Texture拿到的数据存到Grid2D Collection里，该阶段的常规模拟阶段设置中，Data Interface（数据接口，是所有中间数据结构的统称）必须是所利用的Grid2DCollection，否则StackContent所填充的数据并不是到Grid2DCollection。</li>
+<li>OperateGrid（示例中的Advect Grid阶段）对Grid里的数据做一些运算从而获得流动的效果。</li>
+<li>Fill Render Target with Grid阶段将Grid2D Collection里的数据写入Render Target里以最终显示出来。</li>
+</ul>
+<h2 id="问题与解决"><a class="markdownIt-Anchor" href="#问题与解决"></a> 问题与解决</h2>
+<p>UE 5.1中找不到对Grid2D Collection的num cell设置，网上的方案在5.1里也找不到：<a target="_blank" rel="noopener" href="https://forums.unrealengine.com/t/grid2d-collection-no-cellnums-setting-shown-in-ue5-niagara/531971">Grid2d collection no cellnums setting shown in ue5 niagara - Asset Creation / FX - Epic Developer Community Forums (unrealengine.com)</a></p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%205.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>下面是官方用例的Grid2D Collection预览效果</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%206.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>我通过那个论坛提问了一下，果然回复我了，其实就是要下载插件：</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%207.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>然后在Emitter Update中添加模块，取消勾选”Only Library“就能搜到。</p>
+<h1 id="16-distance-field-traversal"><a class="markdownIt-Anchor" href="#16-distance-field-traversal"></a> <strong><strong>1.6 Distance Field Traversal</strong></strong></h1>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/614315995">Niagara Advance 笔记 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/351610683">1.6 Distance Field Traversal （一） - 知乎 (zhihu.com)</a></p>
+<h1 id="31-color-copy-by-cell"><a class="markdownIt-Anchor" href="#31-color-copy-by-cell"></a> <strong>3.1 Color Copy by Cell</strong></h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/589478561">UE5.1 Niagara Advance 案例理解分析 3.1 - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/344191067">3.1 Neighbor Grid 3D - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://alicormack.com/spatial-hashing-in-unreals-niagara-with-neighbor-grid-3d/">Spatial Hashing in Unreal’s Niagara with Neighbor Grid 3D – AliCormack</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350347223">UE4：Niagara中的Ribbon - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/395801716">Niagara Neighbor Grid 3D 相关节点的解读 和原理（一） - 知乎 (zhihu.com)</a></li>
+</ul>
+<p>整体效果与思路：利用neighbor grid3D实现粒子快速查询，使得大粒子在生成之后填入neighbor grid3D，之后生成的小粒子通过当前所在位置来查询neighbor grid3D存储的最近的大粒子索引，从而获得其颜色。</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%208.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><strong>Neighbir Grid是先将空间划分为N<em>N</em>N个子空间（Cell）。其中：每个子空间有”Max Neighbor Per Cell“个单位存储一个Int数据（通常用于记录粒子Index），表示每个子空间所能存储信息的最大数量</strong>。</p>
+<p>在Grid中并没有存储任何粒子的属性信息,，而只是用来“加速”的，最终他起到的作用就能够通过：粒子位置-在网格中的索引(NeighborIndex)-粒子的索引(Index)产生联系，给出从属粒子位置就能得到leader粒子的另外两个索引，而Attribute Reader正是通过粒子的Index读取粒子属性的，这样就能通过空间划分的方式来快速查找粒子进行属性相关计算。</p>
+<p>下面解析实现方法：</p>
+<ol>
+<li>整体的发射器由三部分构成：
+<ol>
+<li>Visualize_Grid3D：neighbor grid 3D的条带渲染可视化</li>
+<li>GridWrite：neighbor grid 3D的信息写入，负责生成大粒子并写入neighbor grid 3D</li>
+<li>GridRead：负责生成小粒子并查询neighbor grid 3D来改变颜色</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%209.png" srcset="/img/loading.gif" lazyload alt></p>
+<ol>
+<li>FillNeighborGrid3D模块中的hlsl代码</li>
+</ol>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-comment">// 每一个粒子都会执行该代码</span><br>IsAddedToGrid = <span class="hljs-literal">false</span>;<br><br><span class="hljs-meta">#if GPU_SIMULATION</span><br><br><span class="hljs-comment">// 从世界坐标位置转换到Grid网格的UV 0-1的单位空间的坐标</span><br>float3 UnitPos;<br>NeighborGrid.SimulationToUnit(Position, SimulationToUnit, UnitPos);<br><br><span class="hljs-comment">// 提取Neighbor Grid的Index，相当于把单位空间划分为NumCells.x* NumCells.y*NumCells.z个子空间</span><br><span class="hljs-comment">// 这个Index表示粒子所在的子空间的位置，可以理解为在x y z 方向上的第几个网格上</span><br>int3 Index;<br>NeighborGrid.UnitToIndex(UnitPos, Index.x,Index.y,Index.z);<br><br><span class="hljs-comment">// 判断这个粒子获取的子空间Index是有效的</span><br>int3 NumCells;<br>NeighborGrid.GetNumCells(NumCells.x, NumCells.y, NumCells.z);<br><br><span class="hljs-keyword">if</span> (Index.x &gt;= <span class="hljs-number">0</span> &amp;&amp; Index.x &lt; NumCells.x &amp;&amp; <br>    Index.y &gt;= <span class="hljs-number">0</span> &amp;&amp; Index.y &lt; NumCells.y &amp;&amp; <br>	Index.z &gt;= <span class="hljs-number">0</span> &amp;&amp; Index.z &lt; NumCells.z)<br>&#123;<br>    <span class="hljs-comment">// 根据子空间Index（位置，即三维索引）获取子空间的线性索引</span><br>    <span class="hljs-comment">// 源码如下：</span><br>    <span class="hljs-comment">// Out_Linear = In_IndexX + In_IndexY * &#123;NumVoxelsName&#125;.x + In_IndexZ * &#123;NumVoxelsName&#125;.x * &#123;NumVoxelsName&#125;.y;</span><br>    <span class="hljs-type">int</span> LinearIndex;<br>    NeighborGrid.IndexToLinear(Index.x, Index.y, Index.z, LinearIndex);<br><br>    <span class="hljs-comment">// 增加这个LinearIndex对应的子空间的 NeighborCount，即+1，表示当前子空间的存储信息多了一个。（该样例中表示当前子空间所能存储的粒子Index的数量）</span><br>    <span class="hljs-comment">// PreviousNeighborCount : 表示增量之前的Count</span><br>    <span class="hljs-type">int</span> PreviousNeighborCount;<br>    NeighborGrid.SetParticleNeighborCount(LinearIndex, <span class="hljs-number">1</span>, PreviousNeighborCount);<br><br>    <span class="hljs-comment">// Neighbir Grid是先将空间划分为N*N*N个子空间（Cell）。其中：每个子空间有”Max Neighbor Per Cell“个单位存储一个Int数据（通常用于记录粒子Index），</span><br>    <span class="hljs-comment">// 表示每个子空间所能存储信息的最大数量。</span><br>    <span class="hljs-type">int</span> MaxNeighborsPerCell;<br>    NeighborGrid.MaxNeighborsPerCell(MaxNeighborsPerCell);<br><br>    <span class="hljs-comment">// 不让该子空间的当前数量（存储的信息数量）超过MaxNeighborsPerCell</span><br>    <span class="hljs-comment">// 当网格还没有装满时，才会真正执行划分操作</span><br>    <span class="hljs-keyword">if</span> (PreviousNeighborCount &lt; MaxNeighborsPerCell)<br>    &#123;<br>        <span class="hljs-comment">// 判断当前粒子是否被加入Neighbor Grid</span><br>        IsAddedToGrid = <span class="hljs-literal">true</span>;<br><br>        <span class="hljs-comment">// 源码如下：</span><br>        <span class="hljs-comment">// Out_Linear = In_Neighbor </span><br>        <span class="hljs-comment">//                  + In_IndexX * &#123;MaxNeighborsPerVoxelName&#125; </span><br>        <span class="hljs-comment">//                  + In_IndexY * &#123;MaxNeighborsPerVoxelName&#125;*&#123;NumVoxelsName&#125;.x </span><br>        <span class="hljs-comment">//                  + In_IndexZ * &#123;MaxNeighborsPerVoxelName&#125;*&#123;NumVoxelsName&#125;.x*&#123;NumVoxelsName&#125;.y</span><br>        <span class="hljs-comment">// 计算的是：这个粒子在当前子空间的下标In_Neighbor，范围应该是[0,MaxNeighborsPerCell），放到整个Grid空间下的一维下标</span><br>        <span class="hljs-comment">// PreviousNeighborCount : 表示增量之前的Count</span><br>        <span class="hljs-type">int</span> NeighborGridLinear;<br>        NeighborGrid.NeighborGridIndexToLinear(Index.x, Index.y, Index.z, PreviousNeighborCount, NeighborGridLinear);<br><br>        <span class="hljs-comment">// 把粒子的ExecIndex赋值到NeighborGridLinear对应的空间，这样的话就可以通过Neighbor Index得到粒子的Index从而查询粒子的属性</span><br>        <span class="hljs-type">int</span> IGNORE;<br>        NeighborGrid.SetParticleNeighbor(NeighborGridLinear, ExecIndex, IGNORE);<br>    &#125;		<br>&#125;<br><span class="hljs-meta">#endif</span><br></code></pre></td></tr></table></figure>
+<ol>
+<li>FindClosestNeighbor模块的hlsl代码</li>
+</ol>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs glsl">NeighborIndex = <span class="hljs-number">-1</span>;<br><br><span class="hljs-meta">#if GPU_SIMULATION</span><br><br><span class="hljs-type">bool</span> Valid;<br><br>float3 UnitPos;<br>NeighborGrid.SimulationToUnit(Position, WorldToUnit, UnitPos);<br><br>int3 Index;<br>NeighborGrid.UnitToIndex(UnitPos, Index.x,Index.y,Index.z);<br><br><span class="hljs-comment">// 用一个比较大的值初始化距离该粒子最近的距离</span><br><span class="hljs-type">float</span> neighbordist =  <span class="hljs-number">3.4e+38</span>;<br><br><span class="hljs-type">int</span> MaxNeighborsPerCell;<br>NeighborGrid.MaxNeighborsPerCell(MaxNeighborsPerCell);<br><br><span class="hljs-comment">// 每个子空间（Cell）中包含有MaxNeighborsPerCell个Neighbor这样的存储数据的结构。</span><br><span class="hljs-comment">// 从上一个GridWrite的粒子发射器所填入的Neighbor Grid3D结构中，遍历该粒子所处的</span><br><span class="hljs-comment">// 子空间的Neighbor，查找距离最近的大粒子</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; MaxNeighborsPerCell; ++i)<br>&#123;<br>    <span class="hljs-comment">// 当前子空间（Cell）中第i个Neighbor的NeighborLinearIndex</span><br>    <span class="hljs-type">int</span> NeighborLinearIndex;<br>    NeighborGrid.NeighborGridIndexToLinear(Index.x, Index.y, Index.z, i, NeighborLinearIndex);<br><br>    <span class="hljs-comment">// 读取NeighborLinearIndex中真正保存的数据，也就是之前写入的大粒子的索引Index赋给CurrNeighborIdx</span><br>    <span class="hljs-comment">// 如果这个Neighbor中没有保存数据，就返回-1</span><br>    <span class="hljs-type">int</span> CurrNeighborIdx;<br>    NeighborGrid.GetParticleNeighbor(NeighborLinearIndex, CurrNeighborIdx);<br><br>    <span class="hljs-comment">// 如果读取到的大粒子的索引Index!=-1，此时有效，说明这个Neighbor中存了大粒子的索引</span><br>    <span class="hljs-keyword">if</span> (CurrNeighborIdx != <span class="hljs-number">-1</span>)<br>    &#123;<br>        <span class="hljs-comment">// 使用 Attribute Reader + CurrNeighborIdx 来查询大粒子的位置</span><br>        float3 NeighborPos;<br>        AttributeReader.GetVectorByIndex&lt;Attribute=&quot;Position&quot;&gt;(CurrNeighborIdx, Valid, NeighborPos);<br><br>        <span class="hljs-comment">// Position是每个执行该代码的小粒子的位置</span><br>        <span class="hljs-comment">// 比较它和查找到的大粒子的距离</span><br>        <span class="hljs-keyword">const</span> float3 delta = Position - NeighborPos;<br>        <span class="hljs-keyword">const</span> <span class="hljs-type">float</span> dist = <span class="hljs-built_in">length</span>(delta);<br><br>        <span class="hljs-keyword">if</span>( dist &lt; neighbordist )<br>        &#123;<br>            <span class="hljs-comment">// 在小粒子所在的子空间（Cell）中更新距离该小粒子最近的那个大粒子的真实索引Index</span><br>            neighbordist = dist;<br>            NeighborIndex = CurrNeighborIdx;<br>        &#125;<br>    &#125;  <br>&#125;    <br><br><span class="hljs-meta">#endif</span><br></code></pre></td></tr></table></figure>
+<h1 id="36-position-based-dynamics"><a class="markdownIt-Anchor" href="#36-position-based-dynamics"></a> <strong><strong>3.6 Position Based Dynamics</strong></strong></h1>
+<p>（待完善）</p>
+<h1 id="39-boids"><a class="markdownIt-Anchor" href="#39-boids"></a> 3.9 Boids</h1>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/441231656">【Unreal从0到1】【第九章：粒子系统与物理引擎】9.4，Boid群集算法浅析 - 知乎 (zhihu.com)</a></p>
+<h2 id="集群行为模型-boids"><a class="markdownIt-Anchor" href="#集群行为模型-boids"></a> 集群行为模型-Boids</h2>
+<p><a target="_blank" rel="noopener" href="https://scholar.google.com/scholar?q=Flocks,+herds+and+schools:+A+distributed+behavioral+model&amp;hl=zh-CN&amp;as_sdt=0&amp;as_vis=1&amp;oi=scholart">Flocks, herds and schools: A distributed behavioral model - Google 学术搜索</a></p>
+<p>克雷格的Boids模型正是以“自下而上的控制”为核心，提出了一个在二维或三维空间上模拟集群行为的模型，该模型要求集群的个体遵守三条基本原则：</p>
+<h3 id="分离seperation"><a class="markdownIt-Anchor" href="#分离seperation"></a> 分离（seperation）</h3>
+<p>与邻域内的集群个体避免碰撞。对于一个集群个体来言，每一个在其邻域范围内的集群个体与它之间都有一个排斥力，这个排斥力是与它们之间的距离成反比的。每一个集群个体所受到的排斥力是它邻域范围内其它集群个体对它的排斥力的累加。</p>
+<h3 id="聚合cohesion"><a class="markdownIt-Anchor" href="#聚合cohesion"></a> 聚合（cohesion）</h3>
+<p>与邻域内的集群个体保持紧凑。集群个体需要获得其邻域内其它集群个体的位置信息，并计算出邻域内集群个体位置的平均值，由此产生一个作用于该邻域内所有集群个体的吸引力</p>
+<h3 id="对齐alignment"><a class="markdownIt-Anchor" href="#对齐alignment"></a> 对齐（alignment）</h3>
+<p>与邻域内的集群个体速度保持一致。为了能够实现速度一致，每个集群个体需要获得邻域内其它集群个体速度信息，计算出邻域内集群个体的平均速度。通过速度对齐，可以使得集群个体速度大小和方向与这个邻域内所有集群个体速度的平均值保持一致。</p>
+<h2 id="特化-鱼群模拟"><a class="markdownIt-Anchor" href="#特化-鱼群模拟"></a> 特化-鱼群模拟</h2>
+<p><a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/abs/pii/S0022519305806812">The simulation of the movement of fish schools - ScienceDirect</a></p>
+<p>模拟的基本假设是: (1)鱼的运动只受其最近邻的位置和方向的影响。(2)在考虑随机影响的情况下，利用概率分布计算每条鱼(经过一个时间步后)的新速度和转向角。(3)每条模型鱼的运动都基于相同的行为模式，即模型鱼群在没有领导者的情况下游动。</p>
+<p>基本的行为模式是吸引、排斥和平行取向。我们的调查表明，鱼类如何混合其邻居的影响是非常重要的。如果一条鱼对其邻近鱼群的影响取平均值，则模型鱼群表现出真实鱼群的典型特征: 强凝聚力和高极化程度。如果一条鱼只对一个邻居作出反应，那么这个模型就创建了一个混乱的鱼群。</p>
+<p><img src="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/Untitled%2010.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>Boid Force模块：</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><br>OutForce = float3 (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <br><span class="hljs-comment">// 寻找所有能够影响当前执行代码的粒子的数量</span><br>NeighborCount = <span class="hljs-number">0</span>;<br><br><span class="hljs-comment">//----传出变量-----</span><br><span class="hljs-comment">// 分离（seperation）</span><br>ParticleAvoidanceForce = float3 (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <br><span class="hljs-comment">// 聚合（cohesion）</span><br>ParticleCohesionCenter = float3 (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <br>ParticleCohesionForce = float3 (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <br><span class="hljs-comment">// 对齐（alignment）</span><br>ParticleVelocityMatchingForce = float3 (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <br><br><span class="hljs-meta">#if GPU_SIMULATION</span><br><br><span class="hljs-comment">//--------------------------</span><br><br><span class="hljs-comment">// 归一化朝向矢量用于后续矫正速度的计算</span><br><span class="hljs-type">float</span> VelocityVectorLength = <span class="hljs-built_in">distance</span>(Velocity, float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));<br>float3 NormalizedFacingVector = float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br><span class="hljs-keyword">if</span> (VelocityVectorLength &gt; <span class="hljs-number">0</span>)&#123;<br>    NormalizedFacingVector = (Velocity/VelocityVectorLength);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-comment">// SafeFacingVector从Update Mesh Orientation模块得到</span><br>		NormalizedFacingVector = SafeFacingVector;<br>&#125;<br><br><span class="hljs-comment">//---临时变量-----</span><br><span class="hljs-comment">// 分离（seperation）</span><br>float3 RepulsiveForce = float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br><span class="hljs-comment">// 对齐（alignment）</span><br>float3 VelocityMatchingForce = float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br><span class="hljs-comment">// 聚合（cohesion）</span><br>float3 CohesionCenter = float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br><br><span class="hljs-comment">// 寻找所有当前执行代码的粒子需要躲避的数量（从后面代码看出）</span><br><span class="hljs-type">int</span> MinDistanceNeighborCount = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">const</span> int3 IndexOffsets [ <span class="hljs-number">27</span> ] = <br>&#123;<br>	int3(<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>),<br>	int3(<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>),<br>	int3(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br><br>	int3(<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>),<br>	int3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>),<br>	int3(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br><br>	int3(<span class="hljs-number">1</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">1</span>,<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">1</span>,<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>),<br>	int3(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>),<br>	int3(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>,<span class="hljs-number">-1</span>),<br>	int3(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>),<br>	int3(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>&#125;;<br><br><span class="hljs-comment">// 当前粒子从世界坐标位置转换到Grid网格的UV 0-1的单位空间的坐标</span><br>float3 UnitPos;<br>myNeighborGrid.SimulationToUnit(Position, SimulationToUnit, UnitPos);<br><br><span class="hljs-comment">// Index表示粒子所在的子空间的位置</span><br>int3 Index;<br>myNeighborGrid.UnitToIndex(UnitPos, Index.x,Index.y,Index.z);<br><br>int3 NumCells;<br>myNeighborGrid.GetNumCells(NumCells.x, NumCells.y, NumCells.z);<br><br><span class="hljs-type">int</span> MaxNeighborsPerCell;<br>myNeighborGrid.MaxNeighborsPerCell(MaxNeighborsPerCell);<br><br><span class="hljs-comment">// Index表示粒子所在的子空间的位置，Index + IndexOffsets[xxx]表示遍历当前所在子空间的周围</span><br><span class="hljs-comment">// 27个相邻空间数据</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> xxx = <span class="hljs-number">0</span>; xxx &lt; <span class="hljs-number">27</span>; ++xxx) <br>	&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; MaxNeighborsPerCell; ++i)<br>		&#123;<br>			<span class="hljs-keyword">const</span> int3 IndexToUse =Index + IndexOffsets[xxx];<br>			<span class="hljs-comment">// 当前子空间（Cell）中第i个Neighbor的NeighborLinearIndex，以下得到的粒子称为OtherParticle</span><br>			<span class="hljs-type">int</span> NeighborLinearIndex;<br>			myNeighborGrid.NeighborGridIndexToLinear(IndexToUse.x, IndexToUse.y, IndexToUse.z, i, NeighborLinearIndex);<br>			<span class="hljs-comment">// 该Neighbor中的Idx</span><br>			<span class="hljs-type">int</span> CurrNeighborIdx;<br>			myNeighborGrid.GetParticleNeighbor(NeighborLinearIndex, CurrNeighborIdx);<br><br>			<span class="hljs-comment">// 临时bool，捕获每次读取Neighbor中获取的粒子属性</span><br>			<span class="hljs-type">bool</span> myBool; <br>			float3 OtherPos;<br>			DirectReads.GetVectorByIndex&lt;Attribute=&quot;Position&quot;&gt;(CurrNeighborIdx, myBool, OtherPos);<br>			float3 OtherVel;<br>			DirectReads.GetVectorByIndex&lt;Attribute=&quot;Velocity&quot;&gt;(CurrNeighborIdx, myBool, OtherVel);<br>			<span class="hljs-type">bool</span> OtherAwake;<br>			DirectReads.GetBoolByIndex&lt;Attribute=&quot;Awake&quot;&gt;(CurrNeighborIdx, myBool, OtherAwake);<br>			<span class="hljs-comment">// 判断是否在Neighbor Grid 3D中。InstanceIdx 是当前执行代码的粒子的index</span><br>			<span class="hljs-keyword">if</span> (IndexToUse.x &gt;= <span class="hljs-number">0</span> &amp;&amp; IndexToUse.x &lt; NumCells.x &amp;&amp; <br>				IndexToUse.y &gt;= <span class="hljs-number">0</span> &amp;&amp; IndexToUse.y &lt; NumCells.y &amp;&amp; <br>				IndexToUse.z &gt;= <span class="hljs-number">0</span> &amp;&amp; IndexToUse.z &lt; NumCells.z &amp;&amp; <br>				CurrNeighborIdx != InstanceIdx &amp;&amp; CurrNeighborIdx != <span class="hljs-number">-1</span> &amp;&amp; OtherAwake == <span class="hljs-literal">true</span>)<br>			&#123;<br>				<span class="hljs-comment">//////////////////////////////////////////////////////////////////////////////////////////</span><br>				<span class="hljs-comment">//otherawake == 1.0 有可能不能正常工作，应该涉及到bool转型的问题</span><br>				<span class="hljs-comment">//////////////////////////////////////////////////////////////////////////////////////////</span><br>				<span class="hljs-comment">// 计算从Neighbor中取得的粒子（OtherParticle）与当前执行代码的粒子的距离</span><br>				<span class="hljs-type">float</span> CurrentDistance = <span class="hljs-built_in">distance</span> ( OtherPos , Position );<br>				float3 VectorToOtherParticle = float3(OtherPos - Position); <br>				float3 NormalizedVectorToOtherParticle = float3( <span class="hljs-built_in">normalize</span>(VectorToOtherParticle) );<br>				<span class="hljs-type">float</span> CurrentViewToOtherBirdPercentage = <span class="hljs-built_in">dot</span>(NormalizedVectorToOtherParticle, NormalizedFacingVector);<br>				<span class="hljs-comment">// 求当前执行代码的粒子的朝向与从Neighbor中取得的粒子的夹角cos值（-1~1之间）并映射到0~1之间。如果是1，说明其它粒子在当前执行代码的粒子的正前方；0就是正后方</span><br>				CurrentViewToOtherBirdPercentage = (CurrentViewToOtherBirdPercentage + <span class="hljs-number">1.0</span>f) * <span class="hljs-number">0.5</span>f;<br>            <br>				<span class="hljs-keyword">if</span> (<br>                    <span class="hljs-comment">// 如果在最小的可视cos值内，且距离在最大感知距离之内，就会对当前执行代码的粒子产生影响</span><br>					CurrentViewToOtherBirdPercentage &gt;= MinVisionConeAngle &amp;&amp; <br>					CurrentDistance &lt;= MaxDistance)<br>				&#123;<br>					<span class="hljs-comment">//This bird will be considered an influencer now</span><br>					<span class="hljs-comment">//We need to make them avoid each other if they are too close</span><br>					<span class="hljs-comment">//match each others velocities if they are roughly in line with each other</span><br>					<span class="hljs-comment">//form an attraction with the center of the clump for cohesion</span><br>					<span class="hljs-comment">//Avoid each other if they&#x27;re heading toward each other</span><br>					<br>                    <span class="hljs-comment">// 根据距离计算影响权重		</span><br>					<span class="hljs-type">float</span> DistanceWeighting = <span class="hljs-number">1.0</span>f - saturate (CurrentDistance / MaxDistance);<br>					<span class="hljs-comment">//Make the particles match each others velocities if they&#x27;re vaguely aligned</span><br>					<span class="hljs-type">float</span> OtherVelocityVectorLength = <span class="hljs-built_in">distance</span>(OtherVel, float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));<br>					float3 NormalizedOtherVelocity = float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>					<span class="hljs-keyword">if</span> (OtherVelocityVectorLength &gt; <span class="hljs-number">0</span>)<br>					&#123;<br>						NormalizedOtherVelocity=(OtherVel/OtherVelocityVectorLength);<br>					&#125;<br>                    <span class="hljs-comment">// 源代码没有*DistanceWeighting，说明没有进行距离加权</span><br>					CohesionCenter += OtherPos;<br><br>					<span class="hljs-comment">// Avoidance，或者叫分离（seperation）</span><br>					<span class="hljs-comment">// OtherParticle指向当前执行代码的粒子的向量</span><br>					float3 VectorTowardCurrentBird = NormalizedVectorToOtherParticle * float3(<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>);<br>                    <span class="hljs-comment">// 此时的CollisionAvoidanceVector垂直于NormalizedFacingVector、VectorTowardCurrentBird，注意hlsl是左手坐标系，cross是左手法则</span><br>					float3 CollisionAvoidanceVector = <span class="hljs-built_in">cross</span>( NormalizedFacingVector, VectorTowardCurrentBird );<br>                    <span class="hljs-comment">// 此时的CollisionAvoidanceVector是垂直于VectorTowardCurrentBird，面向OtherParticle的右向量</span><br>					CollisionAvoidanceVector = <span class="hljs-built_in">cross</span>( CollisionAvoidanceVector, VectorTowardCurrentBird );<br>                    <span class="hljs-comment">// MovementPreferenceVector是模块输入，注释：We can bend the resulting forces in a given direction before combining them with Transient.PhysicsForces. A value of 1,1,.5 would allow the boid to move naturally on x and y but less so on z.</span><br>                    <span class="hljs-comment">// 意思是对xyz三个方向设置混合的权重，(1,1,.5)表示保持xy值而z变为原来的0.5，意义是在z方向上的Avoidance会小一些，不让粒子在上下方向移动过大而主要是在xy平面移动，符合鸟的躲避行为</span><br>					CollisionAvoidanceVector *= MovementPreferenceVector;<br>					<span class="hljs-keyword">if</span> (<span class="hljs-built_in">length</span>(CollisionAvoidanceVector)&gt;<span class="hljs-number">0.0</span>f)<br>						&#123;<br>							CollisionAvoidanceVector = <span class="hljs-built_in">normalize</span>(CollisionAvoidanceVector); <br>						&#125; <span class="hljs-keyword">else</span> &#123;<br>							CollisionAvoidanceVector = float3 (<span class="hljs-number">0.0</span>f,<span class="hljs-number">0.0</span>f,<span class="hljs-number">0.0</span>f); <br>						&#125;<br>                    <span class="hljs-comment">// OtherParticle的速度方向和当前执行代码的粒子的朝向cos值并截取到0~1之间</span><br>					<span class="hljs-type">float</span> FlightDirectionAngleComparison = saturate(<span class="hljs-built_in">dot</span>(NormalizedOtherVelocity, NormalizedFacingVector));<br>                    <span class="hljs-comment">// MinDistance模块输入，注释：Boids will attempt to avoid other boids that are within this distance and their cone of vision based on the &quot;Avoidance&quot; force.</span><br>                    <span class="hljs-comment">// 意思是当前距离小于这个阈值了，就一定要执行躲避防止碰撞</span><br>					<span class="hljs-keyword">if</span> (CurrentDistance &lt;= MinDistance) &#123;<br>						MinDistanceNeighborCount += <span class="hljs-number">1</span>;<br>                        <span class="hljs-comment">// 根据距离计算排斥力权重</span><br>						<span class="hljs-type">float</span> RespulsionForceDistanceWeighting = <span class="hljs-number">1.0</span>f - saturate(CurrentDistance / MinDistance);<br>						<span class="hljs-keyword">if</span> ( FlightDirectionAngleComparison &lt;= <span class="hljs-number">0.0</span> ) &#123; <br>							<span class="hljs-comment">// OtherParticle没有朝向正在执行代码的粒子飞来，排斥力朝向面向OtherParticle的右向量，应该是进行了聚合（cohesion）的效果</span><br>							RepulsiveForce += CollisionAvoidanceVector * RespulsionForceDistanceWeighting;<br>						&#125; <span class="hljs-keyword">else</span> &#123;<br>                            <span class="hljs-comment">// OtherParticle大致朝向正在执行代码的粒子飞来，那么排斥力就设置为远离OtherParticle的方向，同时进行速度对齐（alignment）</span><br>							RepulsiveForce += <span class="hljs-built_in">normalize</span> (VectorToOtherParticle * float3(<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>)) * RespulsionForceDistanceWeighting;				<br>							VelocityMatchingForce += (OtherVel - Velocity); <span class="hljs-comment">//* FlightDirectionAngleComparison;</span><br>						&#125;<br>					&#125;<br>				NeighborCount += <span class="hljs-number">1</span>;<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125; <span class="hljs-comment">//end for loop</span><br><br><span class="hljs-keyword">if</span> ( MinDistanceNeighborCount &gt; <span class="hljs-number">0</span>)<br>&#123;<br>	<span class="hljs-comment">///////////////////对齐（alignment）的力和分离（seperation）的力///////////////////</span><br>    <span class="hljs-comment">// 平均一下（并没有加权）</span><br>	VelocityMatchingForce = VelocityMatchingForce / MinDistanceNeighborCount;<br>    <span class="hljs-comment">// VelocityMatchingStrength模块输入，注释：Enter a 0-1 value. 1 will force particles to attempt to match their neighbors velocity. </span><br>	VelocityMatchingForce *= VelocityMatchingStrength;<br>    <br>    <span class="hljs-comment">// 加权平均排斥力，因为上面有*RespulsionForceDistanceWeighting</span><br>	RepulsiveForce = RepulsiveForce / MinDistanceNeighborCount;<br>	RepulsiveForce *= RepulsiveForceStrength;<br><br>    <span class="hljs-comment">// 赋值给输出变量</span><br>	ParticleAvoidanceForce = RepulsiveForce;<br>	ParticleVelocityMatchingForce = VelocityMatchingForce;<br>&#125;<br><br><span class="hljs-keyword">if</span> ( NeighborCount &gt; <span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-comment">///////////////////聚合（cohesion）的力///////////////////</span><br>	float3 AveragedCohesionCenter = float3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>	<span class="hljs-comment">//CohesionCenter += Position; </span><br>	AveragedCohesionCenter = float3 (CohesionCenter / NeighborCount + <span class="hljs-number">1</span> );<br>	float3 VectorToCenter = float3 (AveragedCohesionCenter - Position);<br>	<span class="hljs-type">float</span> VectorToCenterDistance = <span class="hljs-type">float</span> (<span class="hljs-built_in">length</span> (VectorToCenter));<br>    <span class="hljs-comment">// 距离聚合中心越远，distanceToCenterFalloffMultiplier系数就越大</span><br>	<span class="hljs-type">float</span> distanceToCenterFalloffMultiplier = saturate (VectorToCenterDistance/MaxDistance);<br>	distanceToCenterFalloffMultiplier = <span class="hljs-number">1.0</span>f - distanceToCenterFalloffMultiplier;<br>	float3 normalizedVectorToCenter = float3 (<span class="hljs-built_in">normalize</span>(VectorToCenter)); <br>	<span class="hljs-comment">//consider a power op etc here.</span><br>	float3 CohesionForce = float3(normalizedVectorToCenter * CohesionForceStrength); <span class="hljs-comment">//* distanceToCenterFalloffMultiplier</span><br><br>    <span class="hljs-comment">// 赋值给输出变量</span><br>	ParticleCohesionCenter = AveragedCohesionCenter;<br>	ParticleCohesionForce = CohesionForce;<br>	OutForce = CohesionForce + RepulsiveForce + VelocityMatchingForce;<br>&#125;<br><span class="hljs-meta">#endif</span><br></code></pre></td></tr></table></figure>
+<p>注意：<code>Transient</code>类型的变量仅在给定的堆栈上下文(例如Particle Update)中是局部的，并且每帧从头开始重新计算，它们的值不会从一帧持续到另一帧。这使得它们与Particle不同。这些变量保存在粒子有效载荷中，并从一帧到另一帧持续存在，这是以内存和性能为代价的。大致意思应该是保存从上一帧到这一帧的数据，具体还不太理解。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Unreal/">Unreal</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Unreal/Niagara/">Niagara</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Unreal/">Unreal</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/22/UE5%E5%8A%A8%E7%94%BB%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90%E4%B8%8E%E6%8F%92%E4%BB%B6AnimToTexture%E4%BD%BF%E7%94%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">UE5动画原理浅析与插件AnimToTexture使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/">
+                        <span class="hidden-mobile">UE 渲染体系浅析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

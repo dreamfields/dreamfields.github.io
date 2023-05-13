@@ -1,0 +1,593 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="前置知识：光线追踪中的反射、折射  镜面反射 镜面反射光线的计算较为简单，公式如下：   折射 折射光线的计算公式推导：折射光线的计算  菲涅耳反射(Fresnel Reflection) 观察折射现象的几何描述：  如果从一个折射率大的空间折射如一个折射率小的空间，折射角度会增大，且有ηi&#x2F;ηt&gt;1\eta_i &#x2F; \eta_t&gt;1ηi​&#x2F;ηt​&gt;1，只要入射角度θi\the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lecture 17 材质（微平面理论，Cook-Torrance BRDF）">
+<meta property="og:url" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="前置知识：光线追踪中的反射、折射  镜面反射 镜面反射光线的计算较为简单，公式如下：   折射 折射光线的计算公式推导：折射光线的计算  菲涅耳反射(Fresnel Reflection) 观察折射现象的几何描述：  如果从一个折射率大的空间折射如一个折射率小的空间，折射角度会增大，且有ηi&#x2F;ηt&gt;1\eta_i &#x2F; \eta_t&gt;1ηi​&#x2F;ηt​&gt;1，只要入射角度θi\the">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022160952.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022161858.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/3117aae5-18c9-4c31-82e9-3f39d06cbfa2-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/c243f9f5-911c-473c-83ed-a65dce7fff0a-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/88bbb316-7d73-4174-880f-9d47601e99d8-11709514.jpg">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022163345.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022163532.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022160651.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022154919.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022155445.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022120922.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022165042.png">
+<meta property="og:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022165419.png">
+<meta property="article:published_time" content="2022-02-08T13:47:35.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.412Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022160952.png">
+  
+  <title>Lecture 17 材质（微平面理论，Cook-Torrance BRDF） - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Lecture 17 材质（微平面理论，Cook-Torrance BRDF）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-08 21:47" pubdate>
+        2022年2月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Lecture 17 材质（微平面理论，Cook-Torrance BRDF）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="前置知识光线追踪中的反射-折射"><a class="markdownIt-Anchor" href="#前置知识光线追踪中的反射-折射"></a> 前置知识：光线追踪中的反射、折射</h1>
+<h2 id="镜面反射"><a class="markdownIt-Anchor" href="#镜面反射"></a> 镜面反射</h2>
+<p>镜面反射光线的计算较为简单，公式如下：<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022160952.png" srcset="/img/loading.gif" lazyload alt></p>
+<h2 id="折射"><a class="markdownIt-Anchor" href="#折射"></a> 折射</h2>
+<p>折射光线的计算公式推导：<a target="_blank" rel="noopener" href="https://dreamfields.github.io/2021/08/06/GAMES101%E9%87%8D%E8%A6%81%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC%E8%A1%A5%E5%85%85/#%E6%8A%98%E5%B0%84%E5%85%89%E7%BA%BF%E7%9A%84%E8%AE%A1%E7%AE%97">折射光线的计算</a></p>
+<h4 id="菲涅耳反射fresnel-reflection"><a class="markdownIt-Anchor" href="#菲涅耳反射fresnel-reflection"></a> 菲涅耳反射(Fresnel Reflection)</h4>
+<p>观察折射现象的几何描述：<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022161858.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>如果从一个折射率大的空间折射如一个折射率小的空间，折射角度会增大，且有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>η</mi><mi>i</mi></msub><mi mathvariant="normal">/</mi><msub><mi>η</mi><mi>t</mi></msub><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\eta_i / \eta_t&gt;1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">η</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">η</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>，只要入射角度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>θ</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\theta_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>足够大，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>−</mo><mo stretchy="false">(</mo><mi>cos</mi><mo>⁡</mo><msub><mi>θ</mi><mi>i</mi></msub><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">1-(\cos \theta_i)^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mop">cos</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> 就会接近 1，那么此时根号里的数便会小于 0，而这也就意味着，此时没有折射项，光线全部反射。</p>
+<ul>
+<li>菲涅尔项反映了光线有多少发生反射，有多少发生折射</li>
+</ul>
+<p><img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/3117aae5-18c9-4c31-82e9-3f39d06cbfa2-11709514.jpg" srcset="/img/loading.gif" lazyload alt><br>
+现象举例：垂直观察玻璃，你很容易看清玻璃外的东西(折射而来)，如果你视线玻璃近乎平行，此时你看到的大部分会是你自己(反射得到)，且视线越与玻璃平行，即与法线夹角越大，你的人像越加清晰，这种现象，就可以用菲涅尔反射来进行解释。</p>
+<p><strong>对于绝缘体</strong>：看图上的实心红线，观察角度与法线夹角越大（与观察平面越平行），反射的程度就越大，如玻璃。看图上的虚线，表示光线的极化现象（由于光的波动性），两个方向极化性的平均就是红心实线。</p>
+<p><img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/c243f9f5-911c-473c-83ed-a65dce7fff0a-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<p><strong>对于导体</strong>：观察角度很小时也有很大的反射率，如铜镜。</p>
+<p><img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/88bbb316-7d73-4174-880f-9d47601e99d8-11709514.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<p>那么对于绝缘体和导体，如下公式可以精确计算反射率<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{eff}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>：<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022163345.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>但计算过于复杂，就有了一个近似公式，Schlick Approximation：<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022163532.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>认为曲线就是从 R0(由入射材质的折射系数和出射材质的折射系数决定) 开始，随着入射角的变化近似得到反射率，在 RayTacing In One Weekend 中有涉及：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">reflectance</span><span class="hljs-params">(<span class="hljs-keyword">double</span> cosine, <span class="hljs-keyword">double</span> refraction_idx)</span> </span>&#123;<br>    <span class="hljs-comment">// Use Schlick&#x27;s approximation for reflectance.</span><br>    <span class="hljs-keyword">auto</span> r0 = (<span class="hljs-number">1</span> - refraction_idx) / (<span class="hljs-number">1</span> + refraction_idx);<br>    r0 = r0 * r0;<br>    <span class="hljs-comment">// return r0 + (1 - r0) * pow((1 - cosine), 5);</span><br>    <span class="hljs-comment">// 用三次乘法计算五次方</span><br>    <span class="hljs-keyword">auto</span> x1 = <span class="hljs-number">1</span> - cosine;<br>    <span class="hljs-keyword">auto</span> x2 = x1 * x1;<br>    <span class="hljs-keyword">auto</span> x5 = x2 * x2 * x1;<br>    <span class="hljs-keyword">return</span> r0 + (<span class="hljs-number">1</span> - r0) * x5;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="微平面理论"><a class="markdownIt-Anchor" href="#微平面理论"></a> 微平面理论</h1>
+<p>微平面理论(Microfacets Theory)顾名思义，就是从微观的角度去分析，其认为任意物体的表面在到达微观的尺度之后，都是由许许多多的更小的镜面所组成的。<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022160651.png" srcset="/img/loading.gif" lazyload alt><br>
+当这些微小的镜面的法线方向较为集中一致的时候，从宏观角度来看，物体的镜面反射会比较明显，反之，当这些微小镜面的法线方向较为杂乱，分布均匀的时候，物体表面则会相对粗糙。</p>
+<p>但对于此，我们仅仅解释了微观角度的镜面反射现象，另外一个比较重要的部分则是漫反射。</p>
+<p>对于微观尺度的漫反射可以作如下解释，当光线照射到物体表面时，一部分光线会与表面的许许多多的微小镜面发生镜面反射，另一部分光线则会折射进入物体内部，如下图：<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022154919.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>当光线折射进入内部的时候会与物体的微小粒子不断发生碰撞并散射到随机方向，同时在碰撞的过程中一部分光线的能量会被吸收转换为热能，有些光线在多次碰撞之后能量消耗殆尽，则表示该光线完全被物体吸收。还有一部分折射到物体内部的光线会因为散射方向的随机性重新离开表面，而这部分光线就形成了漫反射。 (tips:光线折射进入物体内部之后再被散射出来，离开表面的点可能并不是进入表面的点，但这里并不考虑这种情形，次表面散射(Subsurface Scattering)技术则将这种现象考虑了进去。)</p>
+<p>BRDF基于我们之前所探讨过的微平面理论来近似的求得材质的反射与折射属性。对于一个BRDF，为了实现物理学上的可信度，它必须遵守能量守恒定律，也就是说反射光线的总和永远不能超过入射光线的总量。严格上来说，同样采用ωi和ωo作为输入参数的 Blinn-Phong光照模型也被认为是一个BRDF。然而由于Blinn-Phong模型并没有遵循能量守恒定律，因此它不被认为是基于物理的渲染。</p>
+<p>现在已经有很好几种BRDF都能近似的得出物体表面对于光的反应，但是几乎所有实时渲染管线使用的都是一种被称为Cook-Torrance BRDF模型。</p>
+<p>Cook-Torrance模型作为图形学中最早的基于物理的BRDF模型，由Cook和Torrance提出，是Torrance-Sparrow模型的一个应用版本。现今，Cook-Torrance模型已经成为基于物理着色的标准模型之一。Cook-Torrance模型将物理学中的菲涅尔反射引入了图形学，实现了比较逼真的效果。</p>
+<p><img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022155445.png" srcset="/img/loading.gif" lazyload alt><br>
+其中 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>K</mi><mi>d</mi></msub><mo separator="true">,</mo><msub><mi>K</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">K_d,K_s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>分别指<strong>入射光线中被折射部分的能量所占的比率</strong>与<strong>被反射部分的比率(一般由菲涅尔项决定)</strong>，而 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mrow><mi>l</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f_{lambert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">b</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>指漫反射的 BRDF，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mrow><mi>c</mi><mi>o</mi><mi>o</mi><mi>k</mi><mo>−</mo><mi>t</mi><mi>o</mi><mi>r</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f_{cook-torrance}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>指镜面反射的 BRDF。两部分结合得到最终的 BRDF。</p>
+<p><strong>但请注意</strong>：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mrow><mi>c</mi><mi>o</mi><mi>o</mi><mi>k</mi><mo>−</mo><mi>t</mi><mi>o</mi><mi>r</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f_{cook-torrance}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>已经采用了微表面模型，就不能在与宏观表面模型Diffuse的假设一同采用，同样在物理上也是错误的，能量不能保证守恒，可能会出现发光的BRDF的情况。由于不同角度、不同粗糙度损失的能量是完全不同的，因此直接加一个Diffuse是完全错误的。而由于可以近似一些效果，因此仍然使用。</p>
+<h1 id="cook-torrance-brdf-推导"><a class="markdownIt-Anchor" href="#cook-torrance-brdf-推导"></a> Cook-Torrance BRDF 推导</h1>
+<p>关键：<strong>Material == BRDF</strong>，以下讨论皆为Cook-Torrance BRDF。</p>
+<h2 id="漫反射材质的brdf"><a class="markdownIt-Anchor" href="#漫反射材质的brdf"></a> 漫反射材质的BRDF</h2>
+<p>漫反射会均匀的向每个方向反射，因此，漫反射的 BRDF 一定是一个常数。<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022120922.png" srcset="/img/loading.gif" lazyload alt><br>
+由于能量守恒，入射的 radiance=出射的 radiance，两边的 Lo、Li 约去，得到漫反射的 BRDF 为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mi>π</mi></mrow><annotation encoding="application/x-tex">1/\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span>。</p>
+<p>现在引入一个“反射率 albedo”的量，可以类比光栅化当中的漫反射系数去理解，本质就是一个 3 维向量，含有物体表面的颜色信息，这样的话就可以引入不同颜色的 BRDF。</p>
+<p>因此：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mrow><mi>l</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>ρ</mi><mi mathvariant="normal">/</mi><mi>π</mi></mrow><annotation encoding="application/x-tex">f_{lambert} = \rho/\pi
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">b</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">ρ</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span></span></p>
+<p>Tips：Lambertian漫反射和我们之前经常使用的漫反射到底有什么关系？之前我们是用表面法向量与光照方向向量进行点乘，然后再将结果与平面颜色相乘得到漫反射参数。点乘依然还在，但是却不在BRDF之内，而是转变成为了Lo积分末公式末尾处的n⋅ωi 。</p>
+<h2 id="镜面反射与折射材质的brdf"><a class="markdownIt-Anchor" href="#镜面反射与折射材质的brdf"></a> 镜面反射与折射材质的BRDF</h2>
+<p>BRDF的镜面反射部分要稍微更高级一些，它的形式如下所示：<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022165042.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>在图中看得更加明显：<br>
+<img src="/2022/02/08/Lecture-17-%E6%9D%90%E8%B4%A8/20221022165419.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>Cook-Torrance BRDF的镜面反射部分包含三个函数，此外分母部分还有一个标准化因子 。字母D，F与G分别代表着一种类型的函数，各个函数分别用来近似的计算出表面反射特性的一个特定部分。三个函数分别为法线分布函数(Normal Distribution Function)，菲涅尔方程(Fresnel Rquation)和几何函数(Geometry Function)：</p>
+<ul>
+<li>D 法线分布函数：估算在受到表面粗糙度的影响下，取向方向与中间向量(half vector)一致的微平面的数量。这是用来估算微平面的主要函数。</li>
+<li>G 几何函数：描述了微平面自成阴影的属性。当一个平面相对比较粗糙的时候，平面表面上的微平面有可能挡住其他的微平面从而减少表面所反射的光线（grassing。</li>
+<li>F 菲涅尔方程：菲涅尔方程描述的是在不同的表面角下表面所反射的光线所占的比率。<br>
+以上的每一种函数都是用来估算相应的物理参数的，而且你会发现用来实现相应物理机制的每种函数都有不止一种形式。</li>
+</ul>
+<p>具体的推导见文末的第一篇笔记参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/152226698">Lecture 17：微平面理论(Cook-Torrance BRDF 推导)</a></p>
+<p>Tips：BSDF 是一个统称，表示散射（包括 BRDF 反射和 BTDF 折射）</p>
+<h1 id="笔记参考"><a class="markdownIt-Anchor" href="#笔记参考"></a> 笔记参考</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/152226698">Lecture 17：微平面理论(Cook-Torrance BRDF 推导)</a></li>
+<li><a target="_blank" rel="noopener" href="https://learnopengl-cn.github.io/07%20PBR/01%20Theory/#_4">LearnOpenGL：Physically Based Rendering</a></li>
+<li>Cook-Torrance BRDF的Siggraph论文： <a target="_blank" rel="noopener" href="https://dl.acm.org/doi/pdf/10.1145/965161.806819">A Reflectance Model for Computer Graphics</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES101/">GAMES101</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Theory/">Theory</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/12/Lecture-18-%E9%AB%98%E7%BA%A7%E5%85%89%E7%BA%BF%E4%BC%A0%E6%92%AD%E4%B8%8E%E6%9D%90%E8%B4%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lecture 18 高级光线传播与材质</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/26/Lecture-14-16-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E6%B8%B2%E6%9F%93/">
+                        <span class="hidden-mobile">Lecture 14-16 基于物理的渲染(辐射度量学，BRDF，路径追踪)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

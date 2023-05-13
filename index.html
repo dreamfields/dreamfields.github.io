@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Dream Fields">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="木夕">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="缓缓独行 才不致倾覆">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/04/22/UE5%E5%8A%A8%E7%94%BB%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90%E4%B8%8E%E6%8F%92%E4%BB%B6AnimToTexture%E4%BD%BF%E7%94%A8/" target="_self">
+          UE5动画原理浅析与插件AnimToTexture使用
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/04/22/UE5%E5%8A%A8%E7%94%BB%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90%E4%B8%8E%E6%8F%92%E4%BB%B6AnimToTexture%E4%BD%BF%E7%94%A8/" target="_self">
+          
+          
+            
+          
+           蒙皮/骨骼动画系统
+对于游戏引擎中常用的蒙皮/骨骼动画系统，骨骼由刚性的“骨头”构建而成，渲染时并不会显示。
+而称为“蒙皮”的光滑三角形网格（骨骼网格体，也可以叫做皮肤）会绑定于骨骼的“关节”上，其顶点会跟随骨骼的“关节”进行移动。
+ 骨骼
+骨骼由刚性的关节以层阶结构所构成，每个关节有且仅有一个父关节（除根关节）。而父关节与其子关节之间的长度就是一段骨骼的长度（关节可以理解为两根骨骼的连接处）。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-04-22 10:03" pubdate>
+              2023-04-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Unreal/">Unreal</a>
+            
+              <a href="/categories/Unreal/Animation/">Animation</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unreal/">Unreal</a>
+            
+              <a href="/tags/Niagara/">Niagara</a>
+            
+              <a href="/tags/Animation/">Animation</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/" target="_self">
+          Niagara Advance-官方用例学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/04/10/Niagara-Advance-%E5%AE%98%E6%96%B9%E7%94%A8%E4%BE%8B%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          来自官方的Content Example -&gt; Maps -&gt; Niagara_Advanced_Particles
+部分参考：
+
+
+Niagara Advance 笔记 - 知乎 (zhihu.com)
+
+
+UE4 Niagara源码解析 - 知乎 (zhihu.com)
+
+
+ 操作
+
+脚本模块的重命名需要连续三次单击才能重命名
+ 1.1 FillRenderTarget
+UE5 N
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-04-10 09:56" pubdate>
+              2023-04-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Unreal/">Unreal</a>
+            
+              <a href="/categories/Unreal/Niagara/">Niagara</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unreal/">Unreal</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/" target="_self">
+          UE 渲染体系浅析
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/" target="_self">
+          
+          
+            
+          
+          UE（Unreal Engine）是一种广泛使用的游戏引擎，它的渲染体系是其最重要的组成部分之一。UE的渲染体系包含许多不同的渲染技术，涵盖了从基本的几何形状、材质和光源到复杂的全局照明和后期处理。
+
+Engine\Source\Runtime\RendererCore。
+Engine\Source\Runtime\Renderer。
+Engine\Source\Runtime\RHI。
+部分RH
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-08 15:15" pubdate>
+              2023-03-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Unreal/">Unreal</a>
+            
+              <a href="/categories/Unreal/%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB/">渲染体系</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unreal/">Unreal</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/" target="_self">
+          Games202-08工业界的实时渲染
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/" target="_self">
+          
+          
+            
+          
+           Temporal Anti-Aliasing（TAA）
+最早temporal的思路是用来解决Anti-Aliasing的，先有TAA的巨大成功才会有RTRT里的应用。
+
+参考：Temporal Anti-Aliasing - 知乎 (zhihu.com)
+
+ 为什么出现走样？
+回顾101学习的关于采样的过程：
+
+（a）是时域上的某个信号，到了频域上（b）是一个连续的频谱（Tips：频谱是左右对称
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-01-25 17:28" pubdate>
+              2023-01-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/01/15/Games202%E5%AE%9E%E6%97%B6%E5%85%89%E8%BF%BD%E9%99%8D%E5%99%AA/" target="_self">
+          Games202-07实时光追降噪
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/01/15/Games202%E5%AE%9E%E6%97%B6%E5%85%89%E8%BF%BD%E9%99%8D%E5%99%AA/" target="_self">
+          
+          
+            
+          
+           RTRT(Real-Time Ray Tracing)介绍
+ 光追硬件 RTX
+RTX其本质上只是硬件的提升，并不涉及任何算法部分，其本身是作为硬件上的一个突破，因为在显卡加装了一个用来做光追的部件。
+由于光线追踪做的是光线与场景的求交，结合games101我们知道光线要经历BVH或者KD-tree这种加速结构，也就是做一个树的遍历从而快速判断光线是否与三角形求交，这部分对于GPU来说是不好做的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-01-15 17:07" pubdate>
+              2023-01-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/01/09/%E5%85%B3%E4%BA%8E%E6%8F%92%E5%80%BC%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          关于插值
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/01/09/%E5%85%B3%E4%BA%8E%E6%8F%92%E5%80%BC%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          
+          
+            
+          
+           问题引入
+最近在项目中，遇到了一个有趣的问题。
+一个包含 41 张图片，每张图片的分辨率为 512 x 512 的脑部 CT，把他们渲染到屏幕上后，如果横断位（Axial）来观察，图片很清晰，因为是 512 x 512 分辨率，如下图：
+
+但是从其它视角如冠状位（Coronal）来观察，会有强烈的锯齿感，因为是 512 x 41 的分辨率，经过拉伸变为实际尺寸，如下图：
+
+体积重建的结果，一言难
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-01-09 16:22" pubdate>
+              2023-01-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">问题记录</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/WebGL/">WebGL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/01/04/Games202%E5%AE%9E%E6%97%B6%E9%AB%98%E8%B4%A8%E9%87%8F%E7%9D%80%E8%89%B2/" target="_self">
+          Games202-06实时高质量着色
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/01/04/Games202%E5%AE%9E%E6%97%B6%E9%AB%98%E8%B4%A8%E9%87%8F%E7%9D%80%E8%89%B2/" target="_self">
+          
+          
+            
+          
+           实时渲染中的PBR
+ 介绍
+PBR（physically-based rendering，基于物理的渲染） 是指在渲染过程中，材质、光源、相机、光线材质等一切事物都应该基于物理。
+因此PBR在概念上来说不只限制在材质上，但是在实时渲染中PBR指的通常是基于物理的材质。
+实时渲染中的 PBR 材质丰富程度要远远落后于离线渲染：
+
+种类：离线渲染中artist可以找出几百种材质，而在RTR中则有十几
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-01-04 16:22" pubdate>
+              2023-01-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/15/Games202%E5%AE%9E%E6%97%B6%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" target="_self">
+          Games202-05实时全局光照
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/15/Games202%E5%AE%9E%E6%97%B6%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" target="_self">
+          
+          
+            
+          
+           前言
+ 简介
+全局光照是用来模拟现实世界中基于物理的真实的光线传输过程，如下图：
+
+这是一张通过离线渲染所生成的图片，其中展示了包括能够被光源直接照亮的直接光照、光线在物体之间来回弹射所产生的间接光照、佛像背后 产生的边缘柔和的软阴影、在经过蜡烛这类半透明物体时所产生的散射、在光滑材质表面发生的反射、以及焦散等等真实的物理现象。
+ GI算法分类
+实时全局光照（Real-Time Global I
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-15 20:03" pubdate>
+              2022-12-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/" target="_self">
+          Games202-04实时环境映射
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/11/30/Games202%E5%AE%9E%E6%97%B6%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84/" target="_self">
+          
+          
+            
+          
+           前言
+
+《Real-Time Rendering 3rd 提炼总结》第五章纹理贴图及相关技术
+
+作为纹理管线的第一步，投影函数的功能就是将空间中的三维点转化为纹理坐标，也就是获取表面的位置并将其投影到参数空间中。
+在常规情况下，投影函数通常在美术建模阶段使用，并将投影结果存储于顶点数据中。也就是说，在软件开发过程中，我们一般不会去用投影函数去计算得到投影结果，而是直接使用在美术建模过程中，已经存
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-30 21:51" pubdate>
+              2022-11-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/" target="_self">
+          Games202-03实时阴影
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/" target="_self">
+          
+          
+            
+          
+           Shadow Mapping
+概述：是一个完全在图像空间中的算法，将深度信息渲染到深度图上，并在运行时通过深度对比检测物体是否在阴影中的算法。Shadow map是一个2-pass的算法
+优点：一旦shadow Map已经生成,就可以利用shadow map来获取场景中的几何表示而不是场景中的几何
+缺点：会产生自遮挡和走样现象
+ 步骤
+
+
+从light处出发看向场景生成一张记录每个像素中最近物体
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-20 17:43" pubdate>
+              2022-11-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

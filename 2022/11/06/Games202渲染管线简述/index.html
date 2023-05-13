@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="前言  实时渲染：30fps（每秒渲染30幅画面） 实时渲染主要应用于游戏，离线渲染（难度更大）主要应用于电影 编辑器：可以使用VS Code，有插件glsl-canvas可以直接预览shader   渲染管线  什么是图形渲染管线？  主要功能：根据给定的虚拟相机、三维对象、光源、照明模式、纹理等诸多条件的情况下，生成一个二维图像的过程。 是实时渲染的底层工具 物体外观的决定因素：三维对象本身">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games202-02渲染管线简述">
+<meta property="og:url" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="前言  实时渲染：30fps（每秒渲染30幅画面） 实时渲染主要应用于游戏，离线渲染（难度更大）主要应用于电影 编辑器：可以使用VS Code，有插件glsl-canvas可以直接预览shader   渲染管线  什么是图形渲染管线？  主要功能：根据给定的虚拟相机、三维对象、光源、照明模式、纹理等诸多条件的情况下，生成一个二维图像的过程。 是实时渲染的底层工具 物体外观的决定因素：三维对象本身">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled.png">
+<meta property="og:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%201.png">
+<meta property="og:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%202.png">
+<meta property="og:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%203.png">
+<meta property="og:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%204.png">
+<meta property="og:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%205.png">
+<meta property="og:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%206.png">
+<meta property="article:published_time" content="2022-11-05T17:28:47.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.273Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled.png">
+  
+  <title>Games202-02渲染管线简述 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Games202-02渲染管线简述">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-06 01:28" pubdate>
+        2022年11月6日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Games202-02渲染管线简述</h1>
+            
+            <div class="markdown-body">
+              <h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<ul>
+<li>实时渲染：30fps（每秒渲染30幅画面）</li>
+<li>实时渲染主要应用于游戏，离线渲染（难度更大）主要应用于电影</li>
+<li>编辑器：可以使用VS Code，有插件glsl-canvas可以直接预览shader</li>
+</ul>
+<h1 id="渲染管线"><a class="markdownIt-Anchor" href="#渲染管线"></a> 渲染管线</h1>
+<h2 id="什么是图形渲染管线"><a class="markdownIt-Anchor" href="#什么是图形渲染管线"></a> <strong>什么是图形渲染管线？</strong></h2>
+<ul>
+<li>主要功能：根据给定的虚拟相机、三维对象、光源、照明模式、纹理等诸多条件的情况下，生成一个二维图像的过程。</li>
+<li>是实时渲染的底层工具</li>
+<li>物体外观的决定因素：三维对象本身的材质属性、光源、着色方程（照明模式）、纹理（贴图）</li>
+</ul>
+<h2 id="渲染管线架构是怎样的"><a class="markdownIt-Anchor" href="#渲染管线架构是怎样的"></a> <strong>渲染管线架构是怎样的？</strong></h2>
+<ul>
+<li>
+<p>管线是并行执行的</p>
+</li>
+<li>
+<p>管线中最慢的阶段会影响整个管线的执行的速度</p>
+</li>
+<li>
+<p>计算机实时宣染管线四大主要阶段：应用、几何处理、光栅化、像素处理</p>
+</li>
+<li>
+<p>功能阶段有一个特定的任务要执行，但没有指定任务在管线中执行的方式</p>
+</li>
+<li>
+<p>渲染速度表示</p>
+<ul>
+<li>每秒帧数（FPS），每秒渲染的图像数量。FPS用于表示特定帧速率，或者在使用期间的平均性能。</li>
+<li>赫兹（Hz），渲染一帧所需要的时间，即更新的频率，赫兹用于硬件，被设置为固定速率</li>
+</ul>
+</li>
+<li>
+<p>渲染时间的单位：毫秒（ms）</p>
+</li>
+<li>
+<p><strong>渲染管线四个阶段概述</strong></p>
+<p><img src="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled.png" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li><strong>应用程序阶段，几何阶段，光栅化阶段，像素处理阶段（加上”后处理阶段“）</strong></li>
+<li><strong>应用程序阶段：<strong>传统上在CPU上执行的一些任务包括</strong>碰撞检测</strong>[collision detection]、<strong>全局加速算法</strong>[global acceleration algorithms]、<strong>动画</strong>[animation]、<strong>物理模拟</strong>[physics simulation]和许多其他任务，这取决于应用程序的类型。</li>
+<li><strong>几何阶段：<strong>这一阶段涉及</strong>变换</strong>[transforms]、<strong>投影</strong>[projections]和所有其他类型的几何处理。这个阶段计算要绘制的内容、应该怎么画，以及它应该画在哪里。几何阶段通常执行在包含许多可编程核心[programmable cores]以及固定操作硬件[fixed-operation hardware]的图形处理单元[graphics processing unit]。</li>
+<li><strong>光栅化[rasterization]阶段：<strong>通常</strong>接受三个顶点作为输入，形成一个三角形，并找到三角形内的所有像素，然后将它们转发到下一阶段</strong>。</li>
+<li><strong>像素处理[pixel processing]阶段：<strong>对每个像素执行一个程序，以</strong>确定其颜色</strong>，并可能执行<strong>深度测试</strong>[depth testing]，以确定其是否可见[visible]。还可以执行<strong>逐像素操作</strong>[per-pixel operations]，例如将新计算的颜色与以前的颜色混合[blending]。</li>
+</ul>
+</li>
+<li>
+<p>除了应用阶段在CPU上执行，其他阶段都在GPU上执行</p>
+</li>
+</ul>
+<h2 id="渲染管线的4个阶段详述"><a class="markdownIt-Anchor" href="#渲染管线的4个阶段详述"></a> <strong>渲染管线的4个阶段详述</strong></h2>
+<h3 id="一-应用阶段"><a class="markdownIt-Anchor" href="#一-应用阶段"></a> 一、应用阶段</h3>
+<ol>
+<li><strong>准备基本场景数据</strong>
+<ol>
+<li><strong>场景物体</strong>数据：物体变换数据（位置、旋转、缩放等），物体网格数据（顶点位置、UV贴图等）</li>
+<li><strong>光源</strong>信息：光源类型（方向光、点光、聚光等），光源的位置、方向、角度等其他参数</li>
+<li><strong>摄像机</strong>参数：位置、方向、远近裁剪平面、正交/透视（FOV）、视口比例/尺寸等</li>
+<li><strong>阴影</strong>设置：是否需要阴影（判断该光源可见范围内是否有可投射阴影的物体），阴影参数（对应光源序号、阴影强度、级联参数、深度偏移、近平面偏移等）</li>
+<li>逐光源绘制<strong>阴影贴图</strong>
+<ol>
+<li>近平面偏移</li>
+<li>逐级联：计算当前光源+级联对应的观察矩阵、投影矩阵，以及对应到阴影贴图里的视口区，绘制到阴影贴图</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><strong>加速算法与粗粒度剔除</strong>：碰撞检测、加速算法（八叉树、KD树、BVH）、遮挡剔除、其他算法</li>
+<li><strong>渲染设置</strong>
+<ol>
+<li>绘制设置：合批方式</li>
+<li>物体绘制顺序：相对摄像机的距离、材质RenderQueue、UICanvas、其他方式等</li>
+<li>渲染目标：FrameBuffer、RenderTexture、MRT</li>
+</ol>
+</li>
+<li><strong>调用DrawCall输出到显存</strong>
+<ol>
+<li>顶点数据：位置、颜色、法线、纹理坐标等</li>
+<li>其它数据：MVP变换矩阵、纹理贴图、阴影贴图、预计算数据等</li>
+</ol>
+</li>
+</ol>
+<h3 id="二-几何阶段"><a class="markdownIt-Anchor" href="#二-几何阶段"></a> 二、<strong>几何阶段</strong></h3>
+<p><img src="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%201.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>把输入的3D数据转换成2D数据。包括：</p>
+<ul>
+<li>
+<p><strong>顶点着色</strong></p>
+<ul>
+<li>
+<p>任务：计算一个顶点的位置，计算程序员想要的顶点输出数据（法线、纹理坐标）<strong>。</strong></p>
+</li>
+<li>
+<p>着色：确定光在材料上的效果的操作。计算物体上不同点的着色方程；各种各样的材料数据可以存储在每个顶点；顶点着色结果发送到光栅化和像素处理阶段插值和用于计算表面的着色</p>
+</li>
+<li>
+<p>通常，着色计算通常认为是在世界空间中进行的。在实践中，有时需要将相关实体（诸如相机和光源）转换到一些其它空间（诸如模型或观察空间）并在那里执行计算，也可以得到正确的结果。</p>
+</li>
+<li>
+<p><strong>模型和视图变换 Model and View Transform</strong></p>
+<ul>
+<li>在屏幕上的显示过程中，模型通常需要变换到若干不同的空间或坐标系中。<strong>模型变换</strong>的变换对象一般是模型的顶点和法线。物体的坐标称 为模型坐标。世界空间是唯一的，所有的模型经过变换后都位于同一个空间中。</li>
+<li>为了便于投影和裁剪，必须对相机和所有的模型进行视点变换。变换的目的就是要把相机放在原点，然后进行视点校准，使其朝向 Z 轴负方向， y 轴指向上方 ,x 轴指向右边。在视点变换后，实际位置和方向就依赖于当前的 API 。我们称上述空间为相机空间或者观察空间。</li>
+</ul>
+<p><img src="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%202.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>可选顶点处理</strong>(它们的使用既取决于硬件的性能（不是所有GPU都有），也取决于程序员的需求)</p>
+<ul>
+<li>曲面细分：通过曲面细分，一个曲面可以生成一个适当数量的三角形。由一系列阶段构成——外壳着色器[hull shader]、曲面细分[tessellator]和域着色器[domain shader]。靠近的时候面数很多，远离的时候很少</li>
+<li>几何着色器：接受各种类型的图元，并可以产生新的顶点。几何着色器有几个用途，其中最流行的是粒子生成</li>
+<li>流输出：使用GPU作为一个几何引擎；可以选择将它们输出到数组中以进行进一步处理；这些数据可以被CPU或GPU本身在以后使用；通常用于粒子模拟</li>
+</ul>
+</li>
+<li>
+<p><strong>投影 Projection。</strong> 将视体变换到一个对角顶点分别是(-1,-1,-1)和(1,1,1)单位立方体（unit cube）内，这个单位立方体通常也被称为规范立方体（Canonical View Volume，CVV）。（虽然这些矩阵变换是从一个可视体变换到另一个，但它们仍被称为投影，因为在完成显示后，Z坐标将不会再保存于的得到的投影图片中。通过这样的投影方法，就将模型从三维空间投影到了二维的空间中。）</p>
+</li>
+<li>
+<p><strong>裁剪 Clipping。</strong> 裁剪阶段的目的，就是对部分位于视体内部的图元进行裁剪操作。可见范围裁剪体内的图元被传递到屏幕映射阶段。</p>
+<p><img src="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%203.png" srcset="/img/loading.gif" lazyload alt></p>
+</li>
+<li>
+<p><strong>屏幕映射 Screen Mapping。</strong> 屏幕映射主要目的就是将上一步传过来的图元找到屏幕上对应的坐标。</p>
+<p><img src="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%204.png" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>整数和浮点值与像素（和纹理坐标）的关系：给定一个水平像素数组并使用笛卡尔坐标，最左边的像素的左边缘在浮点坐标中为0.0。这个像素的中心是0.5。因此，像素范围[0，9]覆盖的浮点数范围从[0.0，10.0）</li>
+<li>所有API的像素位置值都是从左到右递增的，但是在OpenGL和DirectX某些情况下，顶部边缘和底部边缘零的位置是不一致的。从一种API迁移到另一种API时需要来考虑这种差异。
+<ul>
+<li>OpenGL将左下角作为最小值元素</li>
+<li>DirectX将左上角作为最小值元素</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="三-光栅化阶段"><a class="markdownIt-Anchor" href="#三-光栅化阶段"></a> 三、<strong>光栅化阶段</strong></h3>
+<p><img src="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%205.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>光栅（栅格化或者像素化）把图元映射为最终屏幕上显示的颜色。</p>
+<ul>
+<li><strong>三角形设定阶段：</strong> 这一个阶段也称作primitive assembly，也就是将一个个图元组装起来，会计算图元的边方程和一些其他信息，说白了就是<strong>将各个点连接起来，组成真正的三角形（或者连成线）。</strong> 然后下一阶段会利用这些信息进行三角形的遍历，也就是检查有哪些像素位于该三角形图元内，对于点、线图元，就看他们覆盖了哪些像素。</li>
+<li><strong>三角形遍历：</strong> 找到哪些采样点或像素在三角形中的过程通常叫三角形遍历。</li>
+</ul>
+<h3 id="四-像素处理阶段"><a class="markdownIt-Anchor" href="#四-像素处理阶段"></a> 四、像素处理阶段</h3>
+<p>像素处理是对图元内的像素或采样点进行逐像素或逐采样点计算和操作的阶段。</p>
+<ul>
+<li><strong>像素着色阶段：</strong> 这个阶段的目的是给输入每一个Pixel赋予正确的颜色，这些颜色的来源可以是纹理、图元的顶点信息和光照信息等。
+<ul>
+<li>首先对于纹理信息，前面的阶段我们已经得到了每个Vertex Shader的纹理坐标，那么我们就可以拿着这个这个坐标去纹理单元中裁剪出这个图元对应的纹理，然后再给图元中的每个像素赋值。</li>
+<li>之前在Vertex Shading阶段提到过，可以给每个Vertex加上对应的光照、阴影信息，那么这些信息怎么作用到图元中的每个像素呢？在GPU中是通过插值（Interpolate）来实现的，具体就是用三角形三个顶点的值，来得到三角形中某个点的相应信息。</li>
+<li>以上是<strong>逐顶点计算</strong>，如果三角形比较大，插值出来的光照效果可能不理想，于是可以使用Per pixel lighting，顾名思义，就是对每个像素进行光照处理。具体实现方法是用光源向量、射线向量、法线向量来计算每个像素的光照信息</li>
+</ul>
+</li>
+<li><strong>融合阶段：<strong>融合阶段的主要任务是合成当前储存于缓冲器中的由之前的像素着色阶段产生的片段颜色，说白了就是</strong>输入的每个Pixel都有相应的颜色信息，被存储在Color buffer，这一阶段就是要整合这些Pixel信息，以得到具体一帧的图像信息，这一阶段也被称作ROP</strong>。此外，融合阶段还负责透明度测试、深度测试、模板测试的处理。</li>
+</ul>
+<p>当图元通过光栅化阶段之后，从相机视点处看到的东西就可以在荧幕上显示出来。为了避免观察者体验到对图元进行处理并发送到屏幕的过程，图形系统一般使用了<strong>双缓冲（double buffering）机制</strong>，这意味着屏幕绘制是在一个后置缓冲器（backbuffer）中以离屏的方式进行的。一旦屏幕已在后置缓冲器中绘制，后置缓冲器中的内容就不断与已经在屏幕上显示过的前置缓冲器中的内容进行交换。注意，只有当不影响显示的时候，才进行交换。</p>
+<p><strong>GPU管线（实现了上述的概念管线）：</strong></p>
+<p><img src="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/Untitled%206.png" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>从Vertex Shader到Screen Mapping都属于Geometry Processing，其中前三个阶段属于Vertex Shading阶段。</li>
+<li>然后通过Projection、Clipping，得到unit-cube（也被称作canonical view volume），再进行Screen Mapping，转换到对应的屏幕坐标系。</li>
+<li>接下来就到了光栅化阶段，即通过Triangle Setup &amp; Travelsal，得到各个图元对应的像素，拿着这些像素，就来到了最后的Pixel Processing阶段。</li>
+<li>首先通过Pixel Shader得到每个像素的颜色信息，再通过Merging进行各种测试、混合颜色，以得到最终的画面信息。到这里，就完成了整条Rendering Pipeline，下一步就可以将画面输出到显示器上了。</li>
+</ul>
+<h1 id="概念补充"><a class="markdownIt-Anchor" href="#概念补充"></a> 概念补充</h1>
+<h2 id="垂直同步与双重缓冲-三重缓冲"><a class="markdownIt-Anchor" href="#垂直同步与双重缓冲-三重缓冲"></a> 垂直同步与双重缓冲、三重缓冲</h2>
+<p>开启垂直同步会带来两个问题：</p>
+<p>第一，帧数下降。一个显而易见的原因是，如果刷新率是60HZ，那么显卡如果需要等待垂直同步信号才生成下一帧，那么帧数就不会超过60帧/s。但是这还不是问题的全部，如果你的显卡性能并不足以保证每秒60帧是速度呢？那么就会出现在一个垂直同步信号周期内，渲染不出一帧画面的情况，那么显卡就会将上一帧画面输出，而延迟1个周期才输出下一帧画面。如果不开垂直同步你的帧数有50帧的话，开了垂直同步，可能就会只有40帧左右，甚至更少；</p>
+<p>第二，操作延迟。原因和帧数下降是基本一样的。你的操作决定了显卡如何生成下一帧画面，而如果这一帧画面需要2、3个垂直同步信号周期才能输出到显示器上，延迟感就会非常的明显。但是和帧数下降问题不同，即便你显卡速度很快，能够在开启垂直同步的情况下依然保持60FPS，这个操作延迟问题也依然存在。原因在于显卡在等待垂直同步过程中，不生成新帧，而你的操作却是连续的。这样连续的操作却不能生成连续的帧，操作就会出现延迟。</p>
+<p><strong>解决方案：三重缓冲</strong></p>
+<p>所谓的三重缓冲，说白了，就是我们有3个帧缓冲器！除去我们正常使用的，向显示器输出信号的缓冲区(A区)，我们另外再开辟2个缓冲区(B1、B2区)，当A区已满，等待垂直同步信号的时候，显卡生成的下一帧画面，写入到B1区；如果还需要再生成下一帧，则写入B2区；如果再再需要下一帧，则写入B1区。总之，在得到垂直同步信号之前，帧数据总是写入B1或者B2区内，当获得垂直同步信号之后，将最新的一帧写入A1区，输出到显示器。当然，这只是原理，实际上并没有固定用处的缓冲区，哪个缓冲区是最新生成的一帧，哪个就可以作为A区输出帧画面数据。</p>
+<p>这样，我们首先解决了帧数下降的问题，由于显卡不需要暂停等待信号才生成新帧，所以理论上帧率就和你不开垂直同步是一样的。帧率不会降低，操作的延迟也就不会有那么明显。虽然最终得到的还是和刷新率一样的画面帧数，但由于画面和操作都是连续的，因此也不会造成额外的操作延迟。</p>
+<p><strong>三重缓冲的问题：</strong> 显存占用非常大。这很好理解，原本只需要1个的缓冲区，现在变成三个，显存占用率自然也就是三倍。如果你再开个高分辨率，抗锯齿什么的，那显存占用率那是噌噌往上涨的。</p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<ul>
+<li>《Real-Time Render 4th》</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61949898">GPU Rendering Pipeline——GPU渲染流水线简介 - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/127974083?utm_id=0">应该开启&quot;垂直同步&quot;吗 ？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/da82d3616cca">简书-OpenGL ES 多目标渲染（MRT）</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES202/">GAMES202</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Theory/">Theory</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/20/Games202%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Games202-03实时阴影</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/01/Games202%E5%89%8D%E8%A8%80/">
+                        <span class="hidden-mobile">Games202-01前言</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

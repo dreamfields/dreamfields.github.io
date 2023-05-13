@@ -1,0 +1,862 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta name="description" content="Temporal Anti-Aliasing（TAA） 最早temporal的思路是用来解决Anti-Aliasing的，先有TAA的巨大成功才会有RTRT里的应用。  参考：Temporal Anti-Aliasing - 知乎 (zhihu.com)   为什么出现走样？ 回顾101学习的关于采样的过程：  （a）是时域上的某个信号，到了频域上（b）是一个连续的频谱（Tips：频谱是左右对称">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games202-08工业界的实时渲染">
+<meta property="og:url" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:description" content="Temporal Anti-Aliasing（TAA） 最早temporal的思路是用来解决Anti-Aliasing的，先有TAA的巨大成功才会有RTRT里的应用。  参考：Temporal Anti-Aliasing - 知乎 (zhihu.com)   为什么出现走样？ 回顾101学习的关于采样的过程：  （a）是时域上的某个信号，到了频域上（b）是一个连续的频谱（Tips：频谱是左右对称">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%201.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%202.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%203.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%204.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%205.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%206.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%207.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%208.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%209.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2010.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2011.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2012.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2013.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2014.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2015.png">
+<meta property="og:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2016.png">
+<meta property="article:published_time" content="2023-01-25T09:28:10.000Z">
+<meta property="article:modified_time" content="2023-05-13T10:26:07.246Z">
+<meta property="article:author" content="木夕">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled.png">
+  
+  <title>Games202-08工业界的实时渲染 - Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/blog.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Games202-08工业界的实时渲染">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-01-25 17:28" pubdate>
+        2023年1月25日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Games202-08工业界的实时渲染</h1>
+            
+            <div class="markdown-body">
+              <h1 id="temporal-anti-aliasingtaa"><a class="markdownIt-Anchor" href="#temporal-anti-aliasingtaa"></a> Temporal Anti-Aliasing（TAA）</h1>
+<p>最早temporal的思路是用来解决Anti-Aliasing的，先有TAA的巨大成功才会有RTRT里的应用。</p>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/20786650">Temporal Anti-Aliasing - 知乎 (zhihu.com)</a></p>
+</blockquote>
+<h2 id="为什么出现走样"><a class="markdownIt-Anchor" href="#为什么出现走样"></a> 为什么出现走样？</h2>
+<p>回顾101学习的关于采样的过程：</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled.png" srcset="/img/loading.gif" lazyload alt="https://www.researchgate.net/figure/The-evolution-of-sampling-theorem-a-The-time-domain-of-the-band-limited-signal-and-b_fig5_301556095"></p>
+<p>（a）是时域上的某个信号，到了频域上（b）是一个连续的频谱（Tips：频谱是左右对称的，即使不存在负的频率）</p>
+<p>（c）是冲激函数，只在特定时域上有值，反映到频域上是（d）</p>
+<p>（e）是冲激函数对（a）进行采样（也就是二者相乘），得到离散的点，反映到频域上是（f）</p>
+<p><strong>采样就等价于把信号在频域上以采样信号的周期进行延拓</strong>。</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%201.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><strong>走样原理</strong>：之所以会出现走样现象是因为采样比较稀疏，也就是采样点之间的间隔比较大，就意味着频谱之间的间隔小，那么延拓之后会产生频谱重叠的现象从而发生走样。</p>
+<p>下面是相关参考资料：</p>
+<blockquote>
+<p>关于采样的通俗理解：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/431920644/answer/1597049082">https://www.zhihu.com/question/431920644/answer/1597049082</a></p>
+</blockquote>
+<blockquote>
+<p>关于傅里叶变换的通俗理解：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/19763358">https://zhuanlan.zhihu.com/p/19763358</a></p>
+</blockquote>
+<blockquote>
+<p><strong>采样 == 重复的搬移频谱：</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38972634/article/details/119832068">https://blog.csdn.net/qq_38972634/article/details/119832068</a></p>
+</blockquote>
+<h2 id="taa反走样"><a class="markdownIt-Anchor" href="#taa反走样"></a> TAA反走样</h2>
+<p>对于走样的终极解决方案就是：用更多的样本。常用的反走样方法有：SSAA、MSAA、TAA。</p>
+<p>TAA的思路也是需要用更多的sample，只不过是当前帧会复用上一帧的sample，使得这一帧仍然用1SPP，但是无形中通过时间上的复用，增加了SPP（sample per pixel），其思路与RTRT中如何运用temporal的思路完全相同。</p>
+<p>Temporal AA尝试用在避免性能损失的情况近似Super Sampling AA的结果。它的做法一句话总结就是，把样本分布到过去的N帧中去，然后每一帧从过去的N帧中取得样本信息然后Filter，达到N倍Super Sampling的效果，如下图：</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%202.png" srcset="/img/loading.gif" lazyload alt="Temporal Anti-Aliasing - 知乎 (zhihu.com)"></p>
+<h3 id="静止场景"><a class="markdownIt-Anchor" href="#静止场景"></a> <strong>静止场景</strong></h3>
+<p>通过TAA提供的一个叫Jittered sampling的方法去复用上一帧的sample，认为连续的四帧之间有一个移动的pattern，它们在时间上各不相同，样本就这样随时间从左上，左下，右上，右下交替采样。</p>
+<p>由于在时间上复用，到了frame3的时候，采样的是右下角的点，其实它已经复用了前面4帧的4个点（frame-1，frame0，frame1，frame2），那么到了当前帧继续复用，于是就把temporal的这些样本都考虑进去了，由于场景静止，该操作相当于把之前各自样本的结果在一起做了一个加权平均，这样就等价于在当前帧中做了一个2*2的upsampling：</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%203.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>之所以不随机采样点是因为<strong>随机的效果不一定好</strong>。在temporal中可能会引入额外的高频的信息，因此使用规定好的样本点，如上图每四帧一个，这样固定样本点位置避免了分布不均匀的情况。</p>
+<h3 id="运动场景"><a class="markdownIt-Anchor" href="#运动场景"></a> 运动场景</h3>
+<p>原本在静止情况下我们是在一个像素里找sample的结果并复用上一帧中的样本点的结果，在运动场景中，当前帧几何的位置通过motion vector找到上一帧中对应的位置，并复用其结果，如果temporal的信息不太可信时，使用clamping方法，也就是把上一帧的结果拉到接近当前帧的结果。</p>
+<h2 id="拓展对比-msaa-与-ssaa"><a class="markdownIt-Anchor" href="#拓展对比-msaa-与-ssaa"></a> 拓展：对比 MSAA 与 SSAA</h2>
+<h3 id="ssaa"><a class="markdownIt-Anchor" href="#ssaa"></a> SSAA</h3>
+<p>SSAA可以看作是将一个场景按照几倍的分辨率先渲染后再降采样，把几个像素的结果平均起来，思路是完全正确的，但开销较大，因此帧率会严格按照倍数下降。</p>
+<h3 id="msaa"><a class="markdownIt-Anchor" href="#msaa"></a> MSAA</h3>
+<p>MSAA则是在SSAA的基础上做了一个近似从而使得其效率提升开销没那么大。</p>
+<p><strong>核心思想：MSAA同样对于每个像素进行了4次子采样（Sample），但是只在像素中心位置运行一次像素着色。</strong></p>
+<p><strong>尤其注意：“只在像素中心位置运行一次像素着色”指的是对于同一个primitive（几何体），如果一个像素感知到多个primitive，就进行多次像素着色，原因在于子采样点的深度会随着多个不同的primitive而改变，最终呈现出来的像素颜色是最后一个primitive进行的着色。</strong></p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%204.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>为了实现这样的操作，MSAA内部会对每个像素维护一张表，记录每个子采样点的<strong>颜色值和深度值。</strong></p>
+<p>上图为例，在前向渲染中，三角形的绘制是依次进行的。绘制粉色三角形时，MSAA的具体执行步骤如下：</p>
+<ol>
+<li>光栅化阶段，对四个位置的Sample执行三角形覆盖判断，并把深度写入表中。</li>
+<li>像素着色阶段，在像素中心圆点处执行像素着色器。该点的位置、深度、法线、纹理坐标等信息由三角形三个顶点重心插值得到。</li>
+<li>对四个Sample执行模板测试与深度测试，并将测试通过的Sample数据写入四倍分辨率的模板缓冲与深度缓冲。每个Sample都拥有自己的深度值，依然是重心插值得到。</li>
+<li>上图中0、3、2号Sample通过了深度测试，将粉色复制到这3个Sample对应的颜色缓冲中剩下的1个Sample暂为背景色。</li>
+<li>上述的子采样点操作结束后，对最终像素颜色进行变更，位置是该像素中心点，求四个Sample的颜色的均值（或者插值）作为最终像素颜色。</li>
+<li>重复上述流程绘制第二个蓝色三角形，将像素着色获得的蓝色复制到1号Sample中。</li>
+<li>上述的子采样点操作结束后，继续对最终像素颜色进行变更，位置依旧是该像素中心点，求四个Sample的颜色的均值（或者插值）作为最终像素颜色。</li>
+</ol>
+<p>可以看到在MSAA流程中所使用的所有缓冲区都变成了原来的四倍大小，这也是为什么MSAA增加了非常多的显存和带宽消耗。</p>
+<p>由此可见，上图一个像素有四个sample，感知到两个primitive，只做两次shading：</p>
+<ul>
+<li>第一次，粉色三角形覆盖到了0，3，2号样本点，更新缓冲区，在像素中心做shading。</li>
+<li>第二次，蓝色三角形覆盖到了1号样本点，更新缓冲区，在像素中心做shading。</li>
+</ul>
+<p>另外，MSAA还允许进行空间上的sample reuse：</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%205.png" srcset="/img/loading.gif" lazyload alt="https://www.sapphirenation.net/"></p>
+<p>如图，在1和2两个像素内，在两个像素的连接处有两个采样点，这两个采样点既可以贡献给像素1也可以贡献给像素2，因此实际上等于通过reuse在6个采样点的情况下得到了8个采样点的结果，减少了采样点的数量，提升了效率。</p>
+<h2 id="拓展基于图像的反走样"><a class="markdownIt-Anchor" href="#拓展基于图像的反走样"></a> 拓展：基于图像的反走样</h2>
+<h3 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h3>
+<p>基于图像的反走样（image based anti-aliasing solution）的思路是先渲染出有锯齿的图，然后通过图像处理的方法将锯齿给提取出来并替换成没有锯齿的图。目前最流行的方法叫</p>
+<p>基于图像的反走样的方法从FXAA发展而来：FXAA → MLAA → SMAA</p>
+<h3 id="算法介绍"><a class="markdownIt-Anchor" href="#算法介绍"></a> 算法介绍</h3>
+<p><strong>FXAA</strong></p>
+<p>FXAA（Fast Approximate Anti-Aliasing）：<strong>快速近似抗锯齿</strong>，是一种典型的边缘检查取样操作，通过提取像素界面周围的颜色信息并完成混合来消除高对比度界面所产生的锯齿。因此FXAA算法的核心思路就两点：</p>
+<ol>
+<li><strong>边缘判定算法</strong></li>
+<li><strong>边缘像素的混合因子计算</strong></li>
+</ol>
+<p>具体学习：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/373379681">FXAA算法演义 - 知乎 (zhihu.com)</a></p>
+<p><strong>MLAA</strong></p>
+<p>MLAA (Morphological Anti-Aliasing) ：形态抗锯齿，是对FXAA的改进（应该是增加了矢量化的方法）。</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%206.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>MLAA处理的流程：</p>
+<ol>
+<li>边缘检测， 得到每个像素的边缘，也就是锯齿边界；</li>
+<li>沿着锯齿边界，向两侧搜索锯齿边界的终点，也就是锯齿边界结束的位置；</li>
+<li>根据两侧锯齿边界结束的位置，将像素矢量化，作出一条蓝色的线，作为重矢量化线；</li>
+<li>算出重矢量化线覆盖像素的面积，作为像素间的混合系数；</li>
+<li>根据混合系数对像素进行混合。</li>
+</ol>
+<p>具体学习：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342211163">主流抗锯齿方案详解（四）SMAA - 知乎 (zhihu.com)</a></p>
+<p><strong>SMAA</strong></p>
+<p>SMAA（Enhanced subpixel morphological Anti-Aliasing）：增强的亚像素形态抗锯齿 ，是对MLAA的改进，进行了更准确的边界判断等优化，并且结合了MLAA与超采样的策略（MSAA、SSAA）。·</p>
+<p>具体学习：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342211163">主流抗锯齿方案详解（四）SMAA - 知乎 (zhihu.com)</a></p>
+<h2 id="拓展关于g-buffer"><a class="markdownIt-Anchor" href="#拓展关于g-buffer"></a> 拓展：关于G－Buffer</h2>
+<p><strong>G-Buffer的底层结构</strong></p>
+<p>G-Buffer，全称Geometric Buffer ，译作几何缓冲区，本质就算一个帧缓冲对象。它主要用于存储每个像素对应的<strong>位置（Position），法线（Normal），漫反射颜色（Diffuse Color）以及其他有用材质参数</strong>。根据这些信息，就可以在像空间（二维空间）中对每个像素进行光照处理。</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%207.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>要注意一点：<strong>G-buffers是绝对不能做反走样的</strong>！因为这是有意义的数值，如果进行混合，数值就失去了原本的意义，无法对混合后的数值进行解释。</p>
+<h1 id="时域超分辨率-temporal-super-resolution"><a class="markdownIt-Anchor" href="#时域超分辨率-temporal-super-resolution"></a> 时域超分辨率 Temporal Super Resolution</h1>
+<p>超分辨率：Super resolution (or super sampling) 就是把低分辨率变成高分辨率。DLSS就是这么一种技术，将一张低分辨率的图输入最后得到一张高分辨率的输出。</p>
+<h2 id="dlss"><a class="markdownIt-Anchor" href="#dlss"></a> DLSS</h2>
+<p>DLSS（Deep Learning Super Sampling）：深度学习超采样。</p>
+<h3 id="dlss-10"><a class="markdownIt-Anchor" href="#dlss-10"></a> DLSS 1.0</h3>
+<p><strong>思路</strong></p>
+<p>通过数据驱动的方法来做，针对于每个游戏或者场景单独训练出一个神经网络，去学习一些常见的物体边缘，从而在低分辨率拉成高分辨率之后将模糊的边缘换成不模糊的边缘。</p>
+<p><strong>特点</strong></p>
+<p>只在当前帧中进行，不依靠temporal的累积，等于没有任何的额外信息来源。但我们将低分辨率硬拉成高分辨率，如果不想让最后的结果模糊，必须需要一些额外的信息，DLSS1.0是<strong>通过猜测</strong>来提供额外信息的。</p>
+<h3 id="dlss-20"><a class="markdownIt-Anchor" href="#dlss-20"></a> DLSS 2.0</h3>
+<p><strong>思路</strong></p>
+<p>DLSS 2.0则摒弃了通过神经网络猜测的结果，而是更希望去利用temporal的信息，因此其核心思路在于TAA，更多的去结合上一帧的信息运用到当前帧中，仍然是temporal reuse。对于静止场景中，连续四帧我们使用不同的感知sample点，当前帧使用上一帧的信息就等于是变相的提升了分辨率。</p>
+<p><strong>存在的问题</strong></p>
+<ul>
+<li>
+<p>如果有temporal failure时，不能使用clamping的方法来解决。原因在于：</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%208.png" srcset="/img/loading.gif" lazyload alt></p>
+<ul>
+<li>最终要的是一个增大了分辨率的图，分辨率提高也就是像素点增多，那么我们需要知道新增加的小的pixel的像素值是多少。如果此时我们用上一帧的结果盲目的clamping势必会因为一些小的像素的值是根据周围的点的颜色猜测出来的，而且猜测的值很像周围的点，也就是得到了一个高分辨率的图但是很模糊。</li>
+<li>总结来说由于DLSS真正的提升了分辨率，因此我们要求新产生的像素的值是要与之前有本质的不同的，否则就会得到一个糊掉的结果。</li>
+</ul>
+</li>
+</ul>
+<p><strong>解决</strong></p>
+<p>因此我们需要一个比clamping更好的复用temporal信息的方案。</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%209.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>左边中的蓝色代表上一帧，绿色代表当前帧。</p>
+<p>绿点是当前帧给了一个采样信号得到的值，在上一帧也就是蓝色曲线中我们可以从另一个信号采样出来值，最后我们要把二者综合在一起得出一个当前帧增加了采样点后的值。DLSS2.0中的神经网络没有输出任何混合后的颜色，而是去告诉你应该怎么将上一帧找到的信息和当前帧结合在一起。</p>
+<p><strong>效果</strong></p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2010.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2011.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2012.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><strong>工业方面</strong></p>
+<p>如果DLSS每一帧需要消耗30ms，那DLSS就太慢了，因此训练出这个网络之后去提升inference性能，针对Nvidia的硬件进行优化，但具体如何做的就是Nvidia内部的事情了。</p>
+<p><strong>其他公司的“DLSS”算法</strong></p>
+<ul>
+<li>By AMD：FidelityFX Super Resolution</li>
+<li>By Facebook：Neural Supersampling for Real-time Rendering [Xiao et al.]</li>
+</ul>
+<h1 id="延迟渲染-deferred-shading"><a class="markdownIt-Anchor" href="#延迟渲染-deferred-shading"></a> 延迟渲染 Deferred Shading</h1>
+<h2 id="为何出现延迟渲染why"><a class="markdownIt-Anchor" href="#为何出现延迟渲染why"></a> 为何出现延迟渲染？Why</h2>
+<p><strong>目标</strong></p>
+<p>Deferred Shading是一个节省shading时间的方法，是为了让shading变得更高效更快。</p>
+<p><strong>传统光栅化过程</strong></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>e</mi><mi>s</mi><mo>→</mo><mi>f</mi><mi>r</mi><mi>a</mi><mi>g</mi><mi>m</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>s</mi><mo>→</mo><mi>d</mi><mi>e</mi><mi>p</mi><mi>t</mi><mi>h</mi><mi>t</mi><mi>e</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>s</mi><mi>h</mi><mi>a</mi><mi>d</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo>→</mo><mi>p</mi><mi>i</mi><mi>x</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">Triangles → fragments → depth test → shading → pixel
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mord mathdefault">i</span><span class="mord mathdefault">x</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span></span></p>
+<p>这可能会出现每一个fragment都需要shading的情况，比如需要从远处到近处渲染时，需要将每一个fragment都进行shading，因为每个fragment都会通过深度测试，但最后呈现到图像上只有最后一个fragment的着色结果。</p>
+<p>此时的复杂度为：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>f</mi><mi>r</mi><mi>a</mi><mi>g</mi><mi>m</mi><mi>e</mi><mi>n</mi><mi>t</mi><mo>∗</mo><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(fragment * light)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mclose">)</span></span></span></span> ，因为每一个fragment针对每一个light都要计算着色。</p>
+<p><strong>关键</strong></p>
+<p>很多fragment在渲染过程中会通过depth test，但最终可能会因为被后续的fragment所覆盖而不会被看到，因此这些在中间过程中被shading的fragment浪费了很多的资源。</p>
+<p><strong>解决思路</strong></p>
+<p>只去渲染可见的fragment，这就是延迟渲染出现的原因。</p>
+<h2 id="什么是延迟渲染what"><a class="markdownIt-Anchor" href="#什么是延迟渲染what"></a> 什么是延迟渲染？What</h2>
+<p>延迟渲染( Deferred Rendering) ，即延迟着色（Deferred Shading），是将着色计算延迟到深度测试之后进行处理的一种渲染方法。</p>
+<p>可以将延迟渲染( Deferred Rendering) 理解为先将所有物体都先绘制到 <strong>屏幕空间的缓冲（即G-buffer，Geometric Buffer，几何缓冲区）</strong> 中，再逐光源对该缓冲进行着色的过程，从而避免了因计算被深度测试丢弃的片元的着色而产生的不必要的开销。也就是说延迟渲染基本思想是，先执行深度测试，再进行着色计算，将本来在物空 间（三维空间）进行光照计算放到了像空间（二维空间）进行处理。</p>
+<p>其本质是通过将几何通道与光照通道分离，能够以比标准多通道前向渲染器更低的成本渲染更多的灯光。</p>
+<h2 id="如何进行延迟渲染how"><a class="markdownIt-Anchor" href="#如何进行延迟渲染how"></a> 如何进行延迟渲染？How</h2>
+<p>可以将延迟渲染理解为两个Pass的过程：</p>
+<ul>
+<li>Pass1（几何通道的光栅化，Geometry Pass）：在第一次光栅化中得到fragment之后我们不做shading，所有的fragment只对深度缓存（depth buffer）做一个更新。在更新深度缓存的同时获取最前深度对象的各种几何信息，并存储到多个G-buffer中（要开启MRT，一次性将不同数据存储到不同的缓冲区）；</li>
+<li>Pass2（光照通道的光栅化，Light Pass）：由于在Pass1中我们已经写好了depth buffer并且知道了最前深度，因此在pass2中只有深度等于最浅深度的fragment才可以通过depth test并进行shading，从而实现了只对visible fragment着色。光照计算的过程还是和正向渲染一样，只是现在我们需要从对应的G-buffer而不是顶点着色器(和一些uniform变量)那里获取输入变量了。</li>
+</ul>
+<p><strong>隐含的信息</strong>：光栅化场景的开销小于对所有fragment着色的开销。</p>
+<h3 id="前向渲染-vs-延迟渲染"><a class="markdownIt-Anchor" href="#前向渲染-vs-延迟渲染"></a> <strong>前向渲染 vs 延迟渲染</strong></h3>
+<p><strong>前向渲染</strong>（对于每一个需要渲染的物体，都要逐光源渲染，每个光源都会带来一定的渲染成本）</p>
+<ul>
+<li>正向渲染（Forward Rendering），先执行着色计算，再执行深度测试。</li>
+<li>正向渲染渲染g个物体，物体着色的片元数量为f，在l个光源下的着色，复杂度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>g</mi><mo>⋅</mo><mi>f</mi><mo>⋅</mo><mi>l</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(g\cdot f\cdot l)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mclose">)</span></span></span></span>。</li>
+<li>Forward Rendering，光源数量对计算复杂度影响巨大，所以比较适合户外这种光源较少的场景。</li>
+</ul>
+<p><strong>延迟渲染</strong>（将计算量非常大的渲染(如光照)延时到后期进行处理）</p>
+<ul>
+<li>延迟渲染( Deferred Rendering)，先执行深度测试，再执行着色计算。</li>
+<li>由于最耗时的光照计算延迟到后处理阶段，所以跟场景的物体数量解耦，只跟Render Targe尺寸相关，复杂度是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi></mrow></msub><mo>×</mo><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><msub><mi>h</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo>×</mo><mi>H</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><msub><mi>t</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N_{light} \times Width_{RT} \times Height_{RT})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。</li>
+<li>Deferred Rendering 的最大的优势就是将光源的数目和场景中物体的数目在复杂度层面上完全分开。也就是说场景中不管是一个三角形还是一百万个三角形，最后的着色复杂度不会随光源数目变化而产生巨大变化。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>前向渲染</th>
+<th>延迟渲染</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>场景复杂度</td>
+<td>简单</td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>光源支持数量</td>
+<td>少</td>
+<td>多</td>
+</tr>
+<tr>
+<td>时间复杂度</td>
+<td><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>g</mi><mo>⋅</mo><mi>f</mi><mo>⋅</mo><mi>l</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(g\cdot f\cdot l)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mclose">)</span></span></span></span></td>
+<td><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi></mrow></msub><mo>×</mo><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><msub><mi>h</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo>×</mo><mi>H</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><msub><mi>t</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N_{light} \times Width_{RT} \times Height_{RT})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></td>
+</tr>
+<tr>
+<td>抗锯齿</td>
+<td>MSAA, FXAA, SMAA</td>
+<td>TAA, SMAA</td>
+</tr>
+<tr>
+<td>显存和带宽</td>
+<td>较低</td>
+<td>较高</td>
+</tr>
+<tr>
+<td>Pass数量</td>
+<td>少</td>
+<td>多</td>
+</tr>
+<tr>
+<td>MRT</td>
+<td>无要求</td>
+<td>要求</td>
+</tr>
+<tr>
+<td>过绘制</td>
+<td>严重</td>
+<td>良好避免</td>
+</tr>
+<tr>
+<td>材质类型</td>
+<td>多</td>
+<td>少</td>
+</tr>
+<tr>
+<td>画质</td>
+<td>清晰，抗锯齿效果好</td>
+<td>模糊，抗锯齿效果打折扣</td>
+</tr>
+<tr>
+<td>透明物体</td>
+<td>不透明物体、Masked物体、半透明物体</td>
+<td>不透明物体、Masked物体，不支持半透明物体</td>
+</tr>
+<tr>
+<td>屏幕分辨率</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>硬件要求</td>
+<td>低，几乎覆盖100%的硬件设备</td>
+<td>较高，需MRT的支持，需要Shader Model 3.0+</td>
+</tr>
+<tr>
+<td>实现复杂度</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>后处理</td>
+<td>无法支持需要法线和深度等信息的后处理</td>
+<td>支持需要法线和深度等信息的后处理，如SSAO、SSR、SSGI等</td>
+</tr>
+</tbody>
+</table>
+<h3 id="延迟渲染的缺点"><a class="markdownIt-Anchor" href="#延迟渲染的缺点"></a> 延迟渲染的缺点</h3>
+<ul>
+<li>内存开销较大，需要缓存的信息（G-buffer）很多</li>
+<li>读写G-buffer的内存带宽用量是性能瓶颈</li>
+<li>对透明物体：所有半透明的物体都需要等待不透明物体以延迟渲染完成之后，在用前向渲染的方式渲染半透明物体。</li>
+<li>延迟渲染不可以使用MSAA
+<ul>
+<li>MSAA本质上是一种发生在光栅化阶段的技术，也就是几何阶段后，着色阶段前，用这个技术需要用到场景中的几何信息（交界处的几何体的深度值）</li>
+<li>延迟渲染因为需要节省光照计算的原因，事先把所有信息都放在了G-buffer上，着色计算的时候已经丢失了几何信息</li>
+<li>解决方法：可以通过TAA或者是imaged based AA来解决；或者参考如何在延迟渲染中进行MSAA（<a target="_blank" rel="noopener" href="https://diglib.eg.org/bitstream/handle/10.2312/egs20201008/021-024.pdf?sequence=1&amp;isAllowed=y">《Multisample anti-aliasing in deferred rendering》</a>），它的核心思想在于Geometry Pass除了存储标准的GBuffer，还额外增加了GBuffer对应的扩展数据，这些扩展数据仅仅包含了需要多采样像素的MSAA数据，以供Lighting Pass着色时使用。这样既能满足MSAA的要求，又可以降低GBuffer的占用。</li>
+</ul>
+</li>
+</ul>
+<p>到此，对fragment已经优化了很多，而为了更优方法，就将目光放在了light身上，从而引出Tiled Shading。</p>
+<h2 id="tile-based-deferred-renderingtbdr"><a class="markdownIt-Anchor" href="#tile-based-deferred-renderingtbdr"></a> Tile-Based Deferred Rendering（TBDR）</h2>
+<p>TBDR是建立在Deferred Shading的基础之上，将屏幕分成若干个小块，比如一个小块是32 * 32，然后对每个小块单独的做shading。</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2013.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>上图是从camera（下方）看向屏幕（上方）的俯视平面图，将屏幕分成了若干个小块，圆代表的是光源的范围，每个圆代表一个光源。上图中的数字代表该区域内会感知到的光源数量。</p>
+<p><strong>核心思想</strong>：节省每个小块要考虑的light数量，每个切出来的小块代表场景中3D的区域，并不是所有的光源都会跟这片区域相交。</p>
+<p>在做light sampling时知道光照强度会随着距离的平方衰减，因此面光源或点光源的覆盖范围是很小的，因此可以设定一个范围，把光源的覆盖范围看做一个球形。在渲染时，只需要找该区域能够感知到的光源即可，不需要考虑所有的光源。</p>
+<p><strong>复杂度</strong>：从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi></mrow></msub><mo>×</mo><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><msub><mi>h</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo>×</mo><mi>H</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><msub><mi>t</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N_{light} \times Width_{RT} \times Height_{RT})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>提升到了 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>a</mi><mi>v</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mo>−</mo><mi>p</mi><mi>e</mi><mi>r</mi><mo>−</mo><mi>t</mi><mi>i</mi><mi>l</mi><mi>e</mi></mrow></msub><mo>×</mo><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><msub><mi>h</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo>×</mo><mi>H</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><msub><mi>t</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N_{average-light-per-tile} \times Width_{RT} \times Height_{RT})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">t</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，即光源数量从总光源数降低为每小块区域的平均光源数量。</p>
+<p>但在此之后，又有人对其进行了一个复杂的优化。</p>
+<h2 id="clustered-deferred-rendering"><a class="markdownIt-Anchor" href="#clustered-deferred-rendering"></a> <strong><strong>Clustered Deferred Rendering</strong></strong></h2>
+<p>在刚才的基础上，不仅将其分成若干个小块，还要在深度对其进行切片，也就是将整个3D空间拆分成了若干个网格。</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2014.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><strong>核心思想</strong>：如果只分成若干个小块区域的话，区域内的深度可能会十分大，因此光源可能会对这个小块区域有贡献，但不一定会对根据深度细分后的网格有贡献。所以再划分过后我们可以发现每个网格内的光源数量更少了。</p>
+<p><strong>复杂度</strong>：从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>a</mi><mi>v</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mo>−</mo><mi>p</mi><mi>e</mi><mi>r</mi><mo>−</mo><mi>t</mi><mi>i</mi><mi>l</mi><mi>e</mi></mrow></msub><mo>×</mo><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><msub><mi>h</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo>×</mo><mi>H</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><msub><mi>t</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N_{average-light-per-tile} \times Width_{RT} \times Height_{RT})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">t</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>提升到了 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>a</mi><mi>v</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mo>−</mo><mi>p</mi><mi>e</mi><mi>r</mi><mo>−</mo><mi>c</mi><mi>l</mi><mi>u</mi><mi>s</mi><mi>t</mi><mi>e</mi><mi>r</mi></mrow></msub><mo>×</mo><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><msub><mi>h</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo>×</mo><mi>H</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><msub><mi>t</mi><mrow><mi>R</mi><mi>T</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N_{average-light-per-cluster} \times Width_{RT} \times Height_{RT})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">t</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>以上两种改进的共同点：<strong>避免没有意义的shading从而提高效率</strong>。</p>
+<h1 id="层次细节-level-of-detail-solutions"><a class="markdownIt-Anchor" href="#层次细节-level-of-detail-solutions"></a> 层次细节 Level of Detail Solutions</h1>
+<p>LOD的核心思路：生成不同的level，在任何计算过程中能够快速准确的找出一个正确的level去进行各种运算。在工业界中运用LOD方法或者在不同情况下选用不同层级的思路称之为”<strong>Cascaded方法</strong>“。</p>
+<p>例如texture的mip-map就是一个LOD，在high level时detail少一点，但可以很快的计算出一个区域的平均。</p>
+<h3 id="cascaded-shadow-maps"><a class="markdownIt-Anchor" href="#cascaded-shadow-maps"></a> Cascaded shadow maps</h3>
+<p>当shadow map上的一个texel离camera越近，其在屏幕中所覆盖的内容越多，反之离camera越远，其所覆盖的内容越少，因此我们可以知道从camera出发看向场景，离camera远的我们可以用粗糙的shadow map。</p>
+<p>但我们是无法拥有一个会变化的shadow map的，因此在实际操作过程中，通常会生成两种或以上不同分辨率的shadow map进行使用的，如图，红色区域是一个高分辨率的shadow map，蓝色区域是覆盖范围更大但分辨率相同也就是更粗糙的shadow map。</p>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2015.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>从而根据物体在场景的位置来选用shadow map，远点的就用粗糙的，近处的就用精细的。但是从图中可以看到会有重叠区域内，因为在突然切换层级时会有一个突变的artifact，为了有一个平滑的过渡，在这个区域内，根据离摄像机的距离把两种shadow map进行blend。</p>
+<h3 id="cascaded-lpv"><a class="markdownIt-Anchor" href="#cascaded-lpv"></a> Cascaded LPV</h3>
+<p><img src="/2023/01/25/Games202%E5%B7%A5%E4%B8%9A%E7%95%8C%E7%9A%84%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/Untitled%2016.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>同样的，先在细小的格子上，之后随着距离的增加到大一点的格子，再远就更大，从而省去了很多的计算量。</p>
+<h3 id="geometric-lod"><a class="markdownIt-Anchor" href="#geometric-lod"></a> Geometric LOD</h3>
+<p>如果有一个精细的有许多三角形的模型（高模），我们可以将其减化，减少其三角形使其变成一个低模，我们可以生成一系列的低模。</p>
+<ul>
+<li>可以根据物体离camera的距离，来选择放什么层级的模型进去（高模还是低模）；</li>
+<li>并且一个物体的不同部分也可以做不同的LOD，只需要提供一个标准，比如说这个标准是保证任何时候三角形都不会超过一个像素的大小。</li>
+</ul>
+<p>这样可以保证一个模型可以根据camera在哪，从而动态的告诉渲染管线需要渲染什么层级的模型或者部分。</p>
+<p><strong>问题</strong>：如果camera推进，在推进过程中由于是突变的，会出现突然变化几何的现象，也就是popping artifacts，但TAA可以很好的解决这个现象。</p>
+<p>而在UE5中的Nanite技术，本质就是一个复杂的LOD，它所作的就是将LOD存在的问题（不同LOD如何正确连接而不出现缝隙、高模与低模如何进行调度、物体的几何表示用三角形网格还是几何纹理、裁剪与剔除）去寻找已有的论文进行复现与对比，参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/445634734">UE5开发路线图及技术解析-Nanite、Lumen及其它 - 知乎 (zhihu.com)</a></p>
+<h1 id="工业界的全局光照-global-illumination-solutions"><a class="markdownIt-Anchor" href="#工业界的全局光照-global-illumination-solutions"></a> 工业界的全局光照 Global Illumination Solutions</h1>
+<p>没有任何的GI解决方法可以将所有的情况都给解决掉，除了RTRT（实时光线追踪），因为它理论上是一个正确的path tracing，肯定可以解决各种情况。但是RTRT在现如今只适用于部分，如果整体都用RTRT那么帧率自然而然会下降。</p>
+<p>因此工业界经常使用hybrid solutions，也就是将许多中方法结合在一起。</p>
+<p>下面是一个可能的GI思路：</p>
+<ul>
+<li>先做一遍SSR，得到一个近似的GI，对于SSR无法得到的结果，专用其它的ray tracing方法去弥补（用硬件或者软光追）</li>
+<li>软光追（Software ray tracing）
+<ul>
+<li><strong>近处：在任意一个shading point，在其周围的一定范围内的物体用一个较高分辨率或较高质量的SDF，SDF可以让我们在shader中快速地tracing</strong></li>
+<li><strong>远处：用一个稍低质量的SDF将整个场景覆盖，至此不论近处还是远处我们都可以通过SDF得到最终光照打到的结果。</strong></li>
+<li><strong>如果场景中有强烈的方向光源或者点光源（如手电筒），则通过RSM来解决。</strong></li>
+<li>如果场景中有diffuse的物体，则通过DDGI（Dynamic Diffuse GI）来解决，这是一种基于探针的全局光照方法，用探针来存储3D网格中的irradiance，再照亮其它物体。</li>
+</ul>
+</li>
+<li>硬件光追（Hardware ray tracing）
+<ul>
+<li><strong>使用简化模型。由于我们要计算的是间接光照，因此没有必要去使用原始geometry，可以用一些简化了的模型去代替原始模型从而加快trace的速度，这样RTRT就十分快了。</strong></li>
+<li>Probes (RTXGI)，用RTRT的思路结合探针的思路，叫做RTXGI。</li>
+</ul>
+</li>
+</ul>
+<p>上述中加粗的四条结合在一起就是UE5的lumen思路。</p>
+<h1 id="笔记参考"><a class="markdownIt-Anchor" href="#笔记参考"></a> 笔记参考</h1>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1YK4y1T7yY/?p=14&amp;vd_source=fe75c02381cf9faf4ece63051ea5c7de">Lecture 14 A Glimpse of Industrial Solution_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/397575842">GAMES202 Lecture14:Glimpse of Industry Solution - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28489928">【《Real-Time Rendering 3rd》 提炼总结】(七) 第七章续 · 延迟渲染(Deferred Rendering)的前生今世 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/562673914">虚幻5的移动端延迟渲染技术到底有多好用？ - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/547943994">剖析虚幻渲染体系（04）- 延迟渲染管线（1/3） - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/445634734">UE5开发路线图及技术解析-Nanite、Lumen及其它 - 知乎 (zhihu.com)</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/">CG</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CG/GAMES202/">GAMES202</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Theory/">Theory</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CG/">CG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/08/UE-%E6%B8%B2%E6%9F%93%E4%BD%93%E7%B3%BB%E6%B5%85%E6%9E%90/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">UE 渲染体系浅析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/15/Games202%E5%AE%9E%E6%97%B6%E5%85%89%E8%BF%BD%E9%99%8D%E5%99%AA/">
+                        <span class="hidden-mobile">Games202-07实时光追降噪</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","appKey":"86QJklER4kphwsPLL8tnbFs4","path":"window.location.pathname","placeholder":"留下你的足迹","visitor":"true // 阅读量统计","avatar":"monsterid","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

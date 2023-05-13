@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Dream Fields">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="木夕">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="缓缓独行 才不致倾覆">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/26/Lecture-04-05-%E6%97%8B%E8%BD%AC&amp;%E5%85%89%E6%A0%85%E5%8C%96/" target="_self">
+          Lecture 04-05 旋转、光栅化
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/26/Lecture-04-05-%E6%97%8B%E8%BD%AC&amp;%E5%85%89%E6%A0%85%E5%8C%96/" target="_self">
+          
+          
+            
+          
+           旋转
+
+
+Rodrigues 旋转公式：实现某三维物体的坐标绕过原点的向量轴 n 旋转 α 角度的旋转矩阵为 R(n,α)，这是Rodrigues 旋转公式的推导
+
+
+
+
+图形学的成像，类比拍照。
+
+
+第一步将模型摆好，称为模型变换；第二部将相机的位置摆好，称为视图（或相机）变换；第三步将物体投影到屏幕上，称为投影变换。
+
+
+
+其中，观测变换包括两部分：视图变换 + 投影变换
+
+
+
+1.视图变换
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-26 21:07" pubdate>
+              2021-12-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES101/">GAMES101</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/24/Lecture-02-03-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80&amp;%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" target="_self">
+          Lecture 02-03 线性代数基础与线性变换
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/24/Lecture-02-03-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80&amp;%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" target="_self">
+          
+          
+            
+          
+           线性代数基础
+
+
+叉乘计算公式（两个向量的叉积等价于一个矩阵与一个向量的乘积）
+
+
+
+任意向量在三维坐标中的分解（该向量在三个基方向上的投影之和）
+
+
+
+向量与矩阵的联系
+
+
+
+ 线性变换
+
+
+基本概念
+
+如果 AAT=EAA^T=EAAT=E（E 为单位矩阵）或 ATA=EA^TA=EATA=E，则 n 阶实矩阵 A 称为正交矩阵
+设 A 是一个 n 阶矩阵，若存在另一个 n 阶矩阵 B，使得
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-24 20:43" pubdate>
+              2021-12-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES101/">GAMES101</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/06/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/" target="_self">
+          前端规范
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/06/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/" target="_self">
+          
+          
+            
+          
+           🔵代码编辑器: 使用 vscode
+编辑器使用vscode，代码的规范基本都要依赖于 vscode的插件
+ 这里需要使用的插件有:
+
+ESLint
+koroFileHeader
+Prettier - Code formatter
+
+ 可选插件
+
+Chinese (Simplified) Language Pack for Visual Studio Code  (中文插件)
+GitLens —
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-06 19:30" pubdate>
+              2021-12-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Front-end/">Front-end</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%8D%E7%AB%AF/">前端</a>
+            
+              <a href="/tags/%E8%A7%84%E8%8C%83/">规范</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/02/LearnOpenGL-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_self">
+          LearnOpenGL-环境配置
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/02/LearnOpenGL-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_self">
+          
+          
+            
+          
+           Step1：获取GLFW与GLAD依赖库
+GLFW是一个专门针对OpenGL的C语言库，它提供了一些渲染物体所需的最低限度的接口。它允许用户创建OpenGL上下文，定义窗口参数以及处理用户输入。该步骤保证它恰当地创建OpenGL上下文并显示窗口。
+GLAD是用来管理OpenGL的函数指针的，所以在调用任何OpenGL的函数之前我们需要初始化GLAD。
+
+获取教程参考链接：
+
+Learn Open
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-02 11:50" pubdate>
+              2021-08-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/Configuration/">Configuration</a>
+            
+              <a href="/categories/CG/OpenGL/">OpenGL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/OpenGL/">OpenGL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/" target="_self">
+          DWV及其React实践简要学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/23/dwv%E5%8F%8A%E5%85%B6React%E5%AE%9E%E8%B7%B5%E7%AE%80%E8%A6%81%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+           DWV简介
+
+DWV (DICOM Web Viewer) is an open source zero footprint medical image viewer.
+
+DWV是一款开源的Web端DICOM医学影像查看器，这是其 官方文档。
+从其架构上来看：
+
+拆分为两个过程：一是load，对DICOM数据的加载；二是view，对视图的渲染，包括图层控制（视图层-对图片渲染展示、绘制层-利用K
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-23 16:53" pubdate>
+              2021-07-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Front-end/">Front-end</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/React/">React</a>
+            
+              <a href="/tags/DWV/">DWV</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/" target="_self">
+          链接合集
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/09/%E9%93%BE%E6%8E%A5%E5%90%88%E9%9B%86/" target="_self">
+          
+          
+            
+          
+           📗 工具介绍
+
+yarn的介绍及workspace的使用
+Monorepo 是什么，为什么大家都在用？
+Monorepo实战
+
+ 🎈 文档链接
+
+Yarn
+webpack
+Lerna
+
+ 💙 参考教程
+ VS Code —— C++开发
+
+开发环境配置详细教程
+配置文件说明
+插件CodeRunner运行C++代码时中文乱码问题的解决
+安装和使用C++线性代数库eigen（Windows，M
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-09 09:56" pubdate>
+              2021-07-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Link-collect/">Link-collect</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/webpack/">webpack</a>
+            
+              <a href="/tags/Monorepo/">Monorepo</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/08/%E5%88%9B%E5%BB%BA%E5%B9%B6%E5%8F%91%E5%B8%83%E4%B8%80%E4%B8%AAreact%E7%BB%84%E4%BB%B6%E5%88%B0npm/" target="_self">
+          创建并发布一个react组件到npm
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/08/%E5%88%9B%E5%BB%BA%E5%B9%B6%E5%8F%91%E5%B8%83%E4%B8%80%E4%B8%AAreact%E7%BB%84%E4%BB%B6%E5%88%B0npm/" target="_self">
+          
+          
+            
+          
+          
+参考链接与官方文档：
+
+教程——发布 react 组件到 npm 上
+webpack中文文档
+NPM: webpack-dev-server
+Github 徽章shields使用教程
+NPM的 package.json 配置官网
+包的版本控制规范
+
+
+ 🔵 问题与解决
+ 1.包版本兼容问题
+按照教程来，会自动进行安装最新的npm包，最后在启动本地服务时会产生版本不匹配的错误，解决方法是先对pa
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-08 17:39" pubdate>
+              2021-07-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Configuration/">Configuration</a>
+            
+              <a href="/categories/Front-end/">Front-end</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/react/">react</a>
+            
+              <a href="/tags/npm/">npm</a>
+            
+              <a href="/tags/webpack/">webpack</a>
+            
+              <a href="/tags/git/">git</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

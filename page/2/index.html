@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#435266">
+  <meta name="description" content="">
+  <meta name="author" content="木夕">
+  <meta name="keywords" content="">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Dream Fields">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="Dream Fields">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="木夕">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Dream Fields</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♥","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"6YjqtdnCXWEze6YQenySAIQJ-gzGzoHsz","app_key":"86QJklER4kphwsPLL8tnbFs4","server_url":"https://6yjqtdnc.lc-cn-n1-shared.com","path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream Fields</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="缓缓独行 才不致倾覆">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/" target="_self">
+          Games202-02渲染管线简述
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/11/06/Games202%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E7%AE%80%E8%BF%B0/" target="_self">
+          
+          
+            
+          
+           前言
+
+实时渲染：30fps（每秒渲染30幅画面）
+实时渲染主要应用于游戏，离线渲染（难度更大）主要应用于电影
+编辑器：可以使用VS Code，有插件glsl-canvas可以直接预览shader
+
+ 渲染管线
+ 什么是图形渲染管线？
+
+主要功能：根据给定的虚拟相机、三维对象、光源、照明模式、纹理等诸多条件的情况下，生成一个二维图像的过程。
+是实时渲染的底层工具
+物体外观的决定因素：三维对象本身
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-06 01:28" pubdate>
+              2022-11-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/11/01/Games202%E5%89%8D%E8%A8%80/" target="_self">
+          Games202-01前言
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/11/01/Games202%E5%89%8D%E8%A8%80/" target="_self">
+          
+          
+            
+          
+           课程内容总览
+ 重要的算法
+实时阴影：PCF、PCSS
+实时环境映射：shading from environment lighting（此时不考虑环境光中的阴影）
+实时环境/全局光照：PRT（准确的得到来自环境光中的阴影，分为 diffuse 和 glossy）
+实时全局光照（其实就是直接+间接光照）：
+
+图像空间的 GI：RSM
+3D 空间的 GI：LPV、VXGI
+屏幕空间的 GI：SSA
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-01 01:21" pubdate>
+              2022-11-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES202/">GAMES202</a>
+            
+              <a href="/categories/Theory/">Theory</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/23/Games101%E4%B8%AD%E7%9A%84C-%E7%9F%A5%E8%AF%86/" target="_self">
+          Games101中的C++知识
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/10/23/Games101%E4%B8%AD%E7%9A%84C-%E7%9F%A5%E8%AF%86/" target="_self">
+          
+          
+            
+          
+           std::optional（C++17）
+ 框架代码：
+12345// games101/homework5/Renderer.cppstd::optional&lt;hit_payload&gt; trace(    const Vector3f &amp;orig,    const Vector3f &amp;dir,    const std::vector&lt;std::unique
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-23 10:25" pubdate>
+              2022-10-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/09/10/04-%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E5%AE%9E%E8%B7%B5/" target="_self">
+          04-游戏引擎的渲染实践
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/09/10/04-%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E5%AE%9E%E8%B7%B5/" target="_self">
+          
+          
+            
+          
+           游戏渲染面临的挑战
+
+一个容器中同一时刻有大量的游戏对象需要进行渲染，并且不同对象（流体、毛发、玻璃、金属等）渲染的形式、算法还有所差异，这些使得游戏的绘制系统变得非常复杂；
+其次，游戏引擎的渲染还要与当代的硬件适配；
+同时，游戏引擎需要保证渲染的稳定性，即使进入非常巨大复杂的场景，也要在至少 1/30ms 内完成绘制，随着玩家需求的提高，这一时间甚至可能被缩短到 1/60ms、1/120ms 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-09-10 21:26" pubdate>
+              2022-09-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES104/">GAMES104</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/23/%E8%AE%BA%E6%96%87%E7%BB%BC%E8%BF%B0-%E5%BB%BA%E7%AD%91%E6%A8%A1%E5%9E%8B%E7%AE%80%E5%8C%96%E5%BA%A6%E9%87%8F/" target="_self">
+          论文综述-建筑模型简化度量
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/08/23/%E8%AE%BA%E6%96%87%E7%BB%BC%E8%BF%B0-%E5%BB%BA%E7%AD%91%E6%A8%A1%E5%9E%8B%E7%AE%80%E5%8C%96%E5%BA%A6%E9%87%8F/" target="_self">
+          
+          
+            
+          
+           减面度量方法细化
+
+ 综述
+
+
+乔建成. 基于特征保持的网格简化算法研究[D].北京理工大学,2016.
+
+网格简化的初衷是为了生成与原始网格模型尽量接近的简化模型。为了评价简化模型的简化质量，评价准则就尤为重要。对于一个原始模型 M 及其简化模型 M’，用 E(M,M’) 来表示模型间的误差。
+1. 基于外观相似度的误差度量
+如果I1,I2I_1,I_2I1​,I2​分别是模型M1,M2M_1
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-23 17:03" pubdate>
+              2022-08-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/%E8%AE%BA%E6%96%87%E7%BB%BC%E8%BF%B0/">论文综述</a>
+            
+              <a href="/categories/Algorithm/">Algorithm</a>
+            
+              <a href="/categories/Paper-reviews/">Paper reviews</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Algorithm/">Algorithm</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%BB%BC%E8%BF%B0/">论文综述</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/10/03-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C/" target="_self">
+          03-如何构建游戏世界
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/08/10/03-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C/" target="_self">
+          
+          
+            
+          
+           前言
+对于标题的问题，我们要回答以下三个问题：
+
+ 一个游戏世界由什么构成？
+
+
+一个游戏世界我们首先关注到的就是一系列可移动可操作的动态物（Dynamic Game Objects），如坦克、火炮等；
+
+
+
+还有一系列静态物（Static Game Object），如石头、棚屋等，这些静态物虽然不能交互，却是GamePlay中很关键的元素；
+
+
+
+最容易被忽略却又无处不在的是游戏的环境（Env
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-10 21:23" pubdate>
+              2022-08-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES104/">GAMES104</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/" target="_self">
+          02-引擎架构分层
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/07/30/02-%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82/" target="_self">
+          
+          
+            
+          
+           为什么需要分层架构？
+
+为了将游戏引擎解耦并降低复杂度
+
+每一层都将独立，底层提供基础服务，顶层无需知道底层的具体实现，也有利于开发与版本迭代。
+
+
+为了响应不断变化的需求
+
+顶层部分迭代迅速，底层部分保持稳定
+
+
+
+
+游戏引擎的架构类似于一个城市的结构：自底向上分别为各种各样的能源（类似于平台层，有多种能源都需要使用），交通（类似于核心层，运输核心，效率至上），人口（类似于资源层，需要被合理调
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-07-30 15:21" pubdate>
+              2022-07-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES104/">GAMES104</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/" target="_self">
+          01-现代游戏引擎导论
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/07/20/01-%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%AF%BC%E8%AE%BA/" target="_self">
+          
+          
+            
+          
+           为什么要学游戏引擎？
+应用领域——虚拟数字人、影视动画、军事模拟、数字孪生
+
+元宇宙-虚拟数字人概述
+ 游戏引擎历史
+ 早期游戏时代
+
+早期时候的游戏非常简单，常见的游戏机包括任天堂的“红白机”，彼时做游戏面临的最大问题是如何把复杂元素放入非常小的存储空间中，常见做法包括复用贴图，比如将云彩贴图变化颜色后复用成草丛贴图等。在这期间，也涌现了《魂斗罗》、《马里奥》、《坦克大战》等知名 IP。
+ 第
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-07-20 13:31" pubdate>
+              2022-07-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/GAMES104/">GAMES104</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CG/">CG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/06/25/Bim%E5%87%8F%E9%9D%A2%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94/" target="_self">
+          论文综述-Bim减面算法调研
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/06/25/Bim%E5%87%8F%E9%9D%A2%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94/" target="_self">
+          
+          
+            
+          
+           相关概念
+BIM：建筑信息模型（Building Information Modeling）
+Lod：多细节层次（Levels of Detail），指根据物体模型的节点在显示环境中所处的位置和重要度，决定物体渲染的资源分配，降低非重要物体的面数和细节度，从而获得高效率的渲染运算。
+Revit：该系列软件是为建筑信息模型(BIM)构建的，可帮助建筑设计师设计、建造和维护质量更好、能效更高的建筑，
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-06-25 10:54" pubdate>
+              2022-06-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/CG/">CG</a>
+            
+              <a href="/categories/CG/%E8%AE%BA%E6%96%87%E7%BB%BC%E8%BF%B0/">论文综述</a>
+            
+              <a href="/categories/Algorithm/">Algorithm</a>
+            
+              <a href="/categories/Paper-reviews/">Paper reviews</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Algorithm/">Algorithm</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%BB%BC%E8%BF%B0/">论文综述</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/" target="_self">
+          寻找凸包问题
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/05/19/%E5%AF%BB%E6%89%BE%E5%87%B8%E5%8C%85%E9%97%AE%E9%A2%98/" target="_self">
+          
+          
+            
+          
+           凸包概念与性质
+顶点定义法
+给定空间RnR^{n}Rn上的有限点集SSS，由点集中有限个极点Extreme Point）构成的凸对象（Convex Object），就称为凸多胞体。
+极点：可以看成是多胞体的顶点，以二维多边形为例，极点就相当于凸多边形的顶点。使用严格的数学定义来说，极点是指那些不能由凸多胞体内的其它点的凸组合（Convex Combination）表示出来的点。
+凸多胞体任意两点
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-05-19 16:17" pubdate>
+              2022-05-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Algorithm/">Algorithm</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Algorithm/">Algorithm</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
