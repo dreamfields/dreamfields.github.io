@@ -4,7 +4,7 @@ tags:
 - GitHub Pages
 categories:
 - [Configuration]
-reward: true
+date: 2022-04-10 09:30:31
 ---
 ## 💙 搭建教程
 参考了网上一些教程和官方文档：

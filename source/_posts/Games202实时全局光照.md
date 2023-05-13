@@ -209,7 +209,7 @@ RSM其实和离线中[实时辐射度算法 Instant radiosity (VPL / many light 
 
 **漏光问题的解决**：让划分的格子足够小，但是这样会导致存储量增多，而且传播过程中传播的格子量增多，也就导致了速度慢
 
-# 3D空间方法-Light Propagation Volumes (LPV)
+# 3D空间方法-Voxel Global Illumination (VXGI)
 
 ## 简介
 
