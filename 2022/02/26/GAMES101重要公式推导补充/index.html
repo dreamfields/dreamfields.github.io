@@ -45,7 +45,7 @@
 <meta property="og:image" content="http://example.com/2022/02/26/GAMES101%E9%87%8D%E8%A6%81%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC%E8%A1%A5%E5%85%85/20220916212421.png">
 <meta property="og:image" content="http://example.com/2022/02/26/GAMES101%E9%87%8D%E8%A6%81%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC%E8%A1%A5%E5%85%85/2021-08-30-18-47-31.png">
 <meta property="article:published_time" content="2022-02-26T03:26:28.000Z">
-<meta property="article:modified_time" content="2023-06-19T11:53:19.996Z">
+<meta property="article:modified_time" content="2023-06-27T23:38:35.079Z">
 <meta property="article:author" content="木夕">
 <meta property="article:tag" content="旋转矩阵">
 <meta property="article:tag" content="视图变换">
@@ -228,7 +228,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      38 分钟
+      39 分钟
     </span>
   
 
@@ -401,6 +401,18 @@ g\left(z_{0}\right) &amp;=\frac{f(z_{0})}{z_{0}}-z_{0}  \\
 <li>从近平面变化到0的过程中（近平面为负值，变化过程中始终为负值），经过透视投影之后其深度值从近平面变化到正无穷，即深度由负值变为了正值，这就导致这段距离的某个点经过透视投影跑到了摄像机的后面（摄像机处于原点），不需要保留。</li>
 <li>从0变化到正无穷的过程中，经过透视投影之后其深度值永远为负值，这就导致本来在摄像机后面的某个点经过透视投影跑到了摄像机的前面且在远平面之后，不应该被绘制，因此不应该保留。</li>
 </ul>
+<h2 id="注意"><a class="markdownIt-Anchor" href="#注意"></a> 注意</h2>
+<p>该透视投影矩阵作用到坐标系的某个点后，该点始终是处于右手坐标系的（+Z指向屏幕外，且公式中的n和f均在-Z轴上，即<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mo>&gt;</mo><mi>n</mi><mo>&gt;</mo><mi>f</mi></mrow><annotation encoding="application/x-tex">0&gt;n&gt;f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span>。<br>
+对于OpenGL中透视投影矩阵的构造，最终得到的透视投影矩阵是改变了左右手坐标系的，即世界、观察空间坐标是右手坐标系，经过OpenGL的透视投影矩阵变换之后变为了左手坐标系(且公式中的n和f均在-Z轴上，但本身是正值，即<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mo>&lt;</mo><mi>n</mi><mo>&lt;</mo><mi>f</mi></mrow><annotation encoding="application/x-tex">0&lt;n&lt;f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span>)：<br>
+  $$<br>
+  M_{\text {persp-opengl }}=\begin{pmatrix}<br>
+  n/r &amp; 0 &amp; 0 &amp; 0 \<br>
+  0 &amp; n/t &amp; 0 &amp; 0 \<br>
+  0 &amp; 0 &amp; \frac{-(n+f)}{f-n} &amp; \frac{-2nf}{f-n} \<br>
+  0 &amp; 0 &amp; -1 &amp; 0<br>
+  \end{pmatrix}<br>
+  $$<br>
+见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/leixinyue/p/11166135.html">OpenGL投影矩阵(Projection Matrix)构造方法 </a>。</p>
 <h1 id="重心坐标插值透视投影矫正"><a class="markdownIt-Anchor" href="#重心坐标插值透视投影矫正"></a> 重心坐标插值——透视投影矫正</h1>
 <p><img src="/2022/02/26/GAMES101%E9%87%8D%E8%A6%81%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC%E8%A1%A5%E5%85%85/20220817160618.png" srcset="/img/loading.gif" lazyload alt></p>
 <h2 id="问题来源"><a class="markdownIt-Anchor" href="#问题来源"></a> 问题来源</h2>
